@@ -1,0 +1,13 @@
+---------TRACK 0 -----------
+
+---------TRACK 1 -----------
+
+---------TRACK 2 -----------
+
+ Type: Other Note: 0 Vel: 0 Tick : 10 Type: Other Note: 0 Vel: 0 Tick : 47 Type: Other Note: 0 Vel: 0 Tick : 84 Type: Other Note: 0 Vel: 0 Tick : 0---------TRACK 3 -----------
+
+ Type: Other Note: 10 Vel: 64 Tick : 0---------TRACK 4 -----------
+
+ Type: Other Note: 101 Vel: 0 Tick : 0---------TRACK 5 -----------
+
+ Type: Other Note: 10 Vel: 64 Tick : 0
