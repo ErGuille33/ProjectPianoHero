@@ -127,6 +127,11 @@ public class MidiFile : MonoBehaviour
     UInt32 m_nTempo = 0;
     UInt32 m_nBPM = 0;
 
+    public List<MidiTrack> getMidiFileTracks()
+    {
+        return midiTracks;
+    }
+
     public bool parseFile(string file_path)
     {
         UInt32 n32 = 0;
@@ -184,7 +189,6 @@ public class MidiFile : MonoBehaviour
 
                         midiTracks.Add(new MidiTrack("","",midiEvents, midiNotes, 64,64));
 
-                        UInt32 nWallTime = 0;
                         byte nPreviousStatus = 0;
                          
 
@@ -483,11 +487,11 @@ public class MidiFile : MonoBehaviour
             StreamWriter file = new StreamWriter(file_path);
             foreach (MidiTrack track in midiTracks)
             {
-                file.WriteLine("---------TRACK "+ i +" -----------\n");
+                file.WriteLine("\n\n---------TRACK "+ i +" -----------\n");
                 
                     foreach(MidiEvent eve in track.vecEvents)
                     {
-                        file.Write(" Type: " + eve.type + " Note: " + eve.nKey + " Vel: " + eve.nVelocity + " Tick : " + eve.nDeltaTick);
+                        file.Write(" - Type: " + eve.type + " Note: " + eve.nKey + " Vel: " + eve.nVelocity + " Tick : " + eve.nDeltaTick);
                         
                     }
                 i++;
@@ -505,7 +509,7 @@ public class MidiFile : MonoBehaviour
   
     }
 
-private void Start()
+private void Awake()
     {
         parseFile("Assets/Resources/MIDI/Do4.mid");
         writeInFile("Assets/Resources/PruebaMidi.txt");

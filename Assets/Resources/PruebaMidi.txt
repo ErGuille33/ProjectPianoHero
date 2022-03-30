@@ -1,5 +1,9 @@
+
+
 ---------TRACK 0 -----------
 
- Type: NoteOn Note: 72 Vel: 100 Tick : 0 Type: NoteOff Note: 72 Vel: 0 Tick : 765---------TRACK 1 -----------
+ - Type: NoteOn Note: 72 Vel: 100 Tick : 0 - Type: NoteOff Note: 72 Vel: 0 Tick : 765
 
- Type: NoteOn Note: 60 Vel: 100 Tick : 0 Type: NoteOff Note: 60 Vel: 0 Tick : 761
+---------TRACK 1 -----------
+
+ - Type: NoteOn Note: 60 Vel: 100 Tick : 0 - Type: NoteOff Note: 60 Vel: 0 Tick : 761
