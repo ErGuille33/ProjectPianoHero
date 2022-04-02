@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 88975964}
   - component: {fileID: 88975962}
   - component: {fileID: 88975961}
-  - component: {fileID: 88975963}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -157,20 +156,6 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88975960}
   m_Enabled: 1
---- !u!114 &88975963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 88975960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attenuationObject: {fileID: 0}
-  ListenerNumber: -1
 --- !u!20 &88975964
 Camera:
   m_ObjectHideFlags: 0
@@ -198,7 +183,7 @@ Camera:
   far clip plane: 50
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 7.3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -222,7 +207,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88975960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: 5, z: -10}
+  m_LocalPosition: {x: 0, y: 5, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -259,6 +244,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   midiFile: {fileID: 0}
+  prefabNote: {fileID: 6607979509422086222, guid: c58569ad97c88164398cde54f3a723fa,
+    type: 3}
 --- !u!114 &247562668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,9 +316,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100000, guid: e9606907c0bef44d2939e5b913d0f2d5, type: 3}
-  numTeclas: 88
-  startingOctave: 0
-  lengthOvtaves: 0
+  numTeclas: 11
+  startingNote: 9
   audioClips:
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
@@ -612,5 +598,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5918392691528582899, guid: 56c3beb8678540d4987a5f9096c2bcdb, type: 3}
+    - {fileID: 5918392691528582892, guid: 56c3beb8678540d4987a5f9096c2bcdb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 56c3beb8678540d4987a5f9096c2bcdb, type: 3}

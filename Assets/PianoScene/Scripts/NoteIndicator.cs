@@ -5,6 +5,7 @@ public class NoteIndicator : MonoBehaviour
 {
     public int noteNumber;
     public NotePlayer notePlayer;
+    int nNotes = 1;
 
     public AudioSource source;
 
@@ -15,7 +16,7 @@ public class NoteIndicator : MonoBehaviour
     }
     void Update()
     {
-        transform.localScale = Vector3.one * (0.1f + MidiMaster.GetKey(noteNumber));
+        transform.localScale =( Vector3.one * (0.1f + MidiMaster.GetKey(noteNumber))) / ((float)nNotes/25);
 
         var color = MidiMaster.GetKeyDown(noteNumber) ? Color.red : Color.white;
         GetComponent<Renderer>().material.color = color;
@@ -31,6 +32,11 @@ public class NoteIndicator : MonoBehaviour
         print(noteNumber);
 
         
+    }
+    
+    public void setNNotes(int num)
+    {
+        nNotes = num;
     }
 
    

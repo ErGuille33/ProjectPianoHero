@@ -8,7 +8,7 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
 
-    int offsetY = 0;
+    int offsetX = 0;
     int noteHeight = 1;
     int timePerColumn = 50;
 
@@ -28,14 +28,17 @@ public class Level : MonoBehaviour
         midiFile = GetComponent<MidiFile>();
         midiTracksAux = midiFile.getMidiFileTracks();
         midiTracks = midiTracksAux;
+        movimientoVisualNotas();
     }
 
     void movimientoVisualNotas()
     {
+        int numTrack = 0;
        foreach(MidiFile.MidiTrack track in midiTracks)
         {
             if(track.vecNotes != null && track.vecNotes.Any())
             {
+                print("nota");
                 //Rango de notas
                 int nNoteRange = track.nMaxNote - track.nMinNote;
 
@@ -43,9 +46,13 @@ public class Level : MonoBehaviour
                 {
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
-                }
+                    noteAux.transform.position = new Vector3((nNoteRange - (note.nKey - track.nMinNote)) * noteHeight + offsetX ,(note.nStartTime - nTrackOffset) / timePerColumn,0);
+                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack);
 
+                }
+                offsetX += (nNoteRange + 1) * noteHeight + 4;
             }
+            numTrack++;
         }
     }
 

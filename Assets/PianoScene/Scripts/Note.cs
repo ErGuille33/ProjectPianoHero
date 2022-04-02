@@ -6,7 +6,10 @@ using UnityEngine;
 public class Note : MonoBehaviour
 {
     //Número de nota
-    int nNote = 0;
+    public int nNote = 0;
+
+    //Número de tracj
+    public int numTrack;
 
     //Si es una nota simple o es una nota a mantener
     bool simpleNote = false;
@@ -21,12 +24,13 @@ public class Note : MonoBehaviour
     bool readyToDestroy = false;
 
     //Inicializar la nota
-    public bool setNote (int num, bool isSimple, int nTicks)
+    public bool setNote (int num, int nTicks, int track)
     {
 
         nNote = num;
-        simpleNote = isSimple;
+
         tickDuration = nTicks;
+        numTrack = track;
         return true;
 
     }

@@ -48,10 +48,10 @@ public class MidiFile : MonoBehaviour
         public UInt32 nDuration;
         public MidiNote(byte nKey, byte nVelocity, UInt32 nStartTime, UInt32 nDuration)
         {
-                this.nKey = 0;
-                this.nVelocity = 0;
-                this.nStartTime = 0;
-                this.nDuration = 0;
+                this.nKey = nKey;
+                this.nVelocity = nVelocity;
+                this.nStartTime = nStartTime;
+                this.nDuration = nDuration;
         }
 
         public static bool operator ==(MidiNote c1, MidiNote c2)
@@ -201,7 +201,7 @@ public class MidiFile : MonoBehaviour
                             deltaTimeStatus = readValue(reader);
                             auxFileEnded = deltaTimeStatus;
                             nStatus = reader.ReadByte();
-                            print("nStatus" + nStatus);
+         
 
                             //Si el primer bit del byte es 0, significa que se está usando el valor del anterior, por lo que debemos de volver atras en el stream
                             if(nStatus < 0x80)
@@ -209,7 +209,7 @@ public class MidiFile : MonoBehaviour
                                 nStatus = nPreviousStatus;
                                 //Volvemos un byte atrás en el stream
                                 reader.BaseStream.Seek(-1, SeekOrigin.Current);
-                                print("vueltaatras" + nStatus);
+   
                             }
 
                             //Ahora deberemos comprobar cuál de los siguientes bytes de estado es y cuál no. Solo importan los primeros 4 bits.
@@ -230,7 +230,7 @@ public class MidiFile : MonoBehaviour
                                 {
                                     midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOn, nNoteID, nNoteVelocity, deltaTimeStatus));
                                 }
-                                print("noteOn");
+                         
 
                             }
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.VoiceNoteOff))
@@ -241,7 +241,7 @@ public class MidiFile : MonoBehaviour
                                 byte nNoteID = reader.ReadByte();
                                 byte nNoteVelocity = reader.ReadByte();
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOff,nNoteID,nNoteVelocity,deltaTimeStatus));
-                                print("yes");
+                  
                             }
 
                             //Estos no nos interesan
@@ -253,7 +253,7 @@ public class MidiFile : MonoBehaviour
                                 byte nNoteID = reader.ReadByte();
                                 byte nNoteVelocity = reader.ReadByte();
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.Other, nNoteID, nNoteVelocity, deltaTimeStatus));
-                                print("yes");
+        
                             }
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.VoiceControlChange))
                             {
@@ -263,7 +263,7 @@ public class MidiFile : MonoBehaviour
                                 byte nNoteID = reader.ReadByte();
                                 byte nNoteVelocity = reader.ReadByte();
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.Other, nNoteID, nNoteVelocity, deltaTimeStatus));
-                                print("yes");
+                     
 
                             }
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.VoiceProgramChange))
@@ -273,7 +273,7 @@ public class MidiFile : MonoBehaviour
                                 byte nChannel = Convert.ToByte(nStatus & 0x0F);
                                 byte nProgramID = reader.ReadByte();
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.Other, 0, 0, deltaTimeStatus));
-                                print("yes");
+                 
 
                             }
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.VoiceChannelPressure))
@@ -283,7 +283,7 @@ public class MidiFile : MonoBehaviour
                                 byte nChannel = Convert.ToByte(nStatus & 0x0F);
                                 byte nChannelPressure = reader.ReadByte();
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.Other, 0, 0, deltaTimeStatus));
-                                print("yes");
+                         
                             }
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.VoicePitchBend))
                             {
@@ -293,7 +293,7 @@ public class MidiFile : MonoBehaviour
                                 byte nLS7B = reader.ReadByte();
                                 byte nMS7B = reader.ReadByte();
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.Other, 0, 0, deltaTimeStatus));
-                                print("yes");
+                           
                             }
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.SystemExclusive))
                             {
@@ -398,7 +398,7 @@ public class MidiFile : MonoBehaviour
                             {
                                 MidiNote note = notasSiendoProcesadas.Find(x => x.nKey == midiTracks[i].vecEvents[j].nKey);
 
-                                if (note != notasSiendoProcesadas.Last())
+                                if (note == notasSiendoProcesadas.Last())
                                 {
                                     note.nDuration = nWallTime - note.nStartTime;
                                     midiTracks[i].vecNotes.Add(note);
@@ -413,6 +413,7 @@ public class MidiFile : MonoBehaviour
 
                                     midiTracks[i] = min;
                                     midiTracks[i] = max;
+                                    notasSiendoProcesadas.Remove(note);
                                 }
                             }
                         }
