@@ -187,7 +187,7 @@ public class MidiFile : MonoBehaviour
                         List<MidiEvent> midiEvents = new List<MidiEvent>();
                         List<MidiNote> midiNotes = new List<MidiNote>();
 
-                        midiTracks.Add(new MidiTrack("","",midiEvents, midiNotes, 64,64));
+                        midiTracks.Add(new MidiTrack("","",midiEvents, midiNotes, 0,0));
 
                         byte nPreviousStatus = 0;
                          
@@ -240,6 +240,9 @@ public class MidiFile : MonoBehaviour
                                 byte nChannel = Convert.ToByte(nStatus & 0x0F);
                                 byte nNoteID = reader.ReadByte();
                                 byte nNoteVelocity = reader.ReadByte();
+
+                              
+
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOff,nNoteID,nNoteVelocity,deltaTimeStatus));
                   
                             }

@@ -14,7 +14,7 @@ public class NoteIndicatorGroup : MonoBehaviour
 
     public GameObject camera;
 
-    void Start()
+    public void iniciate()
     {
         offsetX = ( numTeclas / ((float)numTeclas / 25 )) / 2;
         int j = 0;
@@ -44,6 +44,23 @@ public class NoteIndicatorGroup : MonoBehaviour
             j++;
         }
         
+    }
+
+    public bool setNoteRange(int minNote, int maxNote)
+    {
+        //Le pnemos al teclado que la primera nota sea el do de la escala mas baja de la cancion, y el si de la mas alta
+        startingNote = minNote - (minNote%12);
+        numTeclas = (maxNote - minNote) + ((maxNote - minNote)%12);
+
+        if(startingNote < 9 || numTeclas - startingNote > 97)
+        {
+            print("Midi inválido");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void assignAudioClip(GameObject go, int i)

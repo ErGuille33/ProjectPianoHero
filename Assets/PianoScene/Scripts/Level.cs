@@ -15,21 +15,47 @@ public class Level : MonoBehaviour
     //offset entre notas
     int nTrackOffset = 0;
 
+    int minNote;
+    int maxNote;
+
     public MidiFile midiFile;
+    public NoteIndicatorGroup indicatorGroup;
 
      List<MidiFile.MidiTrack> midiTracksAux;
      List<MidiFile.MidiTrack> midiTracks;
 
     public GameObject prefabNote;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         midiFile = GetComponent<MidiFile>();
         midiTracksAux = midiFile.getMidiFileTracks();
         midiTracks = midiTracksAux;
+
+        //Nota minima y maxima
+        int [] minTracks = new int [midiTracks.Count];
+        int [] maxTracks = new int[midiTracks.Count];
+        int i = 0;
+        foreach (MidiFile.MidiTrack track in midiTracks)
+        {
+            foreach (MidiFile.MidiNote note in track.vecNotes)
+            {
+
+                minTracks[i] = note.nKey;
+                maxTracks[i] = note.nKey;
+
+            }
+           
+            i++;
+        }
+
+        indicatorGroup.setNoteRange(minTracks.Min(), maxTracks.Max());
+
+
         movimientoVisualNotas();
+        indicatorGroup.iniciate();
     }
+
 
     void movimientoVisualNotas()
     {
@@ -38,7 +64,7 @@ public class Level : MonoBehaviour
         {
             if(track.vecNotes != null && track.vecNotes.Any())
             {
-                print("nota");
+
                 //Rango de notas
                 int nNoteRange = track.nMaxNote - track.nMinNote;
 

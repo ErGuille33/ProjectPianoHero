@@ -243,7 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48691f3b3431674bb985e8cc99b079d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  midiFile: {fileID: 0}
+  midiFile: {fileID: 247562668}
+  indicatorGroup: {fileID: 814515670}
   prefabNote: {fileID: 6607979509422086222, guid: c58569ad97c88164398cde54f3a723fa,
     type: 3}
 --- !u!114 &247562668
@@ -316,8 +317,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100000, guid: e9606907c0bef44d2939e5b913d0f2d5, type: 3}
-  numTeclas: 11
-  startingNote: 9
+  numTeclas: 25
+  startingNote: 48
   audioClips:
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
@@ -419,6 +420,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: efeb9a35de3ab134f8f630596c8127b7, type: 3}
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
+  camera: {fileID: 88975960}
 --- !u!1 &1200867851 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5918392691528582893, guid: 56c3beb8678540d4987a5f9096c2bcdb,
