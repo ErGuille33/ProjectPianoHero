@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using MidiJack;
 
+//Básicamente, la tecla de piano
 public class NoteIndicator : MonoBehaviour
 {
     public int noteNumber;
-    public NotePlayer notePlayer;
     int nNotes = 1;
 
     public AudioSource source;
@@ -21,8 +21,9 @@ public class NoteIndicator : MonoBehaviour
         var color = MidiMaster.GetKeyDown(noteNumber) ? Color.red : Color.white;
         GetComponent<Renderer>().material.color = color;
 
-        notePlayer.noteAssign(noteNumber);
         if (MidiMaster.GetKeyDown(noteNumber)) playNote(MidiMaster.GetKey(noteNumber));
+
+    
     }
 
     void playNote(float volume)

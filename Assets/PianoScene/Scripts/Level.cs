@@ -33,27 +33,30 @@ public class Level : MonoBehaviour
         midiTracks = midiTracksAux;
 
         //Nota minima y maxima
-        int [] minTracks = new int [midiTracks.Count];
-        int [] maxTracks = new int[midiTracks.Count];
+        List<int> notes = new List <int>();
+    
         int i = 0;
         foreach (MidiFile.MidiTrack track in midiTracks)
         {
             foreach (MidiFile.MidiNote note in track.vecNotes)
             {
-
-                minTracks[i] = note.nKey;
-                maxTracks[i] = note.nKey;
+                if (note.nKey > 0)
+                {
+                    notes.Add (note.nKey);
+ 
+                }
+                
 
             }
            
             i++;
         }
 
-        indicatorGroup.setNoteRange(minTracks.Min(), maxTracks.Max());
+        indicatorGroup.setNoteRange(notes.Min(), notes.Max());
 
-
-        movimientoVisualNotas();
         indicatorGroup.iniciate();
+        movimientoVisualNotas();
+
     }
 
 
@@ -72,11 +75,11 @@ public class Level : MonoBehaviour
                 {
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
-                    noteAux.transform.position = new Vector3((nNoteRange - (note.nKey - track.nMinNote)) * noteHeight + offsetX ,(note.nStartTime - nTrackOffset) / timePerColumn,0);
+                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(((note.nStartTime - nTrackOffset) / timePerColumn)/10)+2,0);
                     noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack);
 
                 }
-                offsetX += (nNoteRange + 1) * noteHeight + 4;
+                offsetX += 1;
             }
             numTrack++;
         }

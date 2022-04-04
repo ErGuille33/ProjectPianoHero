@@ -14,10 +14,15 @@ public class NoteIndicatorGroup : MonoBehaviour
 
     public GameObject camera;
 
+    public NoteIndicator [] noteIndicators;
+
     public void iniciate()
     {
+        noteIndicators = new NoteIndicator [numTeclas];
+
         offsetX = ( numTeclas / ((float)numTeclas / 25 )) / 2;
         int j = 0;
+
         for (var i = startingNote; i <  startingNote + numTeclas; i++)
         {
             var go = Instantiate<GameObject>(prefab);
@@ -36,21 +41,42 @@ public class NoteIndicatorGroup : MonoBehaviour
                     camera.transform.position = new Vector3(go.transform.position.x, 5, -1);
                 }
             }
-            
+     
             go.transform.parent = transform;
-            go.GetComponent<NoteIndicator>().noteNumber = i;
-            go.GetComponent<NoteIndicator>().setNNotes(numTeclas);
+            noteIndicators[j] = go.GetComponent<NoteIndicator>();
+            noteIndicators[j].noteNumber = i;
+            noteIndicators[j].setNNotes(numTeclas);
             assignAudioClip(go,i);
             j++;
         }
         
     }
 
+    public Vector3 getNoteIndicatorPos(int nNote)
+    {
+        Vector3 pos = new Vector3(0,0,0);
+        int aux = 0;
+        int i = 0;
+        bool found = false;
+        while (!found && i < noteIndicators.Length)
+        {
+            aux = noteIndicators[i].noteNumber;
+            if(aux == nNote)
+            {
+                pos = noteIndicators[i].transform.position;
+            }
+            
+            i++;
+        }
+        return pos;
+
+    }
+
     public bool setNoteRange(int minNote, int maxNote)
     {
         //Le pnemos al teclado que la primera nota sea el do de la escala mas baja de la cancion, y el si de la mas alta
         startingNote = minNote - (minNote%12);
-        numTeclas = (maxNote - minNote) + ((maxNote - minNote)%12);
+        numTeclas = 2 + (maxNote - minNote) + 12-((maxNote - minNote)%12 );
 
         if(startingNote < 9 || numTeclas - startingNote > 97)
         {

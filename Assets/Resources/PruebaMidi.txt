@@ -2,8 +2,8 @@
 
 ---------TRACK 0 -----------
 
- - Type: NoteOn Note: 72 Vel: 100 Tick : 0 - Type: NoteOff Note: 72 Vel: 0 Tick : 765
+ - Type: NoteOn Note: 127 Vel: 100 Tick : 268435034 - Type: NoteOn Note: 48 Vel: 100 Tick : 11 - Type: NoteOff Note: 127 Vel: 0 Tick : 4 - Type: NoteOff Note: 48 Vel: 0 Tick : 683 - Type: NoteOn Note: 50 Vel: 100 Tick : 411 - Type: NoteOff Note: 50 Vel: 0 Tick : 403 - Type: NoteOn Note: 53 Vel: 100 Tick : 350 - Type: NoteOff Note: 53 Vel: 0 Tick : 426 - Type: NoteOn Note: 54 Vel: 100 Tick : 169 - Type: NoteOff Note: 54 Vel: 0 Tick : 599
 
 ---------TRACK 1 -----------
 
- - Type: NoteOn Note: 60 Vel: 100 Tick : 0 - Type: NoteOff Note: 60 Vel: 0 Tick : 761
+ - Type: NoteOn Note: 60 Vel: 100 Tick : 0 - Type: NoteOff Note: 60 Vel: 0 Tick : 761 - Type: NoteOn Note: 62 Vel: 100 Tick : 195 - Type: NoteOff Note: 62 Vel: 0 Tick : 572 - Type: NoteOn Note: 64 Vel: 100 Tick : 200 - Type: NoteOff Note: 64 Vel: 0 Tick : 560 - Type: NoteOn Note: 65 Vel: 100 Tick : 199 - Type: NoteOff Note: 65 Vel: 0 Tick : 573

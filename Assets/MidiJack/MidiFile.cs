@@ -169,6 +169,7 @@ public class MidiFile : MonoBehaviour
                     //Ahora leemos cada piista midi
                     for(UInt16 nChunk = 0; nChunk < nChunks; nChunk++)
                     {
+                        if (reader.BaseStream.Position != reader.BaseStream.Length) { 
                         print("PISTA" + nChunk);
 
                         //Primero leemos la cabecera del archivo
@@ -177,12 +178,9 @@ public class MidiFile : MonoBehaviour
                         //Los siguientes 32bits no nos interesan, corresponden al tamaño del encabezado
                         n32 = reader.ReadUInt32();
                         UInt32 nEncabezado = swap32bit(n32);
-
+                        }
                         //
                         bool endPista = false;
-                        //Si el stream ha terminado, el chunk de 32 bits extraido sera 0
-                        UInt32 auxFileEnded = nEncabezado;
-
 
                         List<MidiEvent> midiEvents = new List<MidiEvent>();
                         List<MidiNote> midiNotes = new List<MidiNote>();
@@ -199,7 +197,6 @@ public class MidiFile : MonoBehaviour
                             byte nStatus = 0;
 
                             deltaTimeStatus = readValue(reader);
-                            auxFileEnded = deltaTimeStatus;
                             nStatus = reader.ReadByte();
          
 
@@ -229,6 +226,7 @@ public class MidiFile : MonoBehaviour
                                 else
                                 {
                                     midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOn, nNoteID, nNoteVelocity, deltaTimeStatus));
+                                    print("noteOn" + nNoteID);
                                 }
                          
 
@@ -241,8 +239,8 @@ public class MidiFile : MonoBehaviour
                                 byte nNoteID = reader.ReadByte();
                                 byte nNoteVelocity = reader.ReadByte();
 
-                              
 
+                                print("noteOFf" + nNoteID);
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOff,nNoteID,nNoteVelocity,deltaTimeStatus));
                   
                             }
@@ -400,23 +398,25 @@ public class MidiFile : MonoBehaviour
                             if (midiTracks[i].vecEvents[j].type == MidiEvent.Type.NoteOff)
                             {
                                 MidiNote note = notasSiendoProcesadas.Find(x => x.nKey == midiTracks[i].vecEvents[j].nKey);
-
-                                if (note == notasSiendoProcesadas.Last())
+                                if (notasSiendoProcesadas.Count != 0)
                                 {
-                                    note.nDuration = nWallTime - note.nStartTime;
-                                    midiTracks[i].vecNotes.Add(note);
+                                    if (note == notasSiendoProcesadas.Last())
+                                    {
+                                        note.nDuration = nWallTime - note.nStartTime;
+                                        midiTracks[i].vecNotes.Add(note);
 
-                                    MidiTrack min = midiTracks[i];
-                                    min.nMinNote =
-                                        Math.Min(midiTracks[i].nMinNote, note.nKey);
+                                        MidiTrack min = midiTracks[i];
+                                        min.nMinNote =
+                                            Math.Min(midiTracks[i].nMinNote, note.nKey);
 
-                                    MidiTrack max = midiTracks[i];
-                                    max.nMinNote =  
-                                        Math.Max(midiTracks[i].nMinNote, note.nKey);
+                                        MidiTrack max = midiTracks[i];
+                                        max.nMinNote =
+                                            Math.Max(midiTracks[i].nMinNote, note.nKey);
 
-                                    midiTracks[i] = min;
-                                    midiTracks[i] = max;
-                                    notasSiendoProcesadas.Remove(note);
+                                        midiTracks[i] = min;
+                                        midiTracks[i] = max;
+                                        notasSiendoProcesadas.Remove(note);
+                                    }
                                 }
                             }
                         }
@@ -515,7 +515,7 @@ public class MidiFile : MonoBehaviour
 
 private void Awake()
     {
-        parseFile("Assets/Resources/MIDI/Do4.mid");
+        parseFile("Assets/Resources/MIDI/do4(2).mid");
         writeInFile("Assets/Resources/PruebaMidi.txt");
         
     }
