@@ -400,21 +400,20 @@ public class MidiFile : MonoBehaviour
                                 MidiNote note = notasSiendoProcesadas.Find(x => x.nKey == midiTracks[i].vecEvents[j].nKey);
                                 if (notasSiendoProcesadas.Count != 0)
                                 {
-                                    if (note == notasSiendoProcesadas.Last())
+                                    if (note != notasSiendoProcesadas.Last())
                                     {
                                         note.nDuration = nWallTime - note.nStartTime;
                                         midiTracks[i].vecNotes.Add(note);
 
-                                        MidiTrack min = midiTracks[i];
-                                        min.nMinNote =
+                                        MidiTrack midiAux = midiTracks[i];
+                                        midiAux.nMinNote =
                                             Math.Min(midiTracks[i].nMinNote, note.nKey);
 
-                                        MidiTrack max = midiTracks[i];
-                                        max.nMinNote =
+                                        midiAux.nMaxNote =
                                             Math.Max(midiTracks[i].nMinNote, note.nKey);
 
-                                        midiTracks[i] = min;
-                                        midiTracks[i] = max;
+                                        midiTracks[i] = midiAux;
+
                                         notasSiendoProcesadas.Remove(note);
                                     }
                                 }
@@ -451,7 +450,7 @@ public class MidiFile : MonoBehaviour
         if (Convert.ToBoolean(nValue & 0x80))
         {
             //Extraemos los últimos 7 bits
-            nValue = nValue & 0x7F;
+            nValue &= 0x7F;
 
             do
             {
@@ -515,7 +514,8 @@ public class MidiFile : MonoBehaviour
 
 private void Awake()
     {
-        parseFile("Assets/Resources/MIDI/do4(2).mid");
+
+        parseFile("Assets/Resources/MIDI/Dong.mid");
         writeInFile("Assets/Resources/PruebaMidi.txt");
         
     }

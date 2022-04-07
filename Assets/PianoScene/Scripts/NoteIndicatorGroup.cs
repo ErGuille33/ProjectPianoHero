@@ -2,7 +2,7 @@
 
 public class NoteIndicatorGroup : MonoBehaviour
 {
-    public GameObject prefab;
+    public GameObject[] pianoKeys;
 
     public int numTeclas; //Número teclas
    
@@ -16,6 +16,8 @@ public class NoteIndicatorGroup : MonoBehaviour
 
     public NoteIndicator [] noteIndicators;
 
+    
+
     public void iniciate()
     {
         noteIndicators = new NoteIndicator [numTeclas];
@@ -25,9 +27,25 @@ public class NoteIndicatorGroup : MonoBehaviour
 
         for (var i = startingNote; i <  startingNote + numTeclas; i++)
         {
-            var go = Instantiate<GameObject>(prefab);
-            go.transform.position = new Vector3(-offsetX + ((j % numTeclas)/((float)numTeclas /25)), 0, 0);
-            if(numTeclas%2 == 0)
+            int aux = i%12;
+            GameObject go;
+            if (aux == 0 ) {  go = Instantiate<GameObject>(pianoKeys[0]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) + 1.20f, 0.2f, 0); }
+            else if (aux == 1) { go = Instantiate<GameObject>(pianoKeys[1]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25))+1, 1.04f, 0); }
+            else if (aux == 2) { go = Instantiate<GameObject>(pianoKeys[2]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) + 0.80f, 0.2f, 0); }
+            else if (aux == 3) { go = Instantiate<GameObject>(pianoKeys[3]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) + 0.6f, 1.04f, 0); }
+            else if (aux == 4) { go = Instantiate<GameObject>(pianoKeys[4]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) + 0.4f, 0.2f, 0); }
+            else if (aux == 5) { go = Instantiate<GameObject>(pianoKeys[0]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) + 0.9f, 0.2f, 0); }  
+            else if (aux == 6) {  go = Instantiate<GameObject>(pianoKeys[1]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25))+0.70f, 1.04f, 0); }
+            else if (aux == 7) { go = Instantiate<GameObject>(pianoKeys[2]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) + 0.4f, 0.2f, 0); }
+            else if (aux == 8) { go = Instantiate<GameObject>(pianoKeys[1]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25))+0.2f, 1.04f, 0); }          
+            else if (aux == 9) { go = Instantiate<GameObject>(pianoKeys[2]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) , 0.2f, 0); }
+            else if (aux == 10) {  go = Instantiate<GameObject>(pianoKeys[3]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25)) -.2f, 1.04f, 0); }
+            
+           
+            else { go = Instantiate<GameObject>(pianoKeys[4]); go.transform.position = new Vector3(-offsetX + ((j % numTeclas) / ((float)numTeclas / 25))-.4f, 0.2f, 0); }
+
+
+            if (numTeclas%2 == 0)
             {
                 if (j == (numTeclas) / 2)
                 {
@@ -76,7 +94,7 @@ public class NoteIndicatorGroup : MonoBehaviour
     {
         //Le pnemos al teclado que la primera nota sea el do de la escala mas baja de la cancion, y el si de la mas alta
         startingNote = minNote - (minNote%12);
-        numTeclas = 2 + (maxNote - minNote) + 12-((maxNote - minNote)%12 );
+        numTeclas =  5+ (maxNote - minNote) + 12-((maxNote - minNote)%12 );
 
         if(startingNote < 9 || numTeclas - startingNote > 97)
         {

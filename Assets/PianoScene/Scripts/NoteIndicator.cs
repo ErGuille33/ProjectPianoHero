@@ -8,21 +8,21 @@ public class NoteIndicator : MonoBehaviour
     int nNotes = 1;
 
     public AudioSource source;
+    private SpriteRenderer sprite;
+    private bool pushed = false;
 
     private void Start()
     {
         if(GetComponent<AudioSource>() != null)
             source = GetComponent<AudioSource>();
+        transform.localScale = new Vector3(2.5f,2.5f,2.5f);
+        sprite = GetComponent<SpriteRenderer>();
     }
     void Update()
     {
-        transform.localScale =( Vector3.one * (0.1f + MidiMaster.GetKey(noteNumber))) / ((float)nNotes/25);
-
-        var color = MidiMaster.GetKeyDown(noteNumber) ? Color.red : Color.white;
-        GetComponent<Renderer>().material.color = color;
 
         if (MidiMaster.GetKeyDown(noteNumber)) playNote(MidiMaster.GetKey(noteNumber));
-
+        else if (MidiMaster.GetKeyUp(noteNumber)) { sprite.enabled = true; pushed = false; }
     
     }
 
@@ -31,6 +31,8 @@ public class NoteIndicator : MonoBehaviour
         source.Play();
         source.volume = volume;
         print(noteNumber);
+        sprite.enabled = false;
+        pushed = true;
 
         
     }
@@ -40,8 +42,21 @@ public class NoteIndicator : MonoBehaviour
         nNotes = num;
     }
 
-   
-               
-        
-    
+    private void OnTriggerEnter2D (Collider2D other)
+    {
+      
+        if (pushed)
+        {
+           
+            if (other.tag == "Note")
+            {
+                Destroy(other);
+            }
+        }
+    }
+
+
+
+
+
 }

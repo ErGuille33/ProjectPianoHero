@@ -13,10 +13,7 @@ public class Level : MonoBehaviour
     int timePerColumn = 50;
 
     //offset entre notas
-    int nTrackOffset = 0;
-
-    int minNote;
-    int maxNote;
+    int nTrackOffset = 1;
 
     public MidiFile midiFile;
     public NoteIndicatorGroup indicatorGroup;
@@ -40,7 +37,7 @@ public class Level : MonoBehaviour
         {
             foreach (MidiFile.MidiNote note in track.vecNotes)
             {
-                if (note.nKey > 0)
+                if (note.nKey > 0 && note.nKey < 100)
                 {
                     notes.Add (note.nKey);
  
@@ -62,6 +59,7 @@ public class Level : MonoBehaviour
 
     void movimientoVisualNotas()
     {
+        int aux = 0;
         int numTrack = 0;
        foreach(MidiFile.MidiTrack track in midiTracks)
         {
@@ -75,8 +73,9 @@ public class Level : MonoBehaviour
                 {
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
-                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(((note.nStartTime - nTrackOffset) / timePerColumn)/10)+2,0);
+                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-nTrackOffset)/timePerColumn+2,0);
                     noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack);
+                    aux++;
 
                 }
                 offsetX += 1;
