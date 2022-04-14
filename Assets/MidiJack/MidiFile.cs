@@ -518,7 +518,7 @@ public class MidiFile : MonoBehaviour
 private void Awake()
     {
 
-        parseFile("Assets/Resources/MIDI/Sc2.mid");
+        parseFile("Assets/Resources/MIDI/Sc7.mid");
         writeInFile("Assets/Resources/PruebaMidi.txt");
         
     }

@@ -50,7 +50,7 @@ public class NoteIndicatorGroup : MonoBehaviour
             assignAudioClip(scales[i].transform.Find("G#").gameObject, posScaleAux + 8);
             assignAudioClip(scales[i].transform.Find("A").gameObject, posScaleAux + 9);
             assignAudioClip(scales[i].transform.Find("A#").gameObject, posScaleAux + 10);
-            assignAudioClip(scales[i].transform.Find("B").gameObject, posScaleAux + 12);
+            assignAudioClip(scales[i].transform.Find("B").gameObject, posScaleAux + 11);
 
             //Añadimos a lista de note indicators
             noteIndicators[scaleJaux] = scales[i].transform.Find("C").gameObject.GetComponent<NoteIndicator>();
@@ -109,7 +109,7 @@ public class NoteIndicatorGroup : MonoBehaviour
     {
         //Le pnemos al teclado que la primera nota sea el do de la escala mas baja de la cancion, y el si de la mas alta
         startingScale = (int)System.Math.Truncate((double)minNote / 12);
-        endingScale = (int)System.Math.Truncate( (double)maxNote / 12)-1;
+        endingScale = (int)System.Math.Truncate( (double)maxNote / 12);
 
         numTeclas = (endingScale - startingScale + 1) * 12;
 
@@ -174,5 +174,10 @@ public class NoteIndicatorGroup : MonoBehaviour
             scales[i].transform.position = new Vector3(-10.95f + (j * 3.65f), -1.25f, 0);
         }
                         
+    }
+
+    public int getNumEscalas()
+    {
+        return numTeclas;
     }
 }

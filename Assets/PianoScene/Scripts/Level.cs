@@ -21,6 +21,8 @@ public class Level : MonoBehaviour
      List<MidiFile.MidiTrack> midiTracksAux;
      List<MidiFile.MidiTrack> midiTracks;
 
+    int numOctava = 0;
+
     public GameObject prefabNote;
 
     private void Start()
@@ -61,6 +63,7 @@ public class Level : MonoBehaviour
     {
         int aux = 0;
         int numTrack = 0;
+        numOctava = indicatorGroup.getNumEscalas();
        foreach(MidiFile.MidiTrack track in midiTracks)
         {
             if(track.vecNotes != null && track.vecNotes.Any())
@@ -73,7 +76,10 @@ public class Level : MonoBehaviour
                 {
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
+                    
                     noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-nTrackOffset)/timePerColumn+2,0);
+                    noteAux.transform.localScale = new Vector3(.2f, .2f, 0);
+
                     noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack);
                     aux++;
 
