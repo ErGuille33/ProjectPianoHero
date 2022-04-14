@@ -15,7 +15,7 @@ public class Note : MonoBehaviour
     bool simpleNote = false;
 
     //Duración en ticks
-    int tickDuration = 0;
+    public int tickDuration = 0;
 
     //El porcentaje de compleción de una nota. Es decir, si ha sido pulsada satisfactoriamente estara a 1, si no a 0. Si es una nota larga entonces podra ser pulsada a un cierto porcentaje
     float completedPercent = 0;

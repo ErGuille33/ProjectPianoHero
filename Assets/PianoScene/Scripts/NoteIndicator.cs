@@ -5,7 +5,7 @@ using MidiJack;
 public class NoteIndicator : MonoBehaviour
 {
     public int noteNumber;
-    int nNotes = 1;
+
 
     public AudioSource source;
     private SpriteRenderer sprite;
@@ -15,7 +15,7 @@ public class NoteIndicator : MonoBehaviour
     {
         if(GetComponent<AudioSource>() != null)
             source = GetComponent<AudioSource>();
-        transform.localScale = new Vector3(2.5f,2.5f,2.5f);
+        
         sprite = GetComponent<SpriteRenderer>();
     }
     void Update()
@@ -37,10 +37,7 @@ public class NoteIndicator : MonoBehaviour
         
     }
     
-    public void setNNotes(int num)
-    {
-        nNotes = num;
-    }
+   
 
     private void OnTriggerEnter2D (Collider2D other)
     {

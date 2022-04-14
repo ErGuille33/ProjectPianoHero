@@ -166,8 +166,10 @@ public class MidiFile : MonoBehaviour
                     n16 = reader.ReadUInt16();
                     UInt16 meh = swap16bit(n16);
 
+                    int it = 0;
+                    UInt32 nWallTime = 0;
                     //Ahora leemos cada piista midi
-                    for(UInt16 nChunk = 0; nChunk < nChunks; nChunk++)
+                    for (UInt16 nChunk = 0; nChunk < nChunks; nChunk++)
                     {
                         if (reader.BaseStream.Position != reader.BaseStream.Length) { 
                         print("PISTA" + nChunk);
@@ -185,16 +187,16 @@ public class MidiFile : MonoBehaviour
                         List<MidiEvent> midiEvents = new List<MidiEvent>();
                         List<MidiNote> midiNotes = new List<MidiNote>();
 
-                        midiTracks.Add(new MidiTrack("","",midiEvents, midiNotes, 0,0));
-
+                        midiTracks.Add(new MidiTrack("Track " + "+ " + it,"Piano",midiEvents, midiNotes, 0,0));
+                        it++;
                         byte nPreviousStatus = 0;
-                         
-
+                        //Cada evento midi posee un valor de duración relativa y un byte de estado
+                        UInt32 deltaTimeStatus = 0;
+                        byte nStatus = 0;
+                       
                         while (reader.BaseStream.Position != reader.BaseStream.Length &&!endPista)
                         {
-                            //Cada evento midi posee un valor de duración relativa y un byte de estado
-                            UInt32 deltaTimeStatus = 0;
-                            byte nStatus = 0;
+                            
 
                             deltaTimeStatus = readValue(reader);
                             nStatus = reader.ReadByte();
@@ -214,7 +216,7 @@ public class MidiFile : MonoBehaviour
                             {
                                 nPreviousStatus = nStatus;
                                 //El canal
-                                byte nChannel = (byte)(nStatus & 0x0F);
+                                byte nChannel = Convert.ToByte(nStatus & 0x0F);
                                 //LA id de la nota
                                 byte nNoteID = reader.ReadByte();
                                 //La velocidad de la nota
@@ -381,7 +383,7 @@ public class MidiFile : MonoBehaviour
                     // Convert Time Events to Notes
                     for (int i  = 0; i < midiTracks.Count; i++)
                     {
-                        UInt32 nWallTime = 0;
+                   
                         List<MidiNote> notasSiendoProcesadas = new List<MidiNote>();
 
                         for(int j = 0; j < midiTracks[i].vecEvents.Count; j++)
@@ -395,28 +397,29 @@ public class MidiFile : MonoBehaviour
                                 notasSiendoProcesadas.Add(new MidiNote(midiTracks[i].vecEvents[j].nKey, midiTracks[i].vecEvents[j].nVelocity, nWallTime, 0));
                             }
 
-                            if (midiTracks[i].vecEvents[j].type == MidiEvent.Type.NoteOff)
+                            else if (midiTracks[i].vecEvents[j].type == MidiEvent.Type.NoteOff)
                             {
                                 MidiNote note = notasSiendoProcesadas.Find(x => x.nKey == midiTracks[i].vecEvents[j].nKey);
+
                                 if (notasSiendoProcesadas.Count != 0)
                                 {
-                                    if (note != notasSiendoProcesadas.Last())
-                                    {
-                                        note.nDuration = nWallTime - note.nStartTime;
-                                        midiTracks[i].vecNotes.Add(note);
+                                    note.nDuration = nWallTime - note.nStartTime;
 
-                                        MidiTrack midiAux = midiTracks[i];
-                                        midiAux.nMinNote =
-                                            Math.Min(midiTracks[i].nMinNote, note.nKey);
 
-                                        midiAux.nMaxNote =
-                                            Math.Max(midiTracks[i].nMinNote, note.nKey);
+                                    midiTracks[i].vecNotes.Add(note);
 
-                                        midiTracks[i] = midiAux;
+                                    MidiTrack midiAux = midiTracks[i];
+                                    midiAux.nMinNote =
+                                        Math.Min(midiTracks[i].nMinNote, note.nKey);
 
-                                        notasSiendoProcesadas.Remove(note);
-                                    }
+                                    midiAux.nMaxNote =
+                                        Math.Max(midiTracks[i].nMinNote, note.nKey);
+
+                                    midiTracks[i] = midiAux;
+
+                                    notasSiendoProcesadas.Remove(note);
                                 }
+                                
                             }
                         }
                     }
@@ -515,7 +518,7 @@ public class MidiFile : MonoBehaviour
 private void Awake()
     {
 
-        parseFile("Assets/Resources/MIDI/Dong.mid");
+        parseFile("Assets/Resources/MIDI/Sc2.mid");
         writeInFile("Assets/Resources/PruebaMidi.txt");
         
     }
