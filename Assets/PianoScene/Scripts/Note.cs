@@ -23,14 +23,20 @@ public class Note : MonoBehaviour
     //Lista para ser destruida
     bool readyToDestroy = false;
 
+    float _vel = 0.005f;
+
     //Inicializar la nota
-    public bool setNote (int num, int nTicks, int track)
+    public bool setNote (int num, int nTicks, int track, float vel)
     {
 
         nNote = num;
 
         tickDuration = nTicks;
         numTrack = track;
+
+        gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, (float)(tickDuration),0);
+        _vel = vel;
+
         return true;
 
     }
@@ -54,6 +60,6 @@ public class Note : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * 0.005f);
+        transform.Translate(Vector3.down * _vel * Time.deltaTime);
     }
 }

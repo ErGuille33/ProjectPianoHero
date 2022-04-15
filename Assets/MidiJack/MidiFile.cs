@@ -165,6 +165,7 @@ public class MidiFile : MonoBehaviour
                     //Los siguientes 16 bits no nos interesan
                     n16 = reader.ReadUInt16();
                     UInt16 meh = swap16bit(n16);
+                
 
                     int it = 0;
                     UInt32 nWallTime = 0;
@@ -177,9 +178,11 @@ public class MidiFile : MonoBehaviour
                         //Primero leemos la cabecera del archivo
                         n32 = reader.ReadUInt32();
                         UInt32 nfileID = swap32bit(n32);
+
                         //Los siguientes 32bits no nos interesan, corresponden al tamaño del encabezado
                         n32 = reader.ReadUInt32();
                         UInt32 nEncabezado = swap32bit(n32);
+
                         }
                         //
                         bool endPista = false;
@@ -416,8 +419,19 @@ public class MidiFile : MonoBehaviour
                                         Math.Max(midiTracks[i].nMinNote, note.nKey);
 
                                     midiTracks[i] = midiAux;
-
-                                    notasSiendoProcesadas.Remove(note);
+                                    //Borrar el item
+                                    int k = 0;
+                                    bool found = false;
+                                    while (!found && k < notasSiendoProcesadas.Count)
+                                    {
+                                        if (notasSiendoProcesadas[k].nKey == midiTracks[i].vecEvents[j].nKey)
+                                        {
+                                            found = true;
+                                        }
+                                        else k++;
+                                    }
+                                    
+                                    notasSiendoProcesadas.RemoveAt(k);
                                 }
                                 
                             }
@@ -426,7 +440,7 @@ public class MidiFile : MonoBehaviour
                     reader.Close();
                     print("Closing reader");
                 }
-               
+                stream.Close();
             }
             
             return true;
@@ -442,9 +456,10 @@ public class MidiFile : MonoBehaviour
     public UInt32 readValue(BinaryReader reader)
     {
 
-        //Byte. El primer bit indica la extension en bits del mensaje
-        UInt32 nValue ;
         //Usaremos esta variable para leer los siguientes 7 bits del mensaje, que nos indican el valor
+        UInt32 nValue ;
+        
+        //Byte. El primer bit indica la extension en bits del mensaje
         byte nByte = 0;
 
         //Leemos byte
@@ -459,10 +474,10 @@ public class MidiFile : MonoBehaviour
             {
                 nByte = reader.ReadByte();
 
-                //Corremos los 7 bits hacia la izquierda y le añadimos los 7 ´´ultimos bits del próximo byte
+                //Corremos los 7 bits hacia la izquierda y le añadimos los 7 ultimos bits del próximo byte
                 nValue = Convert.ToUInt32( (nValue << 7) | (nByte & 0x7F) );
 
-            } while (Convert.ToBoolean(nByte & 0x80)); //Mietras el byte de control sea 1
+            } while (Convert.ToBoolean(nByte & 0x80)); //Mietras el primer bit del byte de control sea 1
 
         }
         return nValue;
@@ -518,7 +533,7 @@ public class MidiFile : MonoBehaviour
 private void Awake()
     {
 
-        parseFile("Assets/Resources/MIDI/Sc7.mid");
+        parseFile("Assets/Resources/MIDI/duration.mid");
         writeInFile("Assets/Resources/PruebaMidi.txt");
         
     }

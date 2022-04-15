@@ -10,10 +10,10 @@ public class Level : MonoBehaviour
 
     int offsetX = 0;
     int noteHeight = 1;
-    int timePerColumn = 50;
+    int timePerColumn = 100;
 
     //offset entre notas
-    int nTrackOffset = 1;
+    int nTrackOffset = 0;
 
     public MidiFile midiFile;
     public NoteIndicatorGroup indicatorGroup;
@@ -44,8 +44,7 @@ public class Level : MonoBehaviour
                     notes.Add (note.nKey);
  
                 }
-                
-
+               
             }
            
             i++;
@@ -77,10 +76,14 @@ public class Level : MonoBehaviour
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
                     
-                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-nTrackOffset)/timePerColumn+2,0);
-                    noteAux.transform.localScale = new Vector3(.2f, .2f, 0);
+                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-10)/timePerColumn+25,0);
 
-                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack);
+                    if(numOctava >= 4)
+                        noteAux.transform.localScale = new Vector3( 50f/ (numOctava), 0, 0);
+                    else
+                        noteAux.transform.localScale = new Vector3(25f, 0, 0);
+
+                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 5f);
                     aux++;
 
                 }

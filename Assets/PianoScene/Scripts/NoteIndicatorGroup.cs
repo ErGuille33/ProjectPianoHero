@@ -18,11 +18,14 @@ public class NoteIndicatorGroup : MonoBehaviour
 
     public NoteIndicator [] noteIndicators;
 
+    public bool recording;
+
     public void iniciate()
     {
         int numEscalas = endingScale - startingScale + 1;
-
         scales = new GameObject[numEscalas];
+
+        numTeclas = (endingScale - startingScale + 1) * 12;
 
         noteIndicators = new NoteIndicator [numTeclas];
 
@@ -85,6 +88,14 @@ public class NoteIndicatorGroup : MonoBehaviour
         
     }
 
+    private void Start()
+    {
+        if (recording)
+        {
+            iniciate();
+        }
+    }
+
     public Vector3 getNoteIndicatorPos(int nNote)
     {
         Vector3 pos = new Vector3(0,0,0);
@@ -110,8 +121,6 @@ public class NoteIndicatorGroup : MonoBehaviour
         //Le pnemos al teclado que la primera nota sea el do de la escala mas baja de la cancion, y el si de la mas alta
         startingScale = (int)System.Math.Truncate((double)minNote / 12);
         endingScale = (int)System.Math.Truncate( (double)maxNote / 12);
-
-        numTeclas = (endingScale - startingScale + 1) * 12;
 
         if(startingScale <= 0 || endingScale > 7)
         {
@@ -178,6 +187,6 @@ public class NoteIndicatorGroup : MonoBehaviour
 
     public int getNumEscalas()
     {
-        return numTeclas;
+        return 1+(endingScale - startingScale);
     }
 }
