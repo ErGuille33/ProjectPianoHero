@@ -416,7 +416,7 @@ public class MidiFile : MonoBehaviour
                             {
                                 MidiNote note = notasSiendoProcesadas.Find(x => x.nKey == midiTracks[i].vecEvents[j].nKey);
 
-                                if (notasSiendoProcesadas.Count != 0)
+                                if (notasSiendoProcesadas.Count > 0)
                                 {
                                     note.nDuration = nWallTime - note.nStartTime;
 
@@ -442,8 +442,8 @@ public class MidiFile : MonoBehaviour
                                         }
                                         else k++;
                                     }
-                                    
-                                    notasSiendoProcesadas.RemoveAt(k);
+                                    if(k < notasSiendoProcesadas.Count)
+                                        notasSiendoProcesadas.RemoveAt(k);
                                 }
                                 
                             }
