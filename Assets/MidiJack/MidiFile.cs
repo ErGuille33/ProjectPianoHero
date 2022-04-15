@@ -220,10 +220,14 @@ public class MidiFile : MonoBehaviour
                                 nPreviousStatus = nStatus;
                                 //El canal
                                 byte nChannel = Convert.ToByte(nStatus & 0x0F);
+                                print("channel " + nChannel);
                                 //LA id de la nota
                                 byte nNoteID = reader.ReadByte();
+                                print("nNoteID  " + nNoteID);
                                 //La velocidad de la nota
                                 byte nNoteVelocity = reader.ReadByte();
+                                print("nNoteVelocity  " + nNoteVelocity);
+
                                 if (nNoteVelocity == 0)
                                 {
                                     midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOff, nNoteID, nNoteVelocity, deltaTimeStatus));
@@ -334,16 +338,24 @@ public class MidiFile : MonoBehaviour
                                         // Tempo is in microseconds per quarter note	
                                         if (m_nTempo == 0)
                                         {
-                                            m_nTempo |= Convert.ToUInt32(reader.ReadByte() << 16);
-                                            m_nTempo |= Convert.ToUInt32(reader.ReadByte() << 8); ;
-                                            m_nTempo |= Convert.ToUInt32(reader.ReadByte() << 0); ;
+                                            byte aux1 = reader.ReadByte();
+                                            byte aux2 = reader.ReadByte(); 
+                                            byte aux3 = reader.ReadByte();
+
+                                           // print(" " + aux1 + " " + aux2 + " " + aux3);
+
+                                            m_nTempo |= Convert.ToUInt32(aux1 << 16);
+                                            m_nTempo |= Convert.ToUInt32(aux2 << 8);
+                                            m_nTempo |= Convert.ToUInt32(aux3 << 0);
+     
                                             m_nBPM = (60000000 / m_nTempo);
-                                            print( "Tempo: " + m_nTempo + " (" + m_nBPM + "bpm)");
+                                            print("Type " + nType + " Length " + nLength +  " Tempo: " + m_nTempo + " (" + m_nBPM + "bpm)");
                                         }
                                     }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaSMPTEOffset)) { print( "SMPTE: H:" + reader.ReadByte() + " M:" + reader.ReadByte() + " S:" + reader.ReadByte() + " FR:" + reader.ReadByte() + " FF:" + reader.ReadByte()); }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaTimeSignature)) 
-                                    { 
+                                    {
+                                        print("Type " + nType + " Length " + nLength);
                                         print("Time Signature: " + reader.ReadByte() + "/" + (2 + reader.ReadByte()));
                                         print("ClocksPerTick: " + reader.ReadByte());
                                         print("32per24Clocks: " + reader.ReadByte());

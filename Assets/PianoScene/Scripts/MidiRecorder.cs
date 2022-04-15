@@ -10,7 +10,9 @@ public class MidiRecorder : MonoBehaviour
 {
     List<MidiFile.MidiTrack> midiTracks;
 
-    public string filename = "test.mid";
+    public MidiFile midiFile;
+
+    public string filename = "Assets/Resources/MIDI/test.mid";
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,10 @@ public class MidiRecorder : MonoBehaviour
         List<MidiFile.MidiNote> midiNotes = new List<MidiFile.MidiNote>();
 
         midiTracks.Add(new MidiFile.MidiTrack("Track 0" + "+ ", "Piano", midiEvents, midiNotes, 0, 0));
+
+        //TEst
+        midiTracks = midiFile.getMidiFileTracks();
+        openMidiFile();
     }
 
     public void addMidiNote(byte nKey, byte nVelocity, System.UInt32 nStartTime, System.UInt32 nDuration,uint nDeltaKick, MidiFile.MidiEvent.Type type  , int channel,int track = 0)
@@ -60,23 +66,95 @@ public class MidiRecorder : MonoBehaviour
 
                     //Primero leemos la cabecera del track
                     n32 = 1802654797;
-                    writer.Write(n16);
+                    writer.Write(n32);
 
                     //Los siguientes 32bits corresponden al tamaño del encabezado
                     n32 = 3154116608;
-                    writer.Write(n16);
+                    writer.Write(n32);
 
-                    for(int i = 0; i < midiTracks[0].vecEvents.Count; i++)
+                    //El tick
+                    writeValue(writer, 0,-1);
+                    //El tipo de mensaje
+                    writer.Write(Convert.ToByte(0xff));
+                    //ntype
+                    writer.Write(Convert.ToByte(MidiFile.MetaEventName.MetaTimeSignature));
+                    //length
+                    writer.Write(Convert.ToByte(4));
+                    //Timesignature
+                    writer.Write(Convert.ToByte(4));
+                    //Entre
+                    writer.Write(Convert.ToByte(2));
+                    //Clockspertick
+                    writer.Write(Convert.ToByte(24));
+                    //32per24Clocks
+                    writer.Write(Convert.ToByte(8));
+
+                    //El tick
+                    writeValue(writer, 0,-1);
+                    //El tipo de mensaje
+                    writer.Write(Convert.ToByte(0xff));
+                    //ntype
+                    writer.Write(Convert.ToByte(MidiFile.MetaEventName.MetaSetTempo));
+                    //length
+                    writer.Write(Convert.ToByte(3));
+                    //1
+                    writer.Write(Convert.ToByte(7));
+                    //2
+                    writer.Write(Convert.ToByte(161));
+                    //3
+                    writer.Write(Convert.ToByte(32));
+
+                    writer.Write(Convert.ToByte(0x00));
+                    writer.Write(Convert.ToByte(0xff));
+                    writer.Write(Convert.ToByte(0x03));
+                    writer.Write(Convert.ToByte(0x0b));
+                    writer.Write(Convert.ToByte(0x54));
+                    writer.Write(Convert.ToByte(0x65));
+                    writer.Write(Convert.ToByte(0x6d));
+
+                    writer.Write(Convert.ToByte(0x70));
+                    writer.Write(Convert.ToByte(0x6f));
+                    writer.Write(Convert.ToByte(0x20));
+                    writer.Write(Convert.ToByte(0x54));
+                    writer.Write(Convert.ToByte(0x72));
+                    writer.Write(Convert.ToByte(0x61));
+
+                    writer.Write(Convert.ToByte(0x63));
+                    writer.Write(Convert.ToByte(0x6B));
+
+                    for (int i = 0; i < midiTracks[0].vecEvents.Count; i++)
                     {
-
-
+                            //El tick
+                            writeValue(writer, midiTracks[0].vecEvents[i].nDeltaTick,i);
+                        //El tipo de mensaje
+                        if (midiTracks[0].vecEvents[i].type == MidiFile.MidiEvent.Type.NoteOff)
+                        {
+                            writer.Write(Convert.ToByte(128));
+                        }
+                        else 
+                        {
+                            writer.Write(Convert.ToByte(144));
+                        }
+                            
+                            //Channel
+                            //writer.Write(Convert.ToByte(0));
+                            //Note
+                            writer.Write(Convert.ToByte(midiTracks[0].vecEvents[i].nKey));
+                            //Velocity
+                            writer.Write(Convert.ToByte(midiTracks[0].vecEvents[i].nVelocity));
 
                     }
-
-
+                    //Valores de final de archivo
+                    writer.Write(Convert.ToByte(0x83));
+                    writer.Write(Convert.ToByte(0x00));
+                    writer.Write(Convert.ToByte(0xff));
+                    writer.Write(Convert.ToByte(0x2f));
+                    writer.Write(Convert.ToByte(0x00));
                     writer.Close();
                 }
+
                 stream.Close();
+                print("Escrito");
             }
         }
         catch(Exception e)
@@ -85,36 +163,88 @@ public class MidiRecorder : MonoBehaviour
         }
         
     }
-    //Escei
-    public void writeValue(BinaryWriter writer, uint value)
+    //Escribir un valor en el archivo midi utilizando el estandard de compresión de valores en bytes.
+    public void writeValue(BinaryWriter writer, uint value, int i)
     {
-        uint aux;
-        byte byteToWrite;
+        byte aux;
+        byte aux2;
+        byte aux3;
+        byte aux4;
+        byte aux5;
 
-
-        if(value > 127)
+        //No  deberían haber valores mayores a 34 359 738 367 por lo tanto con estos casos cubrimos cualquier midi (si alguien hace un midi con notas que duran un par de años no podrá jugar al juego)
+        if (value > 268435455)
         {
-            if(value > 16383)
-            {
-                if(value > 2097151)
-                {
+            //Ultimos 8 bits
+            aux = Convert.ToByte(value & 0x7F);
+            //Cuartos 8 bits
+            aux2 = Convert.ToByte((value & 0x3F80) >> 7 | 0x80);
+            //Terceros 8 bits
+            aux3 = Convert.ToByte((value & 0x1FC000) >> 14 | 0x80);
+            //Segundos 8 bits (Feoooooo)
+            aux4 = Convert.ToByte((value & 0xFE00000) >> 21 | 0x80);
+            //Primeros 8 bits
+            aux5 = Convert.ToByte((value & 0x7F0000000) >> 28 | 0x80);
 
-                }
-            }
+            writer.Write(Convert.ToByte(aux5));
+            writer.Write(Convert.ToByte(aux4));
+            writer.Write(Convert.ToByte(aux3));
+            writer.Write(Convert.ToByte(aux2));
+            writer.Write(Convert.ToByte(aux));
         }
+         if (value > 2097151)
+         {
+            //Ultimos 8 bits
+            aux = Convert.ToByte(value & 0x7F);
+            //Terceros 8 bits
+            aux2 = Convert.ToByte((value & 0x3F80) >> 7 | 0x80);
+            //Segundos 8 bits
+            aux3 = Convert.ToByte((value & 0x1FC000) >> 14 | 0x80);
+            //Primeros 8 bits (Feoooooo)
+            aux4 = Convert.ToByte((value & 0xFE00000) >> 21 | 0x80);
+            writer.Write(Convert.ToByte(aux4));
+            writer.Write(Convert.ToByte(aux3));
+            writer.Write(Convert.ToByte(aux2));
+            writer.Write(Convert.ToByte(aux));
+        }
+        else if(value > 16383)
+        {
+
+            //Ultimos 8 bits
+            aux = Convert.ToByte(value & 0x7F);
+            //Segundos 8 bits
+            aux2 = Convert.ToByte((value & 0x3F80) >> 7 | 0x80);
+            //Primeros 8 bits
+            aux3 = Convert.ToByte((value & 0x1FC000) >> 14 | 0x80);
+            writer.Write(Convert.ToByte(aux3));
+            writer.Write(Convert.ToByte(aux2)); 
+            writer.Write(Convert.ToByte(aux));
+        }
+        else if (value > 127)
+        {
+            //Ultimos 8 bits
+            aux = Convert.ToByte(value & 0x7F);
+            //Primeros 8 bits
+            aux2 = Convert.ToByte(((value & 0x3F80) >> 7) | 0x80);
+            writer.Write(Convert.ToByte(aux2));
+            writer.Write(Convert.ToByte(aux));
+            
+        }
+        
         else
         {
-            byteToWrite = Convert.ToByte(value & 0x7F);
+            aux = Convert.ToByte(value & 0x7F);
+            writer.Write(Convert.ToByte(aux));
 
         }
     }
 
-    public UInt32 swap32bit(UInt32 n)
+    public uint swap32bit(uint n)
     {
         return (((n >> 24) & 0xff) | ((n << 8) & 0xff0000) | ((n >> 8) & 0xff00) | ((n << 24) & 0xff000000));
     }
 
-    public UInt16 swap16bit(UInt16 n)
+    public uint swap16bit(uint n)
     {
 
         return Convert.ToUInt16(((n >> 8) | (n << 8)) & 0xFF);
