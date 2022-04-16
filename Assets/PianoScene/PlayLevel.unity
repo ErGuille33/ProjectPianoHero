@@ -222,8 +222,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 247562669}
-  - component: {fileID: 247562668}
   - component: {fileID: 247562667}
+  - component: {fileID: 247562668}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48691f3b3431674bb985e8cc99b079d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  midiFile: {fileID: 247562668}
+  midiFile: {fileID: 0}
   indicatorGroup: {fileID: 814515670}
   prefabNote: {fileID: 3482870724745684891, guid: 3cc75ba485e2b5944a3df2168b839fe9,
     type: 3}
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 247562666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9bd07c1a0dc6234790244ff0b94e591, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f2f7a56e41c2364fa67d489af1d3320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &247562669
