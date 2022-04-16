@@ -23,81 +23,15 @@ public class MidiRecorder : MonoBehaviour
         midiTracks.Add(new MidiFile.MidiTrack("Track 0" + "+ ", "Piano", midiEvents, midiNotes, 0, 0));
 
         //TEst
-        midiTracks = midiFile.getMidiFileTracks();
-        openMidiFile();
+        //midiTracks = midiFile.getMidiFileTracks();
+        //openMidiFile();
     }
 
-    public void addMidiNote(byte nKey, byte nVelocity, System.UInt32 nStartTime, System.UInt32 nDuration,uint nDeltaKick, MidiFile.MidiEvent.Type type  , int channel,int track = 0)
+    public void addMidiNote(MidiFile.MidiEvent midiEvent,int track = 0)
     {
-        midiTracks[track].vecNotes.Add(new MidiFile.MidiNote(nKey, nVelocity, nStartTime, nDuration));
-        midiTracks[track].vecEvents.Add(new MidiFile.MidiEvent(type,nKey,nVelocity,nDeltaKick));
+        midiTracks[track].vecEvents.Add(midiEvent);
     }
-
-    public uint calculateLenghtChunk() 
-    {
-        uint firstMessages = 33;
-        uint auxCount = 0;
-
-        for (int i = 0; i < midiTracks[0].vecEvents.Count; i++)
-        {
-            //El tick
-
-            auxCount++;
-            
-            if (midiTracks[0].vecEvents[i].nDeltaTick > 127)
-            {
-                auxCount++;
-            }
-            if (midiTracks[0].vecEvents[i].nDeltaTick > 16383)
-            {
-                auxCount++;
-            }
-            if (midiTracks[0].vecEvents[i].nDeltaTick > 2097151)
-            {
-                auxCount++;
-            }
-            if (midiTracks[0].vecEvents[i].nDeltaTick > 268435455)
-            {
-                auxCount++;
-            }
-
-            //El tipo de mensaje
-            if (midiTracks[0].vecEvents[i].type == MidiFile.MidiEvent.Type.NoteOff)
-            {
-                auxCount++;
-            }
-            else
-            {
-                auxCount++;
-            }
-
-            //Note
-            auxCount++;
-            //Velocity
-            auxCount++;
-
-        }
-        //Ultimotal
-        auxCount++;
-        if(midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 127)
-        {
-            auxCount++;
-        }
-        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 16383)
-        {
-            auxCount++;
-        }
-        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 2097151)
-        {
-            auxCount++;
-        }
-        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 268435455)
-        {
-            auxCount++;
-        }
-
-        return auxCount + firstMessages;
-    }
+    
 
     public void openMidiFile() 
     {
@@ -301,6 +235,73 @@ public class MidiRecorder : MonoBehaviour
             writer.Write(Convert.ToByte(aux));
 
         }
+    }
+
+    //Necesitamos calcular cuál va a ser la extensión en bytes de la pista antes de escribirla, por la que uso este método para calcularla
+    public uint calculateLenghtChunk()
+    {
+        uint firstMessages = 33;
+        uint auxCount = 0;
+
+        for (int i = 0; i < midiTracks[0].vecEvents.Count; i++)
+        {
+            //El tick
+
+            auxCount++;
+
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 127)
+            {
+                auxCount++;
+            }
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 16383)
+            {
+                auxCount++;
+            }
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 2097151)
+            {
+                auxCount++;
+            }
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 268435455)
+            {
+                auxCount++;
+            }
+
+            //El tipo de mensaje
+            if (midiTracks[0].vecEvents[i].type == MidiFile.MidiEvent.Type.NoteOff)
+            {
+                auxCount++;
+            }
+            else
+            {
+                auxCount++;
+            }
+
+            //Note
+            auxCount++;
+            //Velocity
+            auxCount++;
+
+        }
+        //Ultimotal
+        auxCount++;
+        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 127)
+        {
+            auxCount++;
+        }
+        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 16383)
+        {
+            auxCount++;
+        }
+        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 2097151)
+        {
+            auxCount++;
+        }
+        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 268435455)
+        {
+            auxCount++;
+        }
+
+        return auxCount + firstMessages;
     }
 
     public uint swap32bit(uint n)

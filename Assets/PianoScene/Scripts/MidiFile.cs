@@ -545,7 +545,7 @@ public class MidiFile : MonoBehaviour
 private void Awake()
     {
 
-        parseFile("Assets/Resources/MIDI/Dong.mid");
+        parseFile("Assets/Resources/MIDI/dale.mid");
         writeInFile("Assets/Resources/PruebaMidi.txt");
         
     }

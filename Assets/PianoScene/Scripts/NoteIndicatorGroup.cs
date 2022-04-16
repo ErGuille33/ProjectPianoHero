@@ -19,6 +19,7 @@ public class NoteIndicatorGroup : MonoBehaviour
     public NoteIndicator [] noteIndicators;
 
     public bool recording;
+    public RecordLevel recordLevel;
 
     public void iniciate()
     {
@@ -82,6 +83,16 @@ public class NoteIndicatorGroup : MonoBehaviour
             noteIndicators[scaleJaux + 9].noteNumber = posScaleAux+9;
             noteIndicators[scaleJaux + 10].noteNumber = posScaleAux+10;
             noteIndicators[scaleJaux + 11].noteNumber = posScaleAux+11;
+
+            //Asignar a los note indicators si es modo grabación
+            for(int k = scaleJaux; k < scaleJaux + 12; k++)
+            {
+                noteIndicators[k].setModeRecord(recording);
+                if (recording)
+                {
+                    noteIndicators[k].setRecordLevel(recordLevel);
+                }
+            }
 
             j++;
         }

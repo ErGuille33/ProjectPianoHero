@@ -8,17 +8,12 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
 
-    int offsetX = 0;
-    int noteHeight = 1;
-    int timePerColumn = 100;
 
-    //offset entre notas
-    int nTrackOffset = 0;
+    int timePerColumn = 100;
 
     public MidiFile midiFile;
     public NoteIndicatorGroup indicatorGroup;
 
-     List<MidiFile.MidiTrack> midiTracksAux;
      List<MidiFile.MidiTrack> midiTracks;
 
     int numOctava = 0;
@@ -28,8 +23,8 @@ public class Level : MonoBehaviour
     private void Start()
     {
         midiFile = GetComponent<MidiFile>();
-        midiTracksAux = midiFile.getMidiFileTracks();
-        midiTracks = midiTracksAux;
+        midiTracks = midiFile.getMidiFileTracks();
+
 
         //Nota minima y maxima
         List<int> notes = new List <int>();
@@ -86,7 +81,7 @@ public class Level : MonoBehaviour
                     aux++;
 
                 }
-                offsetX += 1;
+
             }
             numTrack++;
         }
