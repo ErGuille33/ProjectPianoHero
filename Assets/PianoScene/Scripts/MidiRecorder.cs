@@ -33,6 +33,72 @@ public class MidiRecorder : MonoBehaviour
         midiTracks[track].vecEvents.Add(new MidiFile.MidiEvent(type,nKey,nVelocity,nDeltaKick));
     }
 
+    public uint calculateLenghtChunk() 
+    {
+        uint firstMessages = 33;
+        uint auxCount = 0;
+
+        for (int i = 0; i < midiTracks[0].vecEvents.Count; i++)
+        {
+            //El tick
+
+            auxCount++;
+            
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 127)
+            {
+                auxCount++;
+            }
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 16383)
+            {
+                auxCount++;
+            }
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 2097151)
+            {
+                auxCount++;
+            }
+            if (midiTracks[0].vecEvents[i].nDeltaTick > 268435455)
+            {
+                auxCount++;
+            }
+
+            //El tipo de mensaje
+            if (midiTracks[0].vecEvents[i].type == MidiFile.MidiEvent.Type.NoteOff)
+            {
+                auxCount++;
+            }
+            else
+            {
+                auxCount++;
+            }
+
+            //Note
+            auxCount++;
+            //Velocity
+            auxCount++;
+
+        }
+        //Ultimotal
+        auxCount++;
+        if(midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 127)
+        {
+            auxCount++;
+        }
+        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 16383)
+        {
+            auxCount++;
+        }
+        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 2097151)
+        {
+            auxCount++;
+        }
+        if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 268435455)
+        {
+            auxCount++;
+        }
+
+        return auxCount + firstMessages;
+    }
+
     public void openMidiFile() 
     {
         //Hay que escribir en big endian, por lo que algunos de los valores fijos los ecribo directamente con los bits invertidos
@@ -68,8 +134,9 @@ public class MidiRecorder : MonoBehaviour
                     n32 = 1802654797;
                     writer.Write(n32);
 
-                    //Los siguientes 32bits corresponden al tamaño del encabezado
-                    n32 = 3154116608;
+                    //Los siguientes 32bits corresponden al tamaño del track. Aqui esta el poblema
+                    n32 = calculateLenghtChunk();
+                    n32 = swap32bit(n32);
                     writer.Write(n32);
 
                     //El tick
@@ -104,6 +171,8 @@ public class MidiRecorder : MonoBehaviour
                     //3
                     writer.Write(Convert.ToByte(32));
 
+
+                    //Name of the track : tempo track
                     writer.Write(Convert.ToByte(0x00));
                     writer.Write(Convert.ToByte(0xff));
                     writer.Write(Convert.ToByte(0x03));
@@ -111,14 +180,12 @@ public class MidiRecorder : MonoBehaviour
                     writer.Write(Convert.ToByte(0x54));
                     writer.Write(Convert.ToByte(0x65));
                     writer.Write(Convert.ToByte(0x6d));
-
                     writer.Write(Convert.ToByte(0x70));
                     writer.Write(Convert.ToByte(0x6f));
                     writer.Write(Convert.ToByte(0x20));
                     writer.Write(Convert.ToByte(0x54));
                     writer.Write(Convert.ToByte(0x72));
                     writer.Write(Convert.ToByte(0x61));
-
                     writer.Write(Convert.ToByte(0x63));
                     writer.Write(Convert.ToByte(0x6B));
 
@@ -136,8 +203,6 @@ public class MidiRecorder : MonoBehaviour
                             writer.Write(Convert.ToByte(144));
                         }
                             
-                            //Channel
-                            //writer.Write(Convert.ToByte(0));
                             //Note
                             writer.Write(Convert.ToByte(midiTracks[0].vecEvents[i].nKey));
                             //Velocity
@@ -145,8 +210,7 @@ public class MidiRecorder : MonoBehaviour
 
                     }
                     //Valores de final de archivo
-                    writer.Write(Convert.ToByte(0x83));
-                    writer.Write(Convert.ToByte(0x00));
+                    writeValue(writer, midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick, 0);
                     writer.Write(Convert.ToByte(0xff));
                     writer.Write(Convert.ToByte(0x2f));
                     writer.Write(Convert.ToByte(0x00));
