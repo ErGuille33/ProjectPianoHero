@@ -25,6 +25,8 @@ public class Note : MonoBehaviour
 
     float _vel = 0.005f;
 
+    public bool moving = false;
+
     //Inicializar la nota
     public bool setNote (int num, int nTicks, int track, float vel)
     {
@@ -60,6 +62,9 @@ public class Note : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _vel * Time.deltaTime);
+        if (moving)
+        {
+            transform.Translate(Vector3.down * _vel * Time.deltaTime);
+        }
     }
 }

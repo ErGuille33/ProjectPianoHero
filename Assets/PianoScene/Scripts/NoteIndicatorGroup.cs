@@ -9,6 +9,7 @@ public class NoteIndicatorGroup : MonoBehaviour
    
     public int startingScale; //La escala mas baja
     public int endingScale; //La escala mas Alta
+    private int scaleStartAux;
 
     float offsetX;
 
@@ -84,8 +85,21 @@ public class NoteIndicatorGroup : MonoBehaviour
             noteIndicators[scaleJaux + 10].noteNumber = posScaleAux+10;
             noteIndicators[scaleJaux + 11].noteNumber = posScaleAux+11;
 
+            
+
+            j++;
+        }
+        
+    }
+
+    public void startRecording()
+    {
+        int j = 0;
+        for (var i = startingScale; i <= endingScale; i++)
+        {
+            int scaleJaux = j * 12;
             //Asignar a los note indicators si es modo grabación
-            for(int k = scaleJaux; k < scaleJaux + 12; k++)
+            for (int k = scaleJaux; k < scaleJaux + 12; k++)
             {
                 noteIndicators[k].setModeRecord(recording);
                 if (recording)
@@ -93,10 +107,8 @@ public class NoteIndicatorGroup : MonoBehaviour
                     noteIndicators[k].setRecordLevel(recordLevel);
                 }
             }
-
             j++;
         }
-        
     }
 
     private void Start()

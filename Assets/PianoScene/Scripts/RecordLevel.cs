@@ -6,12 +6,27 @@ public class RecordLevel : MonoBehaviour
 {
     //offset entre notas
     List<MidiFile.MidiEvent> recordedMidiEvents;
-    NoteIndicatorGroup noteIndicatorGroup;
+    public NoteIndicatorGroup noteIndicatorGroup;
 
     MidiRecorder midiRecorder;
 
+    [Header("count down")]
+    public Count_down count_Down;
+
     uint deltaTicks;
 
+    bool finishedTimer = false;
+
+    protected void setStartTimer()
+    {
+        count_Down.start_count_down();
+        count_Down.handler += this.countDownOver;
+    }
+    protected void countDownOver()
+    {
+        finishedTimer = true;
+        noteIndicatorGroup.startRecording();
+    }
 
     //
     bool finished = false;
@@ -20,14 +35,19 @@ public class RecordLevel : MonoBehaviour
     {
         recordedMidiEvents = new List<MidiFile.MidiEvent>();
         midiRecorder = GetComponent<MidiRecorder>();
+        setStartTimer();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Por ahora este valor parece funcionar (24* 32 ticks - 24 * 8 = 576)
-        deltaTicks += (byte)(Time.deltaTime * 576);
-        handleInput();
+        if (finishedTimer)
+        {
+            //Por ahora este valor parece funcionar (24* 32 ticks - 24 * 8 = 576)
+            deltaTicks += (byte)(Time.deltaTime * 576);
+            handleInput();
+        }
     }
 
     void finishRecord()
