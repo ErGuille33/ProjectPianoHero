@@ -15,8 +15,15 @@ public class NoteIndicator : MonoBehaviour
 
     [SerializeField]
     private bool modeRecord;
+    [SerializeField]
+    private bool modeGame;
+
 
     RecordLevel recordLevel;
+
+    Detector detector;
+
+    public Level level;
 
 
     //Variables para el modo grabación
@@ -31,6 +38,11 @@ public class NoteIndicator : MonoBehaviour
 
     private void Start()
     {
+        if(GetComponentInChildren<Detector>() != null)
+        {
+            detector = GetComponentInChildren<Detector>();
+        }
+
         if(GetComponent<AudioSource>() != null)
             source = GetComponent<AudioSource>();
 
@@ -57,30 +69,46 @@ public class NoteIndicator : MonoBehaviour
     }
     void releaseNote()
     {
-        sprite.enabled = true;
-        pushed = false;
+    
 
-        if (modeRecord && !alreadyOff)
+        if (!alreadyOff)
         {
-            recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOff, (byte)noteNumber, 0);
+          
+            sprite.enabled = true;
+            pushed = false;
             alreadyOn = false;
             alreadyOff = true;
-   
+
+            if(modeRecord)
+                recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOff, (byte)noteNumber, 0);
+
         }
     }
     void playNote(float volume)
     {
-        source.Play();
-        source.volume = volume;
-        print(noteNumber);
-        sprite.enabled = false;
-        pushed = true;
+    
 
-        if (modeRecord && !alreadyOn) 
+        if ( !alreadyOn) 
         {
-            recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOn, (byte)noteNumber, (byte)(volume * 100));
+            source.Play();
+            source.volume = volume;
+            sprite.enabled = false;
+            pushed = true;
+            
             alreadyOn = true;
             alreadyOff = false;
+
+
+
+            if(modeRecord)
+                recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOn, (byte)noteNumber, (byte)(volume * 100));
+
+            if (modeGame) 
+            {
+                level.addScore(detector.detectNoteDistance());
+            }
+                
+
 
         }
 
@@ -95,19 +123,12 @@ public class NoteIndicator : MonoBehaviour
     {
         modeRecord = record;
     }
-
-    private void OnTriggerEnter2D (Collider2D other)
+    public void setModeGame(bool game)
     {
-      
-        if (pushed)
-        {
-           
-            if (other.tag == "Note")
-            {
-                Destroy(other);
-            }
-        }
+        modeGame = game;
     }
+
+
 
 
 

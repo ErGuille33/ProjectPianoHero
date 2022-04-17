@@ -22,6 +22,10 @@ public class NoteIndicatorGroup : MonoBehaviour
     public bool recording;
     public RecordLevel recordLevel;
 
+
+    public Level level;
+    public bool modeGame;
+
     public void iniciate()
     {
         int numEscalas = endingScale - startingScale + 1;
@@ -72,20 +76,15 @@ public class NoteIndicatorGroup : MonoBehaviour
             noteIndicators[scaleJaux+11] = scales[i].transform.Find("B").gameObject.GetComponent<NoteIndicator>();
 
             //Asignamos el numero de nota a cada uno
-            noteIndicators[scaleJaux].noteNumber = posScaleAux;
-            noteIndicators[scaleJaux + 1].noteNumber = posScaleAux+1;
-            noteIndicators[scaleJaux + 2].noteNumber = posScaleAux+2;
-            noteIndicators[scaleJaux + 3].noteNumber = posScaleAux+3;
-            noteIndicators[scaleJaux + 4].noteNumber = posScaleAux+4;
-            noteIndicators[scaleJaux + 5].noteNumber = posScaleAux+5;
-            noteIndicators[scaleJaux + 6].noteNumber = posScaleAux+6;
-            noteIndicators[scaleJaux + 7].noteNumber = posScaleAux+7;
-            noteIndicators[scaleJaux + 8].noteNumber = posScaleAux+8;
-            noteIndicators[scaleJaux + 9].noteNumber = posScaleAux+9;
-            noteIndicators[scaleJaux + 10].noteNumber = posScaleAux+10;
-            noteIndicators[scaleJaux + 11].noteNumber = posScaleAux+11;
+  
+            for(int k = 0; k < 12; k++)
+            {
+                noteIndicators[scaleJaux + k].noteNumber = posScaleAux + k;
+                noteIndicators[scaleJaux+k].level = level;
+            }
 
-            
+
+
 
             j++;
         }
@@ -111,11 +110,31 @@ public class NoteIndicatorGroup : MonoBehaviour
         }
     }
 
+    public void activateDetecting()
+    {
+        int j = 0;
+        for (var i = startingScale; i <= endingScale; i++)
+        {
+            int scaleJaux = j * 12;
+            //Asignar a los note indicators si es modo grabación
+            for (int k = scaleJaux; k < scaleJaux + 12; k++)
+            {
+                noteIndicators[k].setModeGame(modeGame);
+              
+            }
+            j++;
+        }
+    }
+
     private void Start()
     {
         if (recording)
         {
             iniciate();
+        }
+        if (modeGame)
+        {
+            activateDetecting();
         }
     }
 

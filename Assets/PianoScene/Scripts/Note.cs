@@ -27,6 +27,8 @@ public class Note : MonoBehaviour
 
     public bool moving = false;
 
+    private float stopMovingAt = -6;
+
     //Inicializar la nota
     public bool setNote (int num, int nTicks, int track, float vel)
     {
@@ -53,18 +55,17 @@ public class Note : MonoBehaviour
         return readyToDestroy;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (moving)
         {
             transform.Translate(Vector3.down * _vel * Time.deltaTime);
+
+            if(transform.position.y < stopMovingAt)
+            {
+                moving = false;
+            }
         }
     }
 }

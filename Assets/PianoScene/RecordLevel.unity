@@ -247,6 +247,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Count_down_canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 11461294, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: animation_type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 22432372, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -509,7 +513,7 @@ PrefabInstance:
         type: 3}
       propertyPath: scale
       value: 
-      objectReference: {fileID: 2609118455921709802, guid: bcc3ed57ac5880e41b03c7d561facc50,
+      objectReference: {fileID: 740474007603915846, guid: 6ef893edc35d82f42b76a4ec1fb339f1,
         type: 3}
     - target: {fileID: 7249130829271616175, guid: df9f1c1ccf62d7c4289633b8566d3643,
         type: 3}

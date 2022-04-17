@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Este es el script que controla el funcionamiento de nivel, desde crear las distintas notas, manejar la puntuación, gameplay ...etc
 
@@ -26,7 +27,32 @@ public class Level : MonoBehaviour
     [Header("count down")]
     public Count_down count_Down;
 
+    //Nota minima y maxima
+    List<int> _notes = new List<int>();
+
+    public float maxScore = 10000;
+
+    public float actualScore = 0;
+
+    public float perfectScore;
+    public float goodScore;
+    public float okScore;
+    public float badScore;
+
+    public Text text;
+    private string scoreText = "Puntuación: ";
+
     bool finishedTimer = false;
+
+
+
+    private void setScoreMetters()
+    {
+        perfectScore = maxScore / notes.Count;
+        goodScore = perfectScore/1.5f;
+        okScore = perfectScore / 2;
+        badScore = -okScore/2;
+    }
 
     protected void setStartTimer()
     {
@@ -45,11 +71,14 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
+        midiFile.parseFile("Assets/Resources/MIDI/dale.mid");
+
+        midiFile.writeInFile("Assets/Resources/PruebaMidi.txt");
+
         midiFile = GetComponent<MidiFile>();
         midiTracks = midiFile.getMidiFileTracks();
 
-        //Nota minima y maxima
-        List<int> _notes = new List <int>();
+        
  
         int i = 0;
         foreach (MidiFile.MidiTrack track in midiTracks)
@@ -69,12 +98,45 @@ public class Level : MonoBehaviour
         indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
 
         indicatorGroup.iniciate();
+
         movimientoVisualNotas();
+
+        setScoreMetters();
 
         setStartTimer();
 
     }
 
+    public void addScore(float distance)
+    {
+        
+        if(distance < 0)
+        {
+            
+                actualScore += badScore;
+            
+        }
+        else if(distance > 3)
+        {
+            
+            
+                actualScore += badScore;
+            
+        }
+        else if(distance > 2)
+        {
+            actualScore += okScore;
+        }
+        else if (distance > 1)
+        {
+            actualScore += goodScore;
+        }
+        else if (distance < 1)
+        {
+            actualScore += perfectScore;
+        }
+        if (actualScore < 0) actualScore = 0;
+    }
 
     void movimientoVisualNotas()
     {
@@ -102,7 +164,7 @@ public class Level : MonoBehaviour
                     else
                         noteAux.transform.localScale = new Vector3(25f, 0, 0);
 
-                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 5f);
+                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 4f);
 
                     notes.Add(noteAux.GetComponent<Note>());
 
@@ -118,6 +180,6 @@ public class Level : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        text.text = scoreText + (int) actualScore;
     }
 }

@@ -160,7 +160,7 @@ public class MidiFile : MonoBehaviour
                     //Los siguientes 16 bits nos indican el número de pistas midi que contiene el archivo (en nuestro caso, aunque nos interese solamente la del piano, en algunos archivos viene separado)
                     n16 = reader.ReadUInt16();
                     UInt16 nChunks = swap16bit(n16);
-                    print("nchunks" + nChunks);
+                    //print("nchunks" + nChunks);
 
                     //Los siguientes 16 bits no nos interesan
                     n16 = reader.ReadUInt16();
@@ -173,7 +173,7 @@ public class MidiFile : MonoBehaviour
                     for (UInt16 nChunk = 0; nChunk < nChunks; nChunk++)
                     {
                         if (reader.BaseStream.Position != reader.BaseStream.Length) { 
-                        print("PISTA" + nChunk);
+                        //print("PISTA" + nChunk);
 
                         //Primero leemos la cabecera del archivo
                         n32 = reader.ReadUInt32();
@@ -220,13 +220,13 @@ public class MidiFile : MonoBehaviour
                                 nPreviousStatus = nStatus;
                                 //El canal
                                 byte nChannel = Convert.ToByte(nStatus & 0x0F);
-                                print("channel " + nChannel);
+                                //print("channel " + nChannel);
                                 //LA id de la nota
                                 byte nNoteID = reader.ReadByte();
-                                print("nNoteID  " + nNoteID);
+                                //print("nNoteID  " + nNoteID);
                                 //La velocidad de la nota
                                 byte nNoteVelocity = reader.ReadByte();
-                                print("nNoteVelocity  " + nNoteVelocity);
+                                //print("nNoteVelocity  " + nNoteVelocity);
 
                                 if (nNoteVelocity == 0)
                                 {
@@ -235,7 +235,7 @@ public class MidiFile : MonoBehaviour
                                 else
                                 {
                                     midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOn, nNoteID, nNoteVelocity, deltaTimeStatus));
-                                    print("noteOn" + nNoteID);
+                                    //print("noteOn" + nNoteID);
                                 }
                          
 
@@ -249,7 +249,7 @@ public class MidiFile : MonoBehaviour
                                 byte nNoteVelocity = reader.ReadByte();
 
 
-                                print("noteOFf" + nNoteID);
+                                //print("noteOFf" + nNoteID);
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOff,nNoteID,nNoteVelocity,deltaTimeStatus));
                   
                             }
@@ -321,12 +321,12 @@ public class MidiFile : MonoBehaviour
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaCopyright)) { print("Copyright: " + ReadString(nLength, reader));  }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaTrackName) && midiTracks[nChunk].sName != "") {
                                         midiTracks[nChunk].sName.Replace(midiTracks[nChunk].sName, ReadString(nLength, reader)).ToList();
-                                        print("Track Name: " + midiTracks[nChunk].sName);
+                                        //print("Track Name: " + midiTracks[nChunk].sName);
                                     }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaInstrumentName))
                                     {
                                         midiTracks[nChunk].sInstrument.Replace(midiTracks[nChunk].sInstrument, ReadString(nLength, reader)).ToList();
-                                        print("Instrument Name: " + midiTracks[nChunk].sInstrument);
+                                        //print("Instrument Name: " + midiTracks[nChunk].sInstrument);
                                     }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaLyrics)) { print("Lyrics: " + ReadString(nLength, reader)); }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaMarker)) { print("Marker: " + ReadString(nLength, reader)); }
@@ -349,7 +349,7 @@ public class MidiFile : MonoBehaviour
                                             m_nTempo |= Convert.ToUInt32(aux3 << 0);
      
                                             m_nBPM = (60000000 / m_nTempo);
-                                            print("Type " + nType + " Length " + nLength +  " Tempo: " + m_nTempo + " (" + m_nBPM + "bpm)");
+                                            //print("Type " + nType + " Length " + nLength +  " Tempo: " + m_nTempo + " (" + m_nBPM + "bpm)");
                                         }
                                     }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaSMPTEOffset)) { print( "SMPTE: H:" + reader.ReadByte() + " M:" + reader.ReadByte() + " S:" + reader.ReadByte() + " FR:" + reader.ReadByte() + " FF:" + reader.ReadByte()); }
@@ -542,13 +542,7 @@ public class MidiFile : MonoBehaviour
   
     }
 
-private void Awake()
-    {
 
-        parseFile("Assets/Resources/MIDI/dale.mid");
-        writeInFile("Assets/Resources/PruebaMidi.txt");
-        
-    }
 
 
 
