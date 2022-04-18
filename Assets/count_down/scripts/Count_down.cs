@@ -29,7 +29,7 @@ public class Count_down : MonoBehaviour
     private AudioSource audio_source;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         //initialize animator and audioSource
         this.image = this.GetComponent<Image>();

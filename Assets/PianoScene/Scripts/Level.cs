@@ -71,7 +71,7 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
-        midiFile.parseFile("Assets/Resources/MIDI/dale.mid");
+        midiFile.parseFile("Assets/Resources/MIDI/test.mid");
 
         midiFile.writeInFile("Assets/Resources/PruebaMidi.txt");
 
