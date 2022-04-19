@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class Level : MonoBehaviour
 {
 
+    public FileManager fileManager;
+    string file_name;
 
     int timePerColumn = 100;
 
@@ -71,9 +73,11 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
-        midiFile.parseFile("Assets/Resources/MIDI/test.mid");
+        file_name  = fileManager.OpenFileExplorer();
 
-        midiFile.writeInFile("Assets/Resources/PruebaMidi.txt");
+        midiFile.parseFile(file_name);
+
+        //midiFile.writeInFile("Assets/Resources/PruebaMidi.txt");
 
         midiFile = GetComponent<MidiFile>();
         midiTracks = midiFile.getMidiFileTracks();

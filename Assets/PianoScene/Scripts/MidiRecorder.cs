@@ -13,6 +13,9 @@ public class MidiRecorder : MonoBehaviour
     public MidiFile midiFile;
 
     public string filename = "Assets/Resources/MIDI/test.mid";
+
+    public FileManager fileManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +35,7 @@ public class MidiRecorder : MonoBehaviour
 
     public void openMidiFile() 
     {
+        filename = fileManager.SaveFileExplorer();
         //Hay que escribir en big endian, por lo que algunos de los valores fijos los ecribo directamente con los bits invertidos
         uint n32 = 0;
         ushort n16 = 0;

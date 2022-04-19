@@ -15,6 +15,8 @@ using System.Linq;
 
 public class MidiFile : MonoBehaviour
 {
+
+
     public struct MidiEvent
     {
         public enum Type
@@ -136,6 +138,8 @@ public class MidiFile : MonoBehaviour
     {
         UInt32 n32 = 0;
         UInt16 n16 = 0;
+
+
         //Abrimos stream
         if (File.Exists(file_path))
         {

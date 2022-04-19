@@ -24,6 +24,7 @@ public class RecordLevel : MonoBehaviour
     public GameObject stopRecButton;
     public GameObject restartButton;
     public GameObject exportButton;
+    public GameObject menuButton;
 
     bool finished = false;
 
@@ -34,6 +35,7 @@ public class RecordLevel : MonoBehaviour
         restartButton.SetActive(false);
         recImage.SetActive(false);
         exportButton.SetActive(false);
+        menuButton.SetActive(false);
 
         count_Down.start_count_down();
         count_Down.handler += this.countDownOver;
@@ -93,6 +95,8 @@ public class RecordLevel : MonoBehaviour
             midiRecorder.addMidiNote(recordedMidiEvents[i]);
         }
         midiRecorder.openMidiFile();
+
+        menuButton.SetActive(true);
     }
 
     public void addEventToPool(MidiFile.MidiEvent.Type type, byte noteNumber, byte vel)
