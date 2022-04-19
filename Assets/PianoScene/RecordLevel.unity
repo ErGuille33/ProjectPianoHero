@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -392,6 +392,21 @@ PrefabInstance:
       value: Count_down_canvas
       objectReference: {fileID: 0}
     - target: {fileID: 11461294, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: sprite_one
+      value: 
+      objectReference: {fileID: 21300000, guid: d22d6de35ac6d1b4b89f0c80f2880bd6,
+        type: 3}
+    - target: {fileID: 11461294, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: sprite_two
+      value: 
+      objectReference: {fileID: 21300000, guid: f68c1de8e140ce042a4f7dda95bf31f0,
+        type: 3}
+    - target: {fileID: 11461294, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: sprite_three
+      value: 
+      objectReference: {fileID: 21300000, guid: 8579f49ee9d72c34cb69bdc5e955e8c3,
+        type: 3}
+    - target: {fileID: 11461294, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
       propertyPath: animation_type
       value: 1
       objectReference: {fileID: 0}
@@ -402,6 +417,14 @@ PrefabInstance:
     - target: {fileID: 11488372, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
       propertyPath: m_IgnoreReversedGraphics
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22429364, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 22429364, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 22432372, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
       propertyPath: m_Pivot.x
@@ -1720,10 +1743,10 @@ RectTransform:
   m_Father: {fileID: 1204616544}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 334.9, y: 79.9}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1593165104
 MonoBehaviour:
@@ -1746,7 +1769,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 100
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0

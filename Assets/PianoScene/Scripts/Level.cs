@@ -42,7 +42,7 @@ public class Level : MonoBehaviour
     public float badScore;
 
     public Text text;
-    private string scoreText = "Puntuación: ";
+    private string scoreText = "Score: ";
 
     bool finishedTimer = false;
 
