@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Haciendo uso de rayCast, detectar la distancia de la nota más cercana al punto de detección
 public class Detector : MonoBehaviour
 {
     float offset = 0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
     
     public float detectNoteDistance()
     {
@@ -56,8 +52,4 @@ public class Detector : MonoBehaviour
         return -1;
     }
 
-    private void Update()
-    {
-        
-    }
 }

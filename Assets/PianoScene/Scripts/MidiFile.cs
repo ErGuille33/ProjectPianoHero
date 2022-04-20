@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 /*
- * Parcialmente inspirado en el siguiente código
+ * Parcialmente inspirado en el siguiente código escrito en C++, sobretodo a la hora de estructurar los eventos MIDI y el orden de lectura
  * https://github.com/OneLoneCoder/olcPixelGameEngine/blob/master/Videos/OneLoneCoder_PGE_MIDI.cpp
-
 */
 
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ using System.Linq;
 public class MidiFile : MonoBehaviour
 {
 
-
+    //Evento midi
     public struct MidiEvent
     {
         public enum Type
@@ -124,7 +123,7 @@ public class MidiFile : MonoBehaviour
         MetaKeySignature = 0x59,
         MetaSequencerSpecific = 0x7F,
     };
-
+    //Lista de pistas
     public List<MidiTrack> midiTracks = new List<MidiTrack>();
     UInt32 m_nTempo = 0;
     UInt32 m_nBPM = 0;
@@ -164,9 +163,8 @@ public class MidiFile : MonoBehaviour
                     //Los siguientes 16 bits nos indican el número de pistas midi que contiene el archivo (en nuestro caso, aunque nos interese solamente la del piano, en algunos archivos viene separado)
                     n16 = reader.ReadUInt16();
                     UInt16 nChunks = swap16bit(n16);
-                    //print("nchunks" + nChunks);
 
-                    //Los siguientes 16 bits no nos interesan
+                    //Los siguientes 16 bits nos indican información sobre la estructura
                     n16 = reader.ReadUInt16();
                     UInt16 meh = swap16bit(n16);
                 
@@ -177,7 +175,6 @@ public class MidiFile : MonoBehaviour
                     for (UInt16 nChunk = 0; nChunk < nChunks; nChunk++)
                     {
                         if (reader.BaseStream.Position != reader.BaseStream.Length) { 
-                        //print("PISTA" + nChunk);
 
                         //Primero leemos la cabecera del archivo
                         n32 = reader.ReadUInt32();
@@ -188,7 +185,6 @@ public class MidiFile : MonoBehaviour
                         UInt32 nEncabezado = swap32bit(n32);
 
                         }
-                        //
                         bool endPista = false;
 
                         List<MidiEvent> midiEvents = new List<MidiEvent>();
@@ -244,6 +240,7 @@ public class MidiFile : MonoBehaviour
                          
 
                             }
+                            //Evento liberación de tecla
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.VoiceNoteOff))
                             {
                                 nPreviousStatus = nStatus;
@@ -252,13 +249,11 @@ public class MidiFile : MonoBehaviour
                                 byte nNoteID = reader.ReadByte();
                                 byte nNoteVelocity = reader.ReadByte();
 
-
-                                //print("noteOFf" + nNoteID);
                                 midiTracks[nChunk].vecEvents.Add(new MidiEvent(MidiEvent.Type.NoteOff,nNoteID,nNoteVelocity,deltaTimeStatus));
                   
                             }
 
-                            //Estos no nos interesan
+                            //Estos no nos interesan, pero conviene recogerlos en caso de que el archivo los contenga
                             else if ((nStatus & 0xF0) == Convert.ToByte(MidiFile.EventName.VoiceAftertouch))
                             {
                                 nPreviousStatus = nStatus;
@@ -325,35 +320,34 @@ public class MidiFile : MonoBehaviour
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaCopyright)) { print("Copyright: " + ReadString(nLength, reader));  }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaTrackName) && midiTracks[nChunk].sName != "") {
                                         midiTracks[nChunk].sName.Replace(midiTracks[nChunk].sName, ReadString(nLength, reader)).ToList();
-                                        //print("Track Name: " + midiTracks[nChunk].sName);
                                     }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaInstrumentName))
                                     {
                                         midiTracks[nChunk].sInstrument.Replace(midiTracks[nChunk].sInstrument, ReadString(nLength, reader)).ToList();
-                                        //print("Instrument Name: " + midiTracks[nChunk].sInstrument);
                                     }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaLyrics)) { print("Lyrics: " + ReadString(nLength, reader)); }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaMarker)) { print("Marker: " + ReadString(nLength, reader)); }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaCuePoint)) { print("Cue: " + ReadString(nLength, reader)); }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaChannelPrefix)) { print("Prefix: " + reader.ReadByte()); }
+                                    //Indicador de final de pista
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaEndOfTrack)) { endPista = true; print("endpista"); }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaSetTempo)) 
                                     {
-                                        // Tempo is in microseconds per quarter note	
+                                        // Tempo en microsegundos por corchea
                                         if (m_nTempo == 0)
                                         {
                                             byte aux1 = reader.ReadByte();
                                             byte aux2 = reader.ReadByte(); 
                                             byte aux3 = reader.ReadByte();
 
-                                           // print(" " + aux1 + " " + aux2 + " " + aux3);
+                                            print(" " + aux1 + " " + aux2 + " " + aux3);
 
                                             m_nTempo |= Convert.ToUInt32(aux1 << 16);
                                             m_nTempo |= Convert.ToUInt32(aux2 << 8);
                                             m_nTempo |= Convert.ToUInt32(aux3 << 0);
      
                                             m_nBPM = (60000000 / m_nTempo);
-                                            //print("Type " + nType + " Length " + nLength +  " Tempo: " + m_nTempo + " (" + m_nBPM + "bpm)");
+                                            print("Type " + nType + " Length " + nLength +  " Tempo: " + m_nTempo + " (" + m_nBPM + "bpm)");
                                         }
                                     }
                                     else if (nType == Convert.ToByte(MidiFile.MetaEventName.MetaSMPTEOffset)) { print( "SMPTE: H:" + reader.ReadByte() + " M:" + reader.ReadByte() + " S:" + reader.ReadByte() + " FR:" + reader.ReadByte() + " FF:" + reader.ReadByte()); }
@@ -399,7 +393,7 @@ public class MidiFile : MonoBehaviour
 
                         }
                     }
-                    // Convert Time Events to Notes
+                    // Convertir los eventos a lista de notas con su duración correspondiente para ser usada en los niveles
                     for (int i  = 0; i < midiTracks.Count; i++)
                     {
                    
@@ -515,7 +509,7 @@ public class MidiFile : MonoBehaviour
 		return s;
     }
 
-    
+    //Método para debuggear
     public bool writeInFile(string file_path)
     {
         try
@@ -541,8 +535,6 @@ public class MidiFile : MonoBehaviour
             print("Nombre de archivo incorrecto. " + e.Source);
             return false;
         }
-
-        
   
     }
 

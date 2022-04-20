@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//Todavía hay que ver si utilizaremos object pool, yo creo que no
+//Notas para el modo de juego
 public class Note : MonoBehaviour
 {
     //Número de nota
@@ -24,9 +24,8 @@ public class Note : MonoBehaviour
     bool readyToDestroy = false;
 
     float _vel = 0.005f;
-
     public bool moving = false;
-
+    //detener la nota
     private float stopMovingAt = -6;
 
     //Inicializar la nota
@@ -44,7 +43,7 @@ public class Note : MonoBehaviour
         return true;
 
     }
-
+    
     public void setPercent(float percent)
     {
         completedPercent = percent;

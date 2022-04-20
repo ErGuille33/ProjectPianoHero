@@ -17,7 +17,7 @@ public class RecImage : MonoBehaviour
     {
         image = GetComponent<Image>();
     }
-    // Update is called once per frame
+
     void Update()
     {
         if (!hide)

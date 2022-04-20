@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-
+//Este script se engarga de gestionar la creación de las distintas teclas del piano, y asignarles los valores y assets correspondientes
 public class NoteIndicatorGroup : MonoBehaviour
 {
+    //Prefab de escalas y array de escalas
     public GameObject[] scales;
     public GameObject scale;
 
@@ -9,16 +10,17 @@ public class NoteIndicatorGroup : MonoBehaviour
    
     public int startingScale; //La escala mas baja
     public int endingScale; //La escala mas Alta
-    private int scaleStartAux;
 
-    float offsetX;
-
+    //Todos los sonidos de las notas
     public AudioClip[] audioClips = new AudioClip[120];
 
+    //Ajustar la cámara al número de piezas
     public GameObject camera;
 
+    //Array de teclas
     public NoteIndicator [] noteIndicators;
 
+    //Modos de juego
     public bool recording;
     public RecordLevel recordLevel;
 
@@ -26,6 +28,7 @@ public class NoteIndicatorGroup : MonoBehaviour
     public Level level;
     public bool modeGame;
 
+    //Métdo que instancia todas las teclas del piano y sus distintos valores dependiendo del número de escalas que se vayan a tener
     public void iniciate()
     {
         int numEscalas = endingScale - startingScale + 1;
@@ -35,7 +38,6 @@ public class NoteIndicatorGroup : MonoBehaviour
 
         noteIndicators = new NoteIndicator [numTeclas];
 
-        offsetX = 1;
         int j = 0;
         scales = new GameObject[11];
         for (var i = startingScale; i <= endingScale; i++)
@@ -75,29 +77,26 @@ public class NoteIndicatorGroup : MonoBehaviour
             noteIndicators[scaleJaux+10] = scales[i].transform.Find("A#").gameObject.GetComponent<NoteIndicator>();
             noteIndicators[scaleJaux+11] = scales[i].transform.Find("B").gameObject.GetComponent<NoteIndicator>();
 
-            //Asignamos el numero de nota a cada uno
-  
+            //Asignamos el numero de nota a cada uno y el nivel si estamos en modo de juego
             for(int k = 0; k < 12; k++)
             {
                 noteIndicators[scaleJaux + k].noteNumber = posScaleAux + k;
-                noteIndicators[scaleJaux+k].level = level;
+                if(modeGame)
+                    noteIndicators[scaleJaux+k].level = level;
             }
-
-
-
 
             j++;
         }
         
     }
-
+    //Asignar a los note indicators si es modo grabación
     public void startRecording()
     {
         int j = 0;
         for (var i = startingScale; i <= endingScale; i++)
         {
             int scaleJaux = j * 12;
-            //Asignar a los note indicators si es modo grabación
+            
             for (int k = scaleJaux; k < scaleJaux + 12; k++)
             {
                 noteIndicators[k].setModeRecord(recording);
@@ -109,7 +108,7 @@ public class NoteIndicatorGroup : MonoBehaviour
             j++;
         }
     }
-
+    //Activar la detección de notas si es modo juego
     public void activateDetecting()
     {
         int j = 0;
@@ -125,19 +124,15 @@ public class NoteIndicatorGroup : MonoBehaviour
             j++;
         }
     }
-
+    //Añadimos los detectores
     private void Start()
     {
-        if (recording)
-        {
-            iniciate();
-        }
         if (modeGame)
         {
             activateDetecting();
         }
     }
-
+    //Devuelve la posición de la tecla, para de esta manera colocar las notas en su sitio
     public Vector3 getNoteIndicatorPos(int nNote)
     {
         Vector3 pos = new Vector3(0,0,0);
@@ -157,7 +152,7 @@ public class NoteIndicatorGroup : MonoBehaviour
         return pos;
 
     }
-
+    //Calcula el número de teclas que vamos a necesitar en función del archivo MIDI que abramos, o en su defecto el número de escalas que elijamos
     public bool setNoteRange(int minNote, int maxNote)
     {
         //Le pnemos al teclado que la primera nota sea el do de la escala mas baja de la cancion, y el si de la mas alta
@@ -174,13 +169,14 @@ public class NoteIndicatorGroup : MonoBehaviour
             return true;
         }
     }
-
+    //Asignar el clip de audio
     public void assignAudioClip(GameObject go, int i)
     {
 
         go.GetComponent<AudioSource>().clip = audioClips[i];
 
     }
+    //Para colocar las teclas en su sitio dependiendo del numero de escalas a representar
     private void setScalesAndPositions(int numEscalas, int i, int j)
     {
         if (numEscalas == 1)
@@ -226,7 +222,7 @@ public class NoteIndicatorGroup : MonoBehaviour
         }
                         
     }
-
+    //Coger el número de escalas desde el nivel
     public int getNumEscalas()
     {
         return 1+(endingScale - startingScale);

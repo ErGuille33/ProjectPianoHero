@@ -3,21 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//Clase que sirve para abrir el explorador de archivos para guardar o cargar un archivo midi
 public class FileManager : MonoBehaviour
 {
 
     string path;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public string SaveFileExplorer()
     {

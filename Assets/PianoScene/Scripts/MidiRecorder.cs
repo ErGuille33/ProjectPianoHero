@@ -16,7 +16,6 @@ public class MidiRecorder : MonoBehaviour
 
     public FileManager fileManager;
 
-    // Start is called before the first frame update
     void Start()
     {
         midiTracks = new List<MidiFile.MidiTrack>();
@@ -61,7 +60,7 @@ public class MidiRecorder : MonoBehaviour
                     n16 = 256;
                     writer.Write(n16);
 
-                    //Patrones de track ?¿. Este valor parece funcionar para lo que buscamos
+                    //Patrones de track. Este valor parece funcionar para lo que buscamos
                     n16 = 49152;
                     writer.Write(n16);
 
@@ -69,7 +68,7 @@ public class MidiRecorder : MonoBehaviour
                     n32 = 1802654797;
                     writer.Write(n32);
 
-                    //Los siguientes 32bits corresponden al tamaño del track. Aqui esta el poblema
+                    //Los siguientes 32bits corresponden al tamaño del track.
                     n32 = calculateLenghtChunk();
                     n32 = swap32bit(n32);
                     writer.Write(n32);
@@ -283,7 +282,7 @@ public class MidiRecorder : MonoBehaviour
             auxCount++;
 
         }
-        //Ultimotal
+        //Ultimos valores
         auxCount++;
         if (midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick > 127)
         {

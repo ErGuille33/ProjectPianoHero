@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Script que administra las pantallas de grabación de MIDI en tiempo real
 public class RecordLevel : MonoBehaviour
 {
-    //offset entre notas
+    //Lista de eventos MIDI grabados
     List<MidiFile.MidiEvent> recordedMidiEvents;
+    //Referencia al script que administra las teclas del piano
     public NoteIndicatorGroup noteIndicatorGroup;
-
+    //Referencia al archivo que escribe MIDI
     MidiRecorder midiRecorder;
-
+    //Para la cuenta atrás
     [Header("count down")]
     public Count_down count_Down;
-
-    uint deltaTicks;
-
     bool finishedTimer = false;
-
+    //Los ticks para la grabación
+    uint deltaTicks;
+    
+    //UI
     public GameObject recImage;
-
     public GameObject recButton;
     public GameObject stopRecButton;
     public GameObject restartButton;
@@ -28,6 +29,7 @@ public class RecordLevel : MonoBehaviour
 
     bool finished = false;
 
+    //Empezar el timer y ajustar valores de UI
     public void setStartTimer()
     {
         recButton.SetActive(false);
@@ -40,6 +42,8 @@ public class RecordLevel : MonoBehaviour
         count_Down.start_count_down();
         count_Down.handler += this.countDownOver;
     }
+
+    //Al terminar el timer y ajustar valores UI
     protected void countDownOver()
     {
         finishedTimer = true;
@@ -50,18 +54,16 @@ public class RecordLevel : MonoBehaviour
         restartButton.SetActive(true);
     }
 
-    //
-
-    // Start is called before the first frame update
+   
     void Start()
     {
         recordedMidiEvents = new List<MidiFile.MidiEvent>();
         midiRecorder = GetComponent<MidiRecorder>();
-        //setStartTimer();
+        noteIndicatorGroup.iniciate();
 
     }
 
-    // Update is called once per frame
+    //Update al recibir los imputs al grabar
     void Update()
     {
         if (finishedTimer && !finished)
@@ -72,6 +74,7 @@ public class RecordLevel : MonoBehaviour
         }
     }
 
+    //Al terminar de grabar
     public void finishRecord()
     {
    
@@ -87,6 +90,7 @@ public class RecordLevel : MonoBehaviour
 
     }
 
+    //Al pulsar el botón de exportar
     public void Export()
     {
         Debug.Log("Grabado");
@@ -99,12 +103,13 @@ public class RecordLevel : MonoBehaviour
         menuButton.SetActive(true);
     }
 
+    //Añadir un evento a la lista de eventos. Se llama desde Note Indicator
     public void addEventToPool(MidiFile.MidiEvent.Type type, byte noteNumber, byte vel)
     {
         recordedMidiEvents.Add(new MidiFile.MidiEvent(type,(byte) (noteNumber+12), vel, deltaTicks));
         deltaTicks = 0;
     }
-
+    //Boton de restart
     public void restartLevel()
     {
         recordedMidiEvents.Clear();
@@ -114,13 +119,20 @@ public class RecordLevel : MonoBehaviour
         deltaTicks = 0;
         setStartTimer();
     }
-
+    //Teclas del teclado auxiliares a los botones normales
     void handleInput()
     {
+        //Finalizar la grabación
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
             finishRecord();
             
+        }
+        //Reempezar la grabación
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            restartLevel();
+
         }
     }
 }

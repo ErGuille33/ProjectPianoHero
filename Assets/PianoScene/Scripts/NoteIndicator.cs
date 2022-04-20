@@ -3,39 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using MidiJack;
 
-//Básicamente, la tecla de piano
+//Básicamente, una tecla del piano
 public class NoteIndicator : MonoBehaviour
 {
+    //Número de nota
     public int noteNumber;
 
-
+    //Para tocar la nota
     public AudioSource source;
-    private SpriteRenderer sprite;
-    private bool pushed = false;
 
+    //Sprite de la nota
+    private SpriteRenderer sprite;
+    //Si se encuentra pulsada
+    private bool pushed = false;
+    //Si la nota está en modo grabación
     [SerializeField]
     private bool modeRecord;
+    //Si la nota se encuentra en modo nivel
     [SerializeField]
     private bool modeGame;
 
-
+    //Referencias a nivel normal o nivel de grabación (solo es necesaria la del nivel en que se encuentre)
     RecordLevel recordLevel;
-
-    Detector detector;
-
     public Level level;
-
-
+    //Detector de notas
+    Detector detector;
     //Variables para el modo grabación
-    List<MidiFile.MidiEvent> recordedMidiEvents;
     bool alreadyOn = false;
     bool alreadyOff = false;
 
+   //Se llama desde note indicatorGroup
     public void setRecordLevel(RecordLevel rl)
     {
         recordLevel = rl;
     }
-
+    //Tomar distintas variables
     private void Start()
     {
         if(GetComponentInChildren<Detector>() != null)
@@ -46,31 +48,29 @@ public class NoteIndicator : MonoBehaviour
         if(GetComponent<AudioSource>() != null)
             source = GetComponent<AudioSource>();
 
-        if (modeRecord)
-        {
-            recordedMidiEvents = new List<MidiFile.MidiEvent>();
-        }
+        
         
         sprite = GetComponent<SpriteRenderer>();
     }
+    //Controla la pulsación de la tecla
     void Update()
     {
-
-        
-        if (MidiMaster.GetKeyDown(noteNumber))
-        {
-            playNote(MidiMaster.GetKey(noteNumber));
-        }
-        else if (MidiMaster.GetKeyUp(noteNumber))
+        //Tecla ha sido liberada
+        if (MidiMaster.GetKey(noteNumber) == 0)
         {
             releaseNote();
         }
+        //Tecla ja sido pulsada
+        if (MidiMaster.GetKey(noteNumber) !=0)
+        {
+            playNote(MidiMaster.GetKey(noteNumber));
+        }
+        
     
     }
+    //Gestionar cuando la tecla es liberada
     void releaseNote()
     {
-    
-
         if (!alreadyOff)
         {
           
@@ -84,10 +84,9 @@ public class NoteIndicator : MonoBehaviour
 
         }
     }
+    //Gestión de nota presionada
     void playNote(float volume)
     {
-    
-
         if ( !alreadyOn) 
         {
             source.Play();
@@ -98,8 +97,6 @@ public class NoteIndicator : MonoBehaviour
             alreadyOn = true;
             alreadyOff = false;
 
-
-
             if(modeRecord)
                 recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOn, (byte)noteNumber, (byte)(volume * 100));
 
@@ -107,18 +104,10 @@ public class NoteIndicator : MonoBehaviour
             {
                 level.addScore(detector.detectNoteDistance());
             }
-                
-
-
         }
-
     }
 
-    public List<MidiFile.MidiEvent> GetMidiEvents()
-    {
-        return recordedMidiEvents;
-    }
-    
+    //Modos de juego
     public void setModeRecord(bool record) 
     {
         modeRecord = record;
