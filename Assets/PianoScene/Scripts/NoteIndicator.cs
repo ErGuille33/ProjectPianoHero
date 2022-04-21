@@ -22,16 +22,16 @@ public class NoteIndicator : MonoBehaviour
     //Si la nota se encuentra en modo nivel
     [SerializeField]
     private bool modeGame;
-
+    public Level level;
     //Referencias a nivel normal o nivel de grabación (solo es necesaria la del nivel en que se encuentre)
     RecordLevel recordLevel;
-    public Level level;
+
     //Detector de notas
     Detector detector;
     //Variables para el modo grabación
     bool alreadyOn = false;
     bool alreadyOff = false;
-    //Distancia al má
+    //Distanci
 
    //Se llama desde note indicatorGroup
     public void setRecordLevel(RecordLevel rl)
@@ -81,7 +81,11 @@ public class NoteIndicator : MonoBehaviour
             alreadyOff = true;
 
             if(modeRecord)
-                recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOff, (byte)noteNumber, 0);
+                recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOff, (byte)(noteNumber), 0);
+            if (modeGame)
+            {
+                //detector.detectNoteReleaseDistance();
+            }
 
         }
     }
@@ -99,11 +103,14 @@ public class NoteIndicator : MonoBehaviour
             alreadyOff = false;
 
             if(modeRecord)
-                recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOn, (byte)noteNumber, (byte)(volume * 100));
+                recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOn, (byte)(noteNumber), (byte)(volume * 100));
 
             if (modeGame) 
             {
-                level.addScore(detector.detectNoteDistance(),1);
+                if (!detector.detectNotePushDistance())
+                {
+                    level.addScore(-1, 0);
+                }
             }
         }
     }

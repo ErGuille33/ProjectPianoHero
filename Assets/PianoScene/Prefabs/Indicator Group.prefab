@@ -43,14 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30aee45b9a6b142288ffa40c43bb25ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pianoKeys:
-  - {fileID: 6607979509422086222, guid: c58569ad97c88164398cde54f3a723fa, type: 3}
-  - {fileID: 2630179180564333156, guid: a9b08fd5f07d0cd4da50c1d0ffeeb281, type: 3}
-  - {fileID: 2046582019031805907, guid: d307b962437c32747a57db12610c8150, type: 3}
-  - {fileID: 2097497655086893614, guid: e62103e38cf148c498fa0acedb2230a0, type: 3}
-  - {fileID: 5846750194186362919, guid: 2420915792dd4ca4aa69ad1ea9c7089a, type: 3}
+  scales: []
+  scale: {fileID: 740474007603915846, guid: 6ef893edc35d82f42b76a4ec1fb339f1, type: 3}
   numTeclas: 25
-  startingNote: 48
+  startingScale: 0
+  endingScale: 0
   audioClips:
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
@@ -61,6 +58,18 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
+  - {fileID: 8300000, guid: a4d8f5187642e614d91f3fad993bf586, type: 3}
+  - {fileID: 8300000, guid: 7084c3ba6f546824f88b19d8b9b8be79, type: 3}
+  - {fileID: 8300000, guid: ff342c0c7b750cc43ab4030be008ebdd, type: 3}
+  - {fileID: 8300000, guid: aa99ae217ab15e043b7170993e0dd47c, type: 3}
+  - {fileID: 8300000, guid: d82bb19ad7e8952458fcc7cffc1143f8, type: 3}
+  - {fileID: 8300000, guid: 5c6b9642a26ccaf4c87af560faefcea6, type: 3}
+  - {fileID: 8300000, guid: 045ba02c4328cf24ab964b2e9c99124f, type: 3}
+  - {fileID: 8300000, guid: 81dd7d374a318f64fbdfc8eb8ea7c21b, type: 3}
+  - {fileID: 8300000, guid: 720ae1bce8617724184bbef3a2acd059, type: 3}
+  - {fileID: 8300000, guid: 0968d80827b7ebd4694a2ca9f2ef0136, type: 3}
+  - {fileID: 8300000, guid: 9a30e7cb1300934478b30b7a6d9152b3, type: 3}
+  - {fileID: 8300000, guid: 8f605486e339a4348995ef67d1c148a7, type: 3}
   - {fileID: 8300000, guid: a4d8f5187642e614d91f3fad993bf586, type: 3}
   - {fileID: 8300000, guid: 7084c3ba6f546824f88b19d8b9b8be79, type: 3}
   - {fileID: 8300000, guid: ff342c0c7b750cc43ab4030be008ebdd, type: 3}
@@ -154,3 +163,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fb0a1db7d7d56ea439f2dfe66585b86d, type: 3}
   camera: {fileID: 0}
   noteIndicators: []
+  recording: 0
+  recordLevel: {fileID: 0}
+  level: {fileID: 0}
+  modeGame: 1

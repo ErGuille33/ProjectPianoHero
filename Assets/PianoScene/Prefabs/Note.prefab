@@ -98,6 +98,8 @@ MonoBehaviour:
   nNote: 0
   numTrack: 0
   tickDuration: 0
+  longNote: 0
+  _vel: 0.005
   moving: 0
 --- !u!61 &4045354370483437517
 BoxCollider2D:

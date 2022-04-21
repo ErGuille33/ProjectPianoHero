@@ -124,7 +124,7 @@ public class Level : MonoBehaviour
         
         if(distance < 0)
         {            
-            actualScore += badScore * percNoteCompleted;
+            actualScore += badScore;
         }
         else if(distance > 3)
         {
@@ -163,6 +163,8 @@ public class Level : MonoBehaviour
                 {
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
+
+                    
                     
                     noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-10)/timePerColumn+15,0);
 
@@ -172,8 +174,9 @@ public class Level : MonoBehaviour
                         noteAux.transform.localScale = new Vector3(25f, 0, 0);
 
                     noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 4f);
+                    noteAux.GetComponent<Note>().setLevel(this);
 
-                    notes.Add(noteAux.GetComponent<Note>());
+                   notes.Add(noteAux.GetComponent<Note>());
 
                     aux++;
 

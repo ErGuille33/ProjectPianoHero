@@ -6,10 +6,12 @@ using UnityEngine;
 public class Detector : MonoBehaviour
 {
     float offset = 0f;
-    
-    public float detectNoteDistance()
+    Note actualNote;
+
+    public bool detectNotePushDistance()
     {
         RaycastHit2D hit0 = Physics2D.Raycast(transform.position, Vector2.down);
+        
         Debug.DrawRay(transform.position, Vector2.down, Color.green);
         if (hit0.collider != null)
         {
@@ -17,13 +19,17 @@ public class Detector : MonoBehaviour
             if (hit0.collider.transform.tag == "Note")
             {
 
-                print(hit0.collider.name + hit0.collider.transform.position);
-
                 float distance = Mathf.Abs(hit0.point.y + offset - transform.position.y);
                 if (distance < 2)
                 {
-                    hit0.transform.gameObject.SetActive(false);
-                    return distance;
+                    actualNote = hit0.collider.transform.GetComponent<Note>();
+
+                    if (actualNote != null)
+                    {
+                        actualNote.setPushPointHit(hit0.point.x, hit0.point.y,distance);
+                        return true;
+                    }
+                 
                 }
             }
         }
@@ -31,25 +37,85 @@ public class Detector : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up);
         Debug.DrawRay(transform.position, Vector2.up , Color.green);
+
         if (hit.collider != null)
         {
  
             if(hit.collider.transform.tag == "Note")
             {
 
-                print(hit.collider.name + hit.collider.transform.position);
+                //print(hit.collider.name + hit.collider.transform.position);
 
                 float distance = Mathf.Abs(hit.point.y + offset - transform.position.y);
                 if (distance < 6)
                 {
-                    hit.transform.gameObject.SetActive(false);
-                    return distance;
+                    actualNote = hit.collider.transform.GetComponent<Note>();
+
+                    if (actualNote != null)
+                    {
+                        actualNote.setPushPointHit(hit0.point.x, hit0.point.y,distance);
+                        return true;
+                    }
+                }  
+            }
+        }
+        return false;
+    }
+
+    public bool detectNoteReleaseDistance()
+    {
+        RaycastHit2D hit0 = Physics2D.Raycast(transform.position, Vector2.down);
+
+        Debug.DrawRay(transform.position, Vector2.down, Color.green);
+        if (hit0.collider != null)
+        {
+
+            if (hit0.collider.transform.tag == "Note")
+            {
+
+                float distance = Mathf.Abs(hit0.point.y + offset - transform.position.y);
+                if (distance < 2)
+                {
+                    actualNote = hit0.collider.transform.GetComponent<Note>();
+
+                    if (actualNote != null)
+                    {
+                        actualNote.setReleasePointHit(hit0.point.x, hit0.point.y);
+                        return true;
+                    }
+
                 }
-                
             }
         }
 
-        return -1;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up);
+        Debug.DrawRay(transform.position, Vector2.up, Color.green);
+
+        if (hit.collider != null)
+        {
+
+            if (hit.collider.transform.tag == "Note")
+            {
+
+                //print(hit.collider.name + hit.collider.transform.position);
+
+                float distance = Mathf.Abs(hit.point.y + offset - transform.position.y);
+                if (distance < 6)
+                {
+                    actualNote = hit.collider.transform.GetComponent<Note>();
+
+                    if (actualNote != null)
+                    {
+                        actualNote.setReleasePointHit(hit0.point.x, hit0.point.y);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
+
+
 
 }

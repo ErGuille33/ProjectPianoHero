@@ -106,7 +106,7 @@ public class RecordLevel : MonoBehaviour
     //Añadir un evento a la lista de eventos. Se llama desde Note Indicator
     public void addEventToPool(MidiFile.MidiEvent.Type type, byte noteNumber, byte vel)
     {
-        recordedMidiEvents.Add(new MidiFile.MidiEvent(type,(byte) (noteNumber+12), vel, deltaTicks));
+        recordedMidiEvents.Add(new MidiFile.MidiEvent(type,(byte) (noteNumber), vel, deltaTicks));
         deltaTicks = 0;
     }
     //Boton de restart
