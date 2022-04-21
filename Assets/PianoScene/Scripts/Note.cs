@@ -23,7 +23,7 @@ public class Note : MonoBehaviour
     //Lista para ser destruida
     bool readyToDestroy = false;
 
-    float _vel = 0.005f;
+    public float _vel = 0.005f;
     public bool moving = false;
     //detener la nota
     private float stopMovingAt = -6;
@@ -61,7 +61,7 @@ public class Note : MonoBehaviour
         {
             transform.Translate(Vector3.down * _vel * Time.deltaTime);
 
-            if(transform.position.y < stopMovingAt)
+            if(transform.position.y < stopMovingAt - tickDuration)
             {
                 moving = false;
             }

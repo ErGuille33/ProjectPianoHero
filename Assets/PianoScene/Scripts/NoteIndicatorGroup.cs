@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 //Este script se engarga de gestionar la creación de las distintas teclas del piano, y asignarles los valores y assets correspondientes
 public class NoteIndicatorGroup : MonoBehaviour
 {
@@ -127,9 +128,16 @@ public class NoteIndicatorGroup : MonoBehaviour
     //Añadimos los detectores
     private void Start()
     {
-        if (modeGame)
+        try
         {
-            activateDetecting();
+            if (modeGame)
+            {
+                activateDetecting();
+            }
+        }
+        catch(Exception e)
+        {
+
         }
     }
     //Devuelve la posición de la tecla, para de esta manera colocar las notas en su sitio

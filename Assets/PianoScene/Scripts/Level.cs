@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class Level : MonoBehaviour
 
     public FileManager fileManager;
     string file_name;
+
+    public ManageScenes scenes;
 
     int timePerColumn = 100;
 
@@ -46,8 +49,6 @@ public class Level : MonoBehaviour
 
     bool finishedTimer = false;
 
-
-
     private void setScoreMetters()
     {
         perfectScore = maxScore / notes.Count;
@@ -73,71 +74,74 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
-        file_name  = fileManager.OpenFileExplorer();
-
-        midiFile.parseFile(file_name);
-
-        //midiFile.writeInFile("Assets/Resources/PruebaMidi.txt");
-
-        midiFile = GetComponent<MidiFile>();
-        midiTracks = midiFile.getMidiFileTracks();
-
-        
- 
-        int i = 0;
-        foreach (MidiFile.MidiTrack track in midiTracks)
+        try
         {
-            foreach (MidiFile.MidiNote note in track.vecNotes)
+            file_name = fileManager.OpenFileExplorer();
+
+            midiFile.parseFile(file_name);
+
+            //midiFile.writeInFile("Assets/Resources/PruebaMidi.txt");
+
+            midiFile = GetComponent<MidiFile>();
+            midiTracks = midiFile.getMidiFileTracks();
+
+
+
+            int i = 0;
+            foreach (MidiFile.MidiTrack track in midiTracks)
             {
-                if (note.nKey > 0 && note.nKey < 100)
+                foreach (MidiFile.MidiNote note in track.vecNotes)
                 {
-                    _notes.Add (note.nKey);
- 
+                    if (note.nKey > 0 && note.nKey < 100)
+                    {
+                        _notes.Add(note.nKey);
+
+                    }
                 }
+
+                i++;
             }
-           
-            i++;
+
+            indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
+
+            indicatorGroup.iniciate();
+
+            movimientoVisualNotas();
+
+            setScoreMetters();
+
+            setStartTimer();
         }
-
-        indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
-
-        indicatorGroup.iniciate();
-
-        movimientoVisualNotas();
-
-        setScoreMetters();
-
-        setStartTimer();
+        catch(Exception e)
+        {
+            scenes.changeScene("MainMenu");
+        }
 
     }
 
-    public void addScore(float distance)
+    public void addScore(float distance, float percNoteCompleted)
     {
         
         if(distance < 0)
-        {
-            
-                actualScore += badScore;
-            
+        {            
+            actualScore += badScore * percNoteCompleted;
         }
         else if(distance > 3)
         {
-            
-            
-                actualScore += badScore;
+            actualScore += badScore * percNoteCompleted;
             
         }
         else if(distance > 2)
         {
-            actualScore += okScore;
+            actualScore += okScore * percNoteCompleted;
         }
         else if (distance > 1)
         {
-            actualScore += goodScore;
+            actualScore += goodScore * percNoteCompleted;
         }
         else if (distance < 1)
         {
-            actualScore += perfectScore;
+            actualScore += perfectScore * percNoteCompleted;
         }
         if (actualScore < 0) actualScore = 0;
     }
@@ -152,7 +156,6 @@ public class Level : MonoBehaviour
         {
             if(track.vecNotes != null && track.vecNotes.Any())
             {
-
                 //Rango de notas
                 int nNoteRange = track.nMaxNote - track.nMinNote;
 
@@ -175,7 +178,6 @@ public class Level : MonoBehaviour
                     aux++;
 
                 }
-
             }
             numTrack++;
         }

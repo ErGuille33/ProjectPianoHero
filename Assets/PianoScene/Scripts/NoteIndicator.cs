@@ -31,6 +31,7 @@ public class NoteIndicator : MonoBehaviour
     //Variables para el modo grabación
     bool alreadyOn = false;
     bool alreadyOff = false;
+    //Distancia al má
 
    //Se llama desde note indicatorGroup
     public void setRecordLevel(RecordLevel rl)
@@ -102,7 +103,7 @@ public class NoteIndicator : MonoBehaviour
 
             if (modeGame) 
             {
-                level.addScore(detector.detectNoteDistance());
+                level.addScore(detector.detectNoteDistance(),1);
             }
         }
     }
