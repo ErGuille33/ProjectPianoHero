@@ -39,22 +39,14 @@ public class Level : MonoBehaviour
 
     public float actualScore = 0;
 
-    public float perfectScore;
-    public float goodScore;
-    public float okScore;
-    public float badScore;
-
     public Text text;
     private string scoreText = "Score: ";
 
     bool finishedTimer = false;
 
-    private void setScoreMetters()
+    public float getMaxScoreCount()
     {
-        perfectScore = maxScore / notes.Count;
-        goodScore = perfectScore/1.5f;
-        okScore = perfectScore / 2;
-        badScore = -okScore/2;
+        return maxScore;
     }
 
     protected void setStartTimer()
@@ -69,6 +61,10 @@ public class Level : MonoBehaviour
         foreach(Note note in notes)
         {
             note.moving = true;
+
+            note.nLevelNotes = notes.Count();
+            note.maxScore = maxScore;
+            note.setScoreMetters();
         }
     }
 
@@ -80,12 +76,8 @@ public class Level : MonoBehaviour
 
             midiFile.parseFile(file_name);
 
-            //midiFile.writeInFile("Assets/Resources/PruebaMidi.txt");
-
             midiFile = GetComponent<MidiFile>();
             midiTracks = midiFile.getMidiFileTracks();
-
-
 
             int i = 0;
             foreach (MidiFile.MidiTrack track in midiTracks)
@@ -105,44 +97,28 @@ public class Level : MonoBehaviour
             indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
 
             indicatorGroup.iniciate();
-
             movimientoVisualNotas();
-
-            setScoreMetters();
+            
 
             setStartTimer();
         }
         catch(Exception e)
         {
+            print(e);
             scenes.changeScene("MainMenu");
         }
 
     }
 
-    public void addScore(float distance, float percNoteCompleted)
+    public void addScore(float score)
     {
+        if(score < 0)
+        {
+            score = -maxScore / notes.Count() / 6;
+        }  
+        actualScore += score;
         
-        if(distance < 0)
-        {            
-            actualScore += badScore;
-        }
-        else if(distance > 3)
-        {
-            actualScore += badScore * percNoteCompleted;
-            
-        }
-        else if(distance > 2)
-        {
-            actualScore += okScore * percNoteCompleted;
-        }
-        else if (distance > 1)
-        {
-            actualScore += goodScore * percNoteCompleted;
-        }
-        else if (distance < 1)
-        {
-            actualScore += perfectScore * percNoteCompleted;
-        }
+        
         if (actualScore < 0) actualScore = 0;
     }
 
@@ -173,7 +149,7 @@ public class Level : MonoBehaviour
                     else
                         noteAux.transform.localScale = new Vector3(25f, 0, 0);
 
-                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 4f);
+                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 3.75f);
                     noteAux.GetComponent<Note>().setLevel(this);
 
                    notes.Add(noteAux.GetComponent<Note>());

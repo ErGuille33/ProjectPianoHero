@@ -30,7 +30,7 @@ public class NoteIndicator : MonoBehaviour
     Detector detector;
     //Variables para el modo grabación
     bool alreadyOn = false;
-    bool alreadyOff = false;
+    bool alreadyOff = true;
     //Distanci
 
    //Se llama desde note indicatorGroup
@@ -84,7 +84,7 @@ public class NoteIndicator : MonoBehaviour
                 recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOff, (byte)(noteNumber), 0);
             if (modeGame)
             {
-                //detector.detectNoteReleaseDistance();
+                detector.detectNoteReleaseDistance();
             }
 
         }
@@ -107,10 +107,9 @@ public class NoteIndicator : MonoBehaviour
 
             if (modeGame) 
             {
-                if (!detector.detectNotePushDistance())
-                {
-                    level.addScore(-1, 0);
-                }
+                if(!detector.detectNotePushDistance())
+                    level.addScore(-1);
+                
             }
         }
     }

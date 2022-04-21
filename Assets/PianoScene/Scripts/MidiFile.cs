@@ -340,8 +340,6 @@ public class MidiFile : MonoBehaviour
                                             byte aux2 = reader.ReadByte(); 
                                             byte aux3 = reader.ReadByte();
 
-                                            print(" " + aux1 + " " + aux2 + " " + aux3);
-
                                             m_nTempo |= Convert.ToUInt32(aux1 << 16);
                                             m_nTempo |= Convert.ToUInt32(aux2 << 8);
                                             m_nTempo |= Convert.ToUInt32(aux3 << 0);

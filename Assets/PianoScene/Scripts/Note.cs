@@ -19,8 +19,8 @@ public class Note : MonoBehaviour
     public bool longNote;
 
     //El porcentaje de compleción de una nota. Es decir, si ha sido pulsada satisfactoriamente estara a 1, si no a 0. Si es una nota larga entonces podra ser pulsada a un cierto porcentaje
-    float completedPercent = 0;
-    float caminoRecorrido = 0;
+    
+    public float caminoRecorrido = 0;
 
     //Lista para ser destruida
     bool readyToDestroy = false;
@@ -33,40 +33,90 @@ public class Note : MonoBehaviour
     Vector2 pushPoint;
     Vector2 releasePoint;
     bool pushing = false;
+    public float totalDistance;
+    public float totalRecorrido = 0;
 
     Level _level;
 
     SpriteRenderer sprite;
+
+
+    public float perfectScore;
+    public float goodScore;
+    public float okScore;
+    public float badScore;
+
+    public int nLevelNotes;
+    public float maxScore;
 
     public void setLevel(Level level)
     {
         _level = level;
     }
 
+    public void setScoreMetters()
+    {
+        perfectScore = maxScore / nLevelNotes;
+        goodScore = perfectScore / 1.5f;
+        okScore = perfectScore / 2;
+        badScore = -okScore / 2;
+    }
+
+    public void addScore(float distance, float percNoteCompleted)
+    {
+        float actualScore = 0;
+
+            if (distance < 0)
+            {
+                actualScore += badScore;
+            }
+            else if (distance > 2)
+            {
+                actualScore += badScore * percNoteCompleted;
+
+            }
+            else if (distance > 1.5)
+            {
+                actualScore += okScore * percNoteCompleted;
+            }
+            else if (distance > 1)
+            {
+                actualScore += goodScore * percNoteCompleted;
+            }
+            else if (distance < 1)
+            {
+                actualScore += perfectScore * percNoteCompleted;
+            }
+      
+        _level.addScore(actualScore);
+    }
 
     public void setPushPointHit(float x, float y, float distance)
     {
         if (!longNote)
         {
-            _level.addScore(distance, 1);
+            addScore(distance, 1);
             gameObject.SetActive(false);
         }
         else 
         {
             pushing = true;
             pushPoint = new Vector2(x,y);
+            totalDistance = distance;
         }
       
     }
 
     public void setReleasePointHit(float x, float y)
     {
-        if (longNote)
+        if (longNote&&pushing)
         {
+            if(totalRecorrido > .75)
+            {
+                _level.addScore((1 - totalRecorrido)* perfectScore); 
+            }
             pushing = false;
-            completedPercent = tickDuration / caminoRecorrido;
-            if (completedPercent > 1) completedPercent = 1;
-
+            
             gameObject.SetActive(false);
         }
     }
@@ -92,9 +142,6 @@ public class Note : MonoBehaviour
         }
         else longNote = false;
 
-
-        
-
         return true;
 
     }
@@ -103,9 +150,14 @@ public class Note : MonoBehaviour
     {
         if (moving)
         {
-            if (pushing)
+            if (pushing && longNote )
             {
-                caminoRecorrido += _vel * Time.deltaTime;
+                if ( pushPoint.y < transform.position.y + transform.localScale.y / 2 / 100) {
+
+                    caminoRecorrido = (_vel * Time.deltaTime) * 100 / tickDuration;
+                    totalRecorrido += caminoRecorrido;
+                    addScore(totalDistance, caminoRecorrido);
+                }
             }
 
             transform.Translate(Vector3.down * _vel * Time.deltaTime);

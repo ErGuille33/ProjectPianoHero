@@ -69,7 +69,7 @@ public class RecordLevel : MonoBehaviour
         if (finishedTimer && !finished)
         {
             //Por ahora este valor parece funcionar (24* 32 ticks - 24 * 8 = 576)
-            deltaTicks += (byte)(Time.deltaTime * 576);
+            deltaTicks += (byte)(Time.deltaTime * 535);
             handleInput();
         }
     }

@@ -26,7 +26,7 @@ public class Detector : MonoBehaviour
 
                     if (actualNote != null)
                     {
-                        actualNote.setPushPointHit(hit0.point.x, hit0.point.y,distance);
+                        actualNote.setPushPointHit(transform.position.x, transform.position.y,distance);
                         return true;
                     }
                  
@@ -47,13 +47,13 @@ public class Detector : MonoBehaviour
                 //print(hit.collider.name + hit.collider.transform.position);
 
                 float distance = Mathf.Abs(hit.point.y + offset - transform.position.y);
-                if (distance < 6)
+                if (distance < 4)
                 {
                     actualNote = hit.collider.transform.GetComponent<Note>();
 
                     if (actualNote != null)
                     {
-                        actualNote.setPushPointHit(hit0.point.x, hit0.point.y,distance);
+                        actualNote.setPushPointHit(transform.position.x, transform.position.y, distance);
                         return true;
                     }
                 }  
@@ -74,7 +74,7 @@ public class Detector : MonoBehaviour
             {
 
                 float distance = Mathf.Abs(hit0.point.y + offset - transform.position.y);
-                if (distance < 2)
+                if (distance < 6)
                 {
                     actualNote = hit0.collider.transform.GetComponent<Note>();
 
@@ -101,7 +101,7 @@ public class Detector : MonoBehaviour
                 //print(hit.collider.name + hit.collider.transform.position);
 
                 float distance = Mathf.Abs(hit.point.y + offset - transform.position.y);
-                if (distance < 6)
+                if (distance < 3)
                 {
                     actualNote = hit.collider.transform.GetComponent<Note>();
 
