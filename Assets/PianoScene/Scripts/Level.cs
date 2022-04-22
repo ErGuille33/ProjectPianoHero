@@ -54,6 +54,9 @@ public class Level : MonoBehaviour
 
     public bool finishedLevel = false;
 
+    Data saveData;
+
+
     public float getMaxScoreCount()
     {
         return maxScore;
@@ -217,6 +220,7 @@ public class Level : MonoBehaviour
     protected void finishLevel()
     {
         finishFrame.SetActive(true);
+        saveLevelData();
     }
 
     // Update is called once per frame
@@ -232,5 +236,59 @@ public class Level : MonoBehaviour
                 finishLevel();
             }
         }
+    }
+
+    protected void saveLevelData()
+    {
+        Data lastData;
+        lastData = SaveController.LoadData();
+
+        bool newLevel = true;
+        float newScore;
+
+        if (lastData != null) 
+        {
+            saveData = lastData;
+
+            int i = 0;
+
+            foreach (Data.LevelData levelData in saveData.levelsData)
+            {
+                if(levelData.levelName == file_name)
+                {
+                    newLevel = false;
+                    newScore = levelData.score;
+                    if (newScore < actualScore)
+                    {
+                        newScore = actualScore;
+                    }
+
+                    saveData.levelsData[i] = new Data.LevelData(file_name, newScore, 1 + levelData.attempts);
+
+                    break;
+                }
+                i++;
+            }
+
+            if (newLevel)
+            {
+                saveData.levelsData.Add(new Data.LevelData(file_name, actualScore, 1));
+            }
+
+            saveData.previousLevel = file_name;
+            
+        }
+        else
+        {
+            List<Data.LevelData> auxList = new List<Data.LevelData>();
+            auxList.Add(new Data.LevelData( file_name, actualScore, 1));
+            saveData = new Data(0, 1, new bool[25], auxList, file_name);
+        }
+
+        saveData.addXp((int)(actualScore/maxScore)*100);
+
+        SaveController.SaverData(saveData);
+        Data testData =SaveController.LoadData();
+        ;
     }
 }
