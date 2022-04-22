@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PianoScene/MainMenu.unity
     guid: c4f1c97c37d1d7a4ebcc693840372fbb
+  - enabled: 1
+    path: Assets/PianoScene/ScoreScene.unity
+    guid: b5c5b427b84e64d4b8c462d0ce68a95c
   m_configObjects: {}

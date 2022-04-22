@@ -49,6 +49,10 @@ public class Note : MonoBehaviour
     public int nLevelNotes;
     public float maxScore;
 
+    public void setReadyToDestroy()
+    {
+        Destroy(this.gameObject);
+    }
     public void setLevel(Level level)
     {
         _level = level;
@@ -96,6 +100,8 @@ public class Note : MonoBehaviour
         if (!longNote)
         {
             addScore(distance, 1);
+
+            _level.notesLeft--;
             gameObject.SetActive(false);
         }
         else 
@@ -116,7 +122,8 @@ public class Note : MonoBehaviour
                 _level.addScore((1 - totalRecorrido)* perfectScore); 
             }
             pushing = false;
-            
+
+            _level.notesLeft--;
             gameObject.SetActive(false);
         }
     }
@@ -162,9 +169,11 @@ public class Note : MonoBehaviour
 
             transform.Translate(Vector3.down * _vel * Time.deltaTime);
 
-            if(transform.position.y < stopMovingAt - tickDuration)
+            if(transform.position.y < stopMovingAt - tickDuration/100)
             {
                 moving = false;
+                _level.notesLeft--;
+                gameObject.SetActive(false);
             }
         }
 

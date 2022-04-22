@@ -43,6 +43,16 @@ public class Level : MonoBehaviour
     private string scoreText = "Score: ";
 
     bool finishedTimer = false;
+    public int notesLeft;
+
+    public GameObject playButton;
+    public GameObject menuButton;
+    public GameObject restartButton;
+    public GameObject score;
+    public GameObject frame;
+    public GameObject finishFrame;
+
+    public bool finishedLevel = false;
 
     public float getMaxScoreCount()
     {
@@ -57,8 +67,14 @@ public class Level : MonoBehaviour
     protected void countDownOver()
     {
         finishedTimer = true;
+
+        score.SetActive(true);
+        frame.SetActive(true);
+        menuButton.SetActive(true);
+        restartButton.SetActive(true);
+        
         //Start note movement
-        foreach(Note note in notes)
+        foreach (Note note in notes)
         {
             note.moving = true;
 
@@ -97,10 +113,7 @@ public class Level : MonoBehaviour
             indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
 
             indicatorGroup.iniciate();
-            movimientoVisualNotas();
-            
 
-            setStartTimer();
         }
         catch(Exception e)
         {
@@ -108,6 +121,33 @@ public class Level : MonoBehaviour
             scenes.changeScene("MainMenu");
         }
 
+    }
+
+    public void setNotesToDestroy()
+    {
+        if (notes != null && notes.Count > 0)
+        {
+            foreach (Note note in notes)
+            {
+                note.setReadyToDestroy();
+            }
+            notes.Clear();
+        }
+    }
+
+    public void startLevel()
+    {
+
+        actualScore = 0f;
+        finishedTimer = false;
+
+        playButton.SetActive(false);
+        finishFrame.SetActive(false);
+        setNotesToDestroy();
+        
+        movimientoVisualNotas();
+     
+        setStartTimer();
     }
 
     public void addScore(float score)
@@ -122,12 +162,24 @@ public class Level : MonoBehaviour
         if (actualScore < 0) actualScore = 0;
     }
 
+    public bool checkIfFinished()
+    {
+        if (notesLeft <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     void movimientoVisualNotas()
     {
         int aux = 0;
         int numTrack = 0;
         numOctava = indicatorGroup.getNumEscalas();
         notes = new List<Note>();
+
+        notesLeft = 0;
+
        foreach(MidiFile.MidiTrack track in midiTracks)
         {
             if(track.vecNotes != null && track.vecNotes.Any())
@@ -140,7 +192,7 @@ public class Level : MonoBehaviour
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
 
-                    
+                    notesLeft++;
                     
                     noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-10)/timePerColumn+15,0);
 
@@ -162,9 +214,23 @@ public class Level : MonoBehaviour
         }
     }
 
+    protected void finishLevel()
+    {
+        finishFrame.SetActive(true);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        text.text = scoreText + (int) actualScore;
+        
+        if (finishedTimer)
+        {
+            text.text = scoreText + (int)actualScore;
+            if (checkIfFinished() && !finishedLevel)
+            {
+                finishedLevel = true;
+                finishLevel();
+            }
+        }
     }
 }

@@ -26,6 +26,7 @@ public class RecordLevel : MonoBehaviour
     public GameObject restartButton;
     public GameObject exportButton;
     public GameObject menuButton;
+    public GameObject menuButton_1;
 
     bool finished = false;
 
@@ -38,6 +39,7 @@ public class RecordLevel : MonoBehaviour
         recImage.SetActive(false);
         exportButton.SetActive(false);
         menuButton.SetActive(false);
+        menuButton_1.SetActive(false);
 
         count_Down.start_count_down();
         count_Down.handler += this.countDownOver;
