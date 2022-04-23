@@ -246,6 +246,11 @@ public class Level : MonoBehaviour
         bool newLevel = true;
         float newScore;
 
+        char[] separator = {'/', '.'};
+        string[] auxName = file_name.Split(separator);
+
+        string levelName = auxName[auxName.Length - 2];
+        print(levelName);
         if (lastData != null) 
         {
             saveData = lastData;
@@ -261,9 +266,10 @@ public class Level : MonoBehaviour
                     if (newScore < actualScore)
                     {
                         newScore = actualScore;
+                        saveData.addXp((int)(actualScore * 100 / maxScore));
                     }
-
-                    saveData.levelsData[i] = new Data.LevelData(file_name, newScore, 1 + levelData.attempts);
+             
+                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts);
 
                     break;
                 }
@@ -272,23 +278,23 @@ public class Level : MonoBehaviour
 
             if (newLevel)
             {
-                saveData.levelsData.Add(new Data.LevelData(file_name, actualScore, 1));
+                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1));
+                saveData.addXp((int)(actualScore * 100 / maxScore));
             }
 
-            saveData.previousLevel = file_name;
+            saveData.previousLevel = levelName;
             
         }
         else
         {
             List<Data.LevelData> auxList = new List<Data.LevelData>();
-            auxList.Add(new Data.LevelData( file_name, actualScore, 1));
-            saveData = new Data(0, 1, new bool[25], auxList, file_name);
+            auxList.Add(new Data.LevelData(levelName, actualScore, 1));
+            saveData = new Data(0, 0,1, 1,new bool[25], auxList, levelName);
+            saveData.addXp((int)(actualScore * 100 / maxScore));
         }
 
-        saveData.addXp((int)(actualScore/maxScore)*100);
-
         SaveController.SaverData(saveData);
-        Data testData =SaveController.LoadData();
-        ;
+        
+        //Data testData =SaveController.LoadData();
     }
 }

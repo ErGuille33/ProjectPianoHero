@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileManager: {fileID: 247562670}
-  scenes: {fileID: 88975966}
+  scenes: {fileID: 0}
   midiFile: {fileID: 247562668}
   indicatorGroup: {fileID: 814515670}
   prefabNote: {fileID: 3482870724745684891, guid: 3cc75ba485e2b5944a3df2168b839fe9,
@@ -1230,7 +1230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 984538467}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03, y: 5, z: -0.1}
+  m_LocalPosition: {x: 0, y: 5, z: -0.1}
   m_LocalScale: {x: 1.78, y: 1.4625, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
