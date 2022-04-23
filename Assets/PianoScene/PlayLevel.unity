@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileManager: {fileID: 247562670}
-  scenes: {fileID: 0}
+  scenes: {fileID: 88975966}
   midiFile: {fileID: 247562668}
   indicatorGroup: {fileID: 814515670}
   prefabNote: {fileID: 3482870724745684891, guid: 3cc75ba485e2b5944a3df2168b839fe9,
@@ -1578,7 +1578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1810463815
 RectTransform:
   m_ObjectHideFlags: 0
