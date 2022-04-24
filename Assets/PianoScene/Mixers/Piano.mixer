@@ -29,7 +29,11 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 7b16b1023fff8bf4c8387fb73b8e8c6f
+    name: Fx
+  - guid: 7854df6f2b3eb2745b8ff28443e86c2b
+    name: Piano
   m_AudioMixerGroupViews:
   - guids:
     - d04f662c8bb027c469a800bd092bf8dc
@@ -82,7 +86,8 @@ AudioMixerSnapshotController:
   m_Name: Snapshot
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 17fbe8caf85e6e04597daf6c4388cea7
-  m_FloatValues: {}
+  m_FloatValues:
+    7854df6f2b3eb2745b8ff28443e86c2b: 0
   m_TransitionOverrides: {}
 --- !u!244 &2652921399479106140
 AudioMixerEffectController:

@@ -27,6 +27,9 @@ public class Data
     //Datos del jugador
     public string previousLevel = "";
 
+    public float volumePiano;
+    public float volumeFx;
+
     public int expPoints;
     public int previousExpPoints;
     public int levelPlayer;
@@ -37,7 +40,7 @@ public class Data
     //public float pianoVol;
     //public float fxVol;
 
-    public Data(int expPoints, int previousExpPoints, int levelPlayer, int previousLevelPlayer, bool[] awards, List<LevelData> levelsData, string previousLevel)
+    public Data(int expPoints, int previousExpPoints, int levelPlayer, int previousLevelPlayer, bool[] awards, List<LevelData> levelsData, string previousLevel, float volumePiano, float volumeFx)
     {
         this.levelPlayer = levelPlayer;
         this.awards = awards;
@@ -46,6 +49,8 @@ public class Data
         this.expPoints = expPoints;
         this.previousExpPoints = previousExpPoints;
         this.previousLevel = previousLevel;
+        this.volumePiano = volumePiano;
+        this.volumeFx = volumeFx;
     }
 
     public Data(Data _data)
@@ -57,6 +62,8 @@ public class Data
         this.expPoints = _data.expPoints;
         this.previousExpPoints = _data.previousExpPoints;
         this.previousLevel = _data.previousLevel;
+        this.volumePiano = _data.volumePiano;
+        this.volumeFx = _data.volumeFx;
 
     }
 

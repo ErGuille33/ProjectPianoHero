@@ -296,7 +296,7 @@ public class Level : MonoBehaviour
 
             auxList.Add(new Data.LevelData(levelName, actualScore, 1));
 
-            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName);
+            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName,1,1);
 
             saveData.addXp((int)(actualScore * 100 / maxScore));
         }
