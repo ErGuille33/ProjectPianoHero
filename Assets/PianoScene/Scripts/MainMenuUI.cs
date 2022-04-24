@@ -25,6 +25,16 @@ public class MainMenuUI : MonoBehaviour
     void Start()
     {
         data = SaveController.LoadData();
+
+        if (data != null) {
+
+        }
+        else
+        {
+            List<Data.LevelData> auxList = new List<Data.LevelData>();
+            data = new Data(0, 0, 1, 1, new bool[25], auxList, "");
+        }
+
         userLevel = data.levelPlayer;
         actualXP = data.expPoints;
 

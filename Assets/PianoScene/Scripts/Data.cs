@@ -63,7 +63,7 @@ public class Data
     //Añadir XP
     public void addXp(int xp)
     {
-        if (this.previousLevelPlayer == 99)
+        if (this.previousLevelPlayer != 99)
         {
             int aux = xp + this.expPoints;
             this.previousLevelPlayer = this.levelPlayer;

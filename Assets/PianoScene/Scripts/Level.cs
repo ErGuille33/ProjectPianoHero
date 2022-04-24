@@ -143,6 +143,7 @@ public class Level : MonoBehaviour
 
         actualScore = 0f;
         finishedTimer = false;
+        finishedLevel = false;
 
         playButton.SetActive(false);
         finishFrame.SetActive(false);
@@ -220,10 +221,8 @@ public class Level : MonoBehaviour
     protected void finishLevel()
     {
         finishFrame.SetActive(true);
-        saveLevelData();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -238,7 +237,8 @@ public class Level : MonoBehaviour
         }
     }
 
-    protected void saveLevelData()
+    //Se le llama al pulsar el botón de continuar
+    public void saveLevelData()
     {
         Data lastData;
         lastData = SaveController.LoadData();
@@ -248,9 +248,9 @@ public class Level : MonoBehaviour
 
         char[] separator = {'/', '.'};
         string[] auxName = file_name.Split(separator);
-
+       
         string levelName = auxName[auxName.Length - 2];
-        print(levelName);
+
         if (lastData != null) 
         {
             saveData = lastData;
@@ -259,7 +259,7 @@ public class Level : MonoBehaviour
 
             foreach (Data.LevelData levelData in saveData.levelsData)
             {
-                if(levelData.levelName == file_name)
+                if(levelData.levelName == levelName)
                 {
                     newLevel = false;
                     newScore = levelData.score;
@@ -268,9 +268,13 @@ public class Level : MonoBehaviour
                         newScore = actualScore;
                         saveData.addXp((int)(actualScore * 100 / maxScore));
                     }
+                    else
+                    {
+                        saveData.addXp((int)((actualScore * 100 / maxScore)/2));
+                    }
              
                     saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts);
-
+                    
                     break;
                 }
                 i++;
@@ -287,14 +291,19 @@ public class Level : MonoBehaviour
         }
         else
         {
+            
             List<Data.LevelData> auxList = new List<Data.LevelData>();
+
             auxList.Add(new Data.LevelData(levelName, actualScore, 1));
-            saveData = new Data(0, 0,1, 1,new bool[25], auxList, levelName);
+
+            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName);
+
             saveData.addXp((int)(actualScore * 100 / maxScore));
         }
 
         SaveController.SaverData(saveData);
-        
-        //Data testData =SaveController.LoadData();
+
+        scenes.changeScene("ScoreScene");
+
     }
 }
