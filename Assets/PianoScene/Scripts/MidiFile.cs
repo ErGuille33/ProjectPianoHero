@@ -71,6 +71,7 @@ public class MidiFile : MonoBehaviour
     //Pista
     public struct MidiTrack
     {
+        public float bpm;
         public string sName;
         public string sInstrument;
         public List<MidiEvent> vecEvents;
@@ -78,7 +79,7 @@ public class MidiFile : MonoBehaviour
         public byte nMaxNote;
         public byte nMinNote;
 
-        public MidiTrack(string sName, string sInstrument, List<MidiEvent> vecEvents, List<MidiNote> vecNotes, byte nMaxNote, byte nMinNote)
+        public MidiTrack(string sName, string sInstrument, List<MidiEvent> vecEvents, List<MidiNote> vecNotes, byte nMaxNote, byte nMinNote, float bpm)
         {
             this.sName = sName;
             this.sInstrument = sInstrument;
@@ -86,6 +87,7 @@ public class MidiFile : MonoBehaviour
             this.vecNotes = vecNotes;
             this.nMaxNote = nMaxNote;
             this.nMinNote = nMinNote;
+            this.bpm = bpm;
 
         }
 
@@ -190,7 +192,7 @@ public class MidiFile : MonoBehaviour
                         List<MidiEvent> midiEvents = new List<MidiEvent>();
                         List<MidiNote> midiNotes = new List<MidiNote>();
 
-                        midiTracks.Add(new MidiTrack("Track " + "+ " + it,"Piano",midiEvents, midiNotes, 0,0));
+                        midiTracks.Add(new MidiTrack("Track " + "+ " + it,"Piano",midiEvents, midiNotes, 0,0,0));
                         it++;
                         byte nPreviousStatus = 0;
                         //Cada evento midi posee un valor de duración relativa y un byte de estado
@@ -345,6 +347,9 @@ public class MidiFile : MonoBehaviour
                                             m_nTempo |= Convert.ToUInt32(aux3 << 0);
      
                                             m_nBPM = (60000000 / m_nTempo);
+                                            MidiTrack aux = midiTracks[nChunk];
+                                            aux.bpm = m_nBPM;
+                                            midiTracks[nChunk] = aux;
                                             print("Type " + nType + " Length " + nLength +  " Tempo: " + m_nTempo + " (" + m_nBPM + "bpm)");
                                         }
                                     }

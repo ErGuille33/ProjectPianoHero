@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Este script consiste en la "coreografía" de las animaciones de los distintos elementos al enseñar la pantalla de puntuación tras completar un nivel
+
 public class ScoreCoreo : MonoBehaviour
 {
     Data data;
@@ -11,7 +13,6 @@ public class ScoreCoreo : MonoBehaviour
     int totalScore;
     int actualScore = 0;
     int numLevel;
-    bool alreadyFaded = false;
 
     int userLevel;
     int previousUserLevel;
@@ -24,16 +25,15 @@ public class ScoreCoreo : MonoBehaviour
     public Button menuButton;
     public Image menuImage;
 
-    public float progressPerc;
-    public float prevXP;
-    public float actualXP;
-    public float actualLevelTotalXP;
-    public float previousLevelTotalXP;
+     float progressPerc;
+     float prevXP;
+     float actualXP;
+
 
     string scoreString;
 
 
-    // Start is called before the first frame update
+    //Cargamos los datos de el archivo de guardado y comenzamos
     void Start()
     {
         data = SaveController.LoadData();
@@ -65,11 +65,11 @@ public class ScoreCoreo : MonoBehaviour
         progressPerc = prevXP / data.getMaxXp(previousUserLevel);
         progressCircle.fillAmount = progressPerc;
 
-
+        //Comenzamos las corrutinas
         StartCoroutine(growScore());
 
     }
-
+    //Enseña la puntuación creciendo desde cero
     IEnumerator growScore()
     {
         for (int i = 0; i <= totalScore; i = i + totalScore / 600)
@@ -85,7 +85,7 @@ public class ScoreCoreo : MonoBehaviour
 
         StartCoroutine(growXP());
     }
-
+    //Sube la barra de experiencia
     IEnumerator growXP()
     {
 
@@ -128,7 +128,7 @@ public class ScoreCoreo : MonoBehaviour
         StartCoroutine(menuButtonAdd());
 
     }
-
+    //Animación boton de menu
     IEnumerator menuButtonAdd()
     {
         Color color = new Color(menuImage.color.r, menuImage.color.g, menuImage.color.b, 0);
@@ -146,7 +146,7 @@ public class ScoreCoreo : MonoBehaviour
 
         menuButton.enabled = true;
     }
-
+    //Animación de subir nivel 1
     IEnumerator changeLevel()
     {
         Color color = userLevelText.color;
@@ -160,12 +160,12 @@ public class ScoreCoreo : MonoBehaviour
         }
 
         userLevelText.text = "" + data.levelPlayer;
-        alreadyFaded = true;
+
 
         StartCoroutine(changeLevelUp());
 
     }
-
+    //Animación de subir nivel 2
     IEnumerator changeLevelUp()
     {
         Color color = new Color(userLevelText.color.r, userLevelText.color.g, userLevelText.color.b,0);

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Clase para guardar los datos del jugador
 [System.Serializable]
 public class Data
 {
+    //Datos del nivel en específico
     [System.Serializable]
     public struct LevelData
     {
@@ -22,6 +24,7 @@ public class Data
         //Aqui vendrían mas
     }
 
+    //Datos del jugador
     public string previousLevel = "";
 
     public int expPoints;
@@ -30,6 +33,9 @@ public class Data
     public int previousLevelPlayer;
     public bool[] awards;
     public List<LevelData> levelsData;
+
+    //public float pianoVol;
+    //public float fxVol;
 
     public Data(int expPoints, int previousExpPoints, int levelPlayer, int previousLevelPlayer, bool[] awards, List<LevelData> levelsData, string previousLevel)
     {
@@ -54,22 +60,26 @@ public class Data
 
     }
 
+    //Añadir XP
     public void addXp(int xp)
     {
-
-        int aux = xp + this.expPoints;
-        this.previousLevelPlayer = this.levelPlayer;
-        this.previousExpPoints = this.expPoints;
-
-        if (aux > levelPlayer * 75)
+        if (this.previousLevelPlayer == 99)
         {
-            this.expPoints = aux - (levelPlayer * 75);
-            this.levelPlayer += 1;
+            int aux = xp + this.expPoints;
+            this.previousLevelPlayer = this.levelPlayer;
+            this.previousExpPoints = this.expPoints;
+
+            if (aux > levelPlayer * 75)
+            {
+                this.expPoints = aux - (levelPlayer * 75);
+                this.levelPlayer += 1;
+            }
+            else this.expPoints += xp;
         }
-        else this.expPoints += xp;
 
     }
 
+    //Máximo de experiencia que se puede alcanzar en cierto nivel
     public int getMaxXp(int lvl)
     {
         return lvl * 75;

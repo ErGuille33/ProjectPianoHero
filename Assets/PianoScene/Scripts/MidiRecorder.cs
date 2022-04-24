@@ -22,7 +22,7 @@ public class MidiRecorder : MonoBehaviour
         List<MidiFile.MidiEvent> midiEvents = new List<MidiFile.MidiEvent>();
         List<MidiFile.MidiNote> midiNotes = new List<MidiFile.MidiNote>();
 
-        midiTracks.Add(new MidiFile.MidiTrack("Track 0" + "+ ", "Piano", midiEvents, midiNotes, 0, 0));
+        midiTracks.Add(new MidiFile.MidiTrack("Track 0" + "+ ", "Piano", midiEvents, midiNotes, 0, 0,0));
 
     }
 

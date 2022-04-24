@@ -204,7 +204,7 @@ public class Level : MonoBehaviour
                     else
                         noteAux.transform.localScale = new Vector3(25f, 0, 0);
 
-                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 3.75f);
+                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 600/track.bpm/1.2f);
                     noteAux.GetComponent<Note>().setLevel(this);
 
                    notes.Add(noteAux.GetComponent<Note>());
