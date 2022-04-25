@@ -88,7 +88,12 @@ public class NoteIndicatorGroup : MonoBehaviour
 
             j++;
         }
-        
+
+        if (modeGame)
+        {
+            activateDetecting();
+        }
+
     }
     //Asignar a los note indicators si es modo grabación
     public void startRecording()
@@ -130,10 +135,7 @@ public class NoteIndicatorGroup : MonoBehaviour
     {
         try
         {
-            if (modeGame)
-            {
-                activateDetecting();
-            }
+            
         }
         catch(Exception e)
         {

@@ -51,6 +51,8 @@ public class Level : MonoBehaviour
     public GameObject score;
     public GameObject frame;
     public GameObject finishFrame;
+    public GameObject avisoFrame;
+    public GameObject closeAvisoButton;
 
     public bool finishedLevel = false;
 
@@ -87,10 +89,8 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void iniciate()
     {
-        try
-        {
             file_name = fileManager.OpenFileExplorer();
 
             midiFile.parseFile(file_name);
@@ -116,6 +116,24 @@ public class Level : MonoBehaviour
             indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
 
             indicatorGroup.iniciate();
+    }
+
+    private void Start()
+    {
+        try
+        {
+            saveData = SaveController.LoadData();
+            if (saveData != null)
+            {
+                if (!saveData.alreadyPlayed)
+                {
+                    openAvisoCanvas();
+                }
+                else { iniciate(); }
+            }
+            else { openAvisoCanvas(); }
+
+            
 
         }
         catch(Exception e)
@@ -273,7 +291,7 @@ public class Level : MonoBehaviour
                         saveData.addXp((int)((actualScore * 100 / maxScore)/2));
                     }
              
-                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts);
+                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts,actualScore);
                     
                     break;
                 }
@@ -282,7 +300,7 @@ public class Level : MonoBehaviour
 
             if (newLevel)
             {
-                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1));
+                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1,actualScore));
                 saveData.addXp((int)(actualScore * 100 / maxScore));
             }
 
@@ -294,9 +312,9 @@ public class Level : MonoBehaviour
             
             List<Data.LevelData> auxList = new List<Data.LevelData>();
 
-            auxList.Add(new Data.LevelData(levelName, actualScore, 1));
+            auxList.Add(new Data.LevelData(levelName, actualScore, 1,actualScore));
 
-            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName,1,1);
+            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName,1,1,true,false);
 
             saveData.addXp((int)(actualScore * 100 / maxScore));
         }
@@ -306,4 +324,22 @@ public class Level : MonoBehaviour
         scenes.changeScene("ScoreScene");
 
     }
+
+    public void closeAvisoCanvas()
+    {
+        avisoFrame.SetActive(false);
+        closeAvisoButton.SetActive(false);
+        menuButton.SetActive(true);
+        playButton.SetActive(true);
+        iniciate();
+    }
+
+    public void openAvisoCanvas()
+    {
+        avisoFrame.SetActive(true);
+        closeAvisoButton.SetActive(true);
+        menuButton.SetActive(false);
+        playButton.SetActive(false);
+    }
+
 }

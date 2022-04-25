@@ -12,13 +12,15 @@ public class Data
     {
         public string levelName;
         public float score;
+        public float lastScore;
         public int attempts;
 
-        public LevelData(string levelName, float score, int attempts)
+        public LevelData(string levelName, float score, int attempts, float lastScore)
         {
             this.levelName = levelName;
             this.score = score;
             this.attempts = attempts;
+            this.lastScore = lastScore;
         }
 
         //Aqui vendrían mas
@@ -30,6 +32,9 @@ public class Data
     public float volumePiano;
     public float volumeFx;
 
+    public bool alreadyPlayed;
+    public bool alreadyRecorded;
+
     public int expPoints;
     public int previousExpPoints;
     public int levelPlayer;
@@ -40,7 +45,7 @@ public class Data
     //public float pianoVol;
     //public float fxVol;
 
-    public Data(int expPoints, int previousExpPoints, int levelPlayer, int previousLevelPlayer, bool[] awards, List<LevelData> levelsData, string previousLevel, float volumePiano, float volumeFx)
+    public Data(int expPoints, int previousExpPoints, int levelPlayer, int previousLevelPlayer, bool[] awards, List<LevelData> levelsData, string previousLevel, float volumePiano, float volumeFx, bool alreadyPlayed, bool alreadyRecorded)
     {
         this.levelPlayer = levelPlayer;
         this.awards = awards;
@@ -51,6 +56,8 @@ public class Data
         this.previousLevel = previousLevel;
         this.volumePiano = volumePiano;
         this.volumeFx = volumeFx;
+        this.alreadyPlayed = alreadyPlayed;
+        this.alreadyRecorded = alreadyRecorded;
     }
 
     public Data(Data _data)
@@ -64,6 +71,8 @@ public class Data
         this.previousLevel = _data.previousLevel;
         this.volumePiano = _data.volumePiano;
         this.volumeFx = _data.volumeFx;
+        this.alreadyPlayed = _data.alreadyPlayed;
+        this.alreadyRecorded = _data.alreadyRecorded;
 
     }
 

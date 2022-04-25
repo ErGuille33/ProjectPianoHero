@@ -45,7 +45,7 @@ public class MainMenuUI : MonoBehaviour
         else
         {
             List<Data.LevelData> auxList = new List<Data.LevelData>();
-            data = new Data(0, 0, 1, 1, new bool[25], auxList, "",1,1);
+            data = new Data(0, 0, 1, 1, new bool[25], auxList, "",1,1,false,false);
         }
 
         userLevel = data.levelPlayer;
@@ -81,7 +81,6 @@ public class MainMenuUI : MonoBehaviour
         optionsButton.enabled = true;
         awardButton.enabled = true;
 
-        SaveController.SaverData(data);
         SaveController.SaverData(data);
 
         menuCanvas.SetActive(false);

@@ -28,7 +28,12 @@ public class RecordLevel : MonoBehaviour
     public GameObject menuButton;
     public GameObject menuButton_1;
 
+    public GameObject avisoFrame;
+    public GameObject closeAvisoButton;
+
     bool finished = false;
+
+    Data saveData;
 
     //Empezar el timer y ajustar valores de UI
     public void setStartTimer()
@@ -56,12 +61,28 @@ public class RecordLevel : MonoBehaviour
         restartButton.SetActive(true);
     }
 
-   
-    void Start()
+    public void iniciate()
     {
         recordedMidiEvents = new List<MidiFile.MidiEvent>();
         midiRecorder = GetComponent<MidiRecorder>();
         noteIndicatorGroup.iniciate();
+    }
+   
+    void Start()
+    {
+        saveData = SaveController.LoadData();
+
+        if (saveData != null)
+        {
+            if (!saveData.alreadyPlayed)
+            {
+                openAvisoCanvas();
+            }
+            else { iniciate(); }
+        }
+        else { openAvisoCanvas(); }
+
+       
 
     }
 
@@ -102,6 +123,17 @@ public class RecordLevel : MonoBehaviour
         }
         midiRecorder.openMidiFile();
 
+        saveData = SaveController.LoadData();
+
+        if (saveData == null)
+        {
+            saveData = new Data(0, 0, 1, 1, new bool[25], new List<Data.LevelData>(), "", 1, 1, true, false);
+        }
+
+        saveData.alreadyRecorded = true;
+        SaveController.SaverData(saveData);
+        
+
         menuButton.SetActive(true);
     }
 
@@ -136,5 +168,24 @@ public class RecordLevel : MonoBehaviour
             restartLevel();
 
         }
+    }
+
+    public void closeAvisoCanvas()
+    {
+        avisoFrame.SetActive(false);
+        closeAvisoButton.SetActive(false);
+        menuButton_1.SetActive(true);
+        recButton.SetActive(true);
+        iniciate();
+
+
+    }
+
+    public void openAvisoCanvas()
+    {
+        avisoFrame.SetActive(true);
+        closeAvisoButton.SetActive(true);
+        menuButton_1.SetActive(false);
+        recButton.SetActive(false);
     }
 }

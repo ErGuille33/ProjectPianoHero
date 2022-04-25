@@ -53,7 +53,7 @@ public class ScoreCoreo : MonoBehaviour
 
         numLevel = i;
 
-        totalScore = (int)data.levelsData[numLevel].score;
+        totalScore = (int)data.levelsData[numLevel].lastScore;
 
         userLevel = data.levelPlayer;
         previousUserLevel = data.previousLevelPlayer;
@@ -65,8 +65,14 @@ public class ScoreCoreo : MonoBehaviour
         progressPerc = prevXP / data.getMaxXp(previousUserLevel);
         progressCircle.fillAmount = progressPerc;
 
+        if (totalScore == 0)
+        {
+            StartCoroutine(menuButtonAdd());
+        }
+        else { 
         //Comenzamos las corrutinas
         StartCoroutine(growScore());
+        }
 
     }
     //Enseña la puntuación creciendo desde cero
@@ -82,6 +88,7 @@ public class ScoreCoreo : MonoBehaviour
         actualScore = totalScore;
         scoreString = "Score\n" + actualScore;
         scoreText.text = scoreString;
+
 
         StartCoroutine(growXP());
     }
