@@ -78,7 +78,7 @@ public class ScoreCoreo : MonoBehaviour
     //Enseña la puntuación creciendo desde cero
     IEnumerator growScore()
     {
-        for (int i = 0; i <= totalScore; i = i + totalScore / 600)
+        for (int i = 0; i <= totalScore; i = i + totalScore / 300)
         {
             actualScore = i;
             scoreString = "Score\n" + actualScore;

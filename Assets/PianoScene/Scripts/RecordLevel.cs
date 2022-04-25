@@ -188,6 +188,7 @@ public class RecordLevel : MonoBehaviour
     public void restartLevel()
     {
         recordedMidiEvents.Clear();
+        midiRecorder.clearList();
         finishedTimer = false;
         finished = false;
 

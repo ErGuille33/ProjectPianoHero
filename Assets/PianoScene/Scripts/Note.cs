@@ -69,30 +69,38 @@ public class Note : MonoBehaviour
     public void addScore(float distance, float percNoteCompleted)
     {
         float actualScore = 0;
+        int typeInput = -2;
+
+        // 0 bad, 1 ok, 2 good, 3 perfect, -1 Nan
 
             if (distance < 0)
             {
                 actualScore += badScore;
+                typeInput = 0;
             }
             else if (distance > 2)
             {
                 actualScore += badScore * percNoteCompleted;
+                typeInput = 0;
 
             }
             else if (distance > 1.5)
             {
                 actualScore += okScore * percNoteCompleted;
+                typeInput = 1;
             }
             else if (distance > 1)
             {
                 actualScore += goodScore * percNoteCompleted;
+                typeInput = 2;
             }
             else if (distance < 1)
             {
                 actualScore += perfectScore * percNoteCompleted;
+                typeInput = 3;
             }
       
-        _level.addScore(actualScore);
+        _level.addScore(actualScore, typeInput);
     }
 
     public void setPushPointHit(float x, float y, float distance)
@@ -119,7 +127,7 @@ public class Note : MonoBehaviour
         {
             if(totalRecorrido > .75)
             {
-                _level.addScore((1 - totalRecorrido)* perfectScore); 
+                _level.addScore((1 - totalRecorrido)* perfectScore,3); 
             }
             pushing = false;
 
@@ -173,6 +181,7 @@ public class Note : MonoBehaviour
             {
                 moving = false;
                 _level.notesLeft--;
+                _level.addScore(0, -1);
                 gameObject.SetActive(false);
             }
         }

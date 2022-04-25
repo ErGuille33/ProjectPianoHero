@@ -31,6 +31,10 @@ public class MidiRecorder : MonoBehaviour
         midiTracks[track].vecEvents.Add(midiEvent);
     }
     
+    public void clearList()
+    {
+        midiTracks[0].vecEvents.Clear();
+    }
 
     public void openMidiFile() 
     {

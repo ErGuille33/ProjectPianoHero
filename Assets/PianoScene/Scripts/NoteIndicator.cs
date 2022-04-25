@@ -108,7 +108,7 @@ public class NoteIndicator : MonoBehaviour
             if (modeGame) 
             {
                 if(!detector.detectNotePushDistance())
-                    level.addScore(-1);
+                    level.addScore(-1, -1);
                 
             }
         }

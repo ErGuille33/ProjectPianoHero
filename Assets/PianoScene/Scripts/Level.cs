@@ -58,6 +58,23 @@ public class Level : MonoBehaviour
 
     Data saveData;
 
+    public int numBad = 0;
+    public int numOk = 0;
+    public int numPerf = 0;
+    public int numGood = 0;
+    public int numNan = 0;
+
+    bool scalesInstanciated = false;
+    bool canAddScores = false;
+
+    public void resetSaveUnits()
+    {
+        numBad = 0;
+        numOk = 0;
+        numPerf = 0;
+        numGood = 0;
+        numNan = 0;
+    }
 
     public float getMaxScoreCount()
     {
@@ -77,8 +94,9 @@ public class Level : MonoBehaviour
         frame.SetActive(true);
         menuButton.SetActive(true);
         restartButton.SetActive(true);
+
+        canAddScores = true;
         
-        //Start note movement
         foreach (Note note in notes)
         {
             note.moving = true;
@@ -113,9 +131,7 @@ public class Level : MonoBehaviour
                 i++;
             }
 
-            indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
-
-            indicatorGroup.iniciate();
+            
     }
 
     private void Start()
@@ -158,30 +174,67 @@ public class Level : MonoBehaviour
 
     public void startLevel()
     {
+        canAddScores = false;
 
         actualScore = 0f;
         finishedTimer = false;
         finishedLevel = false;
+
+        resetSaveUnits();
 
         playButton.SetActive(false);
         finishFrame.SetActive(false);
         setNotesToDestroy();
         
         movimientoVisualNotas();
-     
+
+        if (!scalesInstanciated)
+        {
+            indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
+            indicatorGroup.iniciate();
+            scalesInstanciated = true;
+        }
+
         setStartTimer();
     }
 
-    public void addScore(float score)
+    public void addScore(float score, int typeInput)
     {
-        if(score < 0)
+        if (canAddScores)
         {
-            score = -maxScore / notes.Count() / 6;
-        }  
-        actualScore += score;
-        
-        
-        if (actualScore < 0) actualScore = 0;
+            // 0 bad, 1 ok, 2 good, 3 perfect, -1 Nan
+
+            switch (typeInput)
+            {
+                case 0:
+                    numBad++;
+                    break;
+                case 1:
+                    numOk++;
+                    break;
+                case 2:
+                    numGood++;
+                    break;
+                case 3:
+                    numPerf++;
+                    break;
+                case -1:
+                    numNan++;
+                    break;
+                default:
+                    break;
+
+            }
+
+            if (score < 0)
+            {
+                score = -maxScore / notes.Count() / 6;
+            }
+            actualScore += score;
+
+
+            if (actualScore < 0) actualScore = 0;
+        }
     }
 
     public bool checkIfFinished()
@@ -238,6 +291,7 @@ public class Level : MonoBehaviour
 
     protected void finishLevel()
     {
+        canAddScores = false;
         finishFrame.SetActive(true);
     }
 
@@ -291,7 +345,7 @@ public class Level : MonoBehaviour
                         saveData.addXp((int)((actualScore * 100 / maxScore)/2));
                     }
              
-                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts,actualScore);
+                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts,actualScore,numBad,numOk,numPerf,numGood,numNan);
                     
                     break;
                 }
@@ -300,7 +354,7 @@ public class Level : MonoBehaviour
 
             if (newLevel)
             {
-                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1,actualScore));
+                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan));
                 saveData.addXp((int)(actualScore * 100 / maxScore));
             }
 
@@ -312,7 +366,7 @@ public class Level : MonoBehaviour
             
             List<Data.LevelData> auxList = new List<Data.LevelData>();
 
-            auxList.Add(new Data.LevelData(levelName, actualScore, 1,actualScore));
+            auxList.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan));
 
             saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName,1,1,true,false);
 
