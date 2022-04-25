@@ -31,6 +31,14 @@ public class RecordLevel : MonoBehaviour
     public GameObject avisoFrame;
     public GameObject closeAvisoButton;
 
+    public GameObject octFrame;
+    public GameObject setOctButton;
+    public Slider iniOctSlider;
+    public Slider lastOctSlider;
+    public Text iniOctText;
+    public Text lastOctText;
+    public GameObject errorText;
+
     bool finished = false;
 
     Data saveData;
@@ -68,6 +76,39 @@ public class RecordLevel : MonoBehaviour
         noteIndicatorGroup.iniciate();
     }
    
+    public void chooseOct()
+    {
+        octFrame.SetActive(true);
+    }
+
+    public void changeStartOct()
+    {
+        iniOctText.text = "Octava Inicial: " + iniOctSlider.value; 
+    }
+    public void changeEndOct()
+    {
+        lastOctText.text = "Octava Final: " + lastOctSlider.value;
+    }
+
+    public void setOctave()
+    {
+
+        if(lastOctSlider.value >= iniOctSlider.value)
+        {
+            noteIndicatorGroup.startingScale = (int)iniOctSlider.value;
+            noteIndicatorGroup.endingScale = (int)lastOctSlider.value;
+            errorText.SetActive(false);
+            octFrame.SetActive(false);
+            iniciate();
+        }
+        else
+        {
+            errorText.SetActive(true);
+        }
+     
+    }
+
+
     void Start()
     {
         saveData = SaveController.LoadData();
@@ -78,7 +119,7 @@ public class RecordLevel : MonoBehaviour
             {
                 openAvisoCanvas();
             }
-            else { iniciate(); }
+            else { chooseOct(); }
         }
         else { openAvisoCanvas(); }
 
@@ -176,7 +217,7 @@ public class RecordLevel : MonoBehaviour
         closeAvisoButton.SetActive(false);
         menuButton_1.SetActive(true);
         recButton.SetActive(true);
-        iniciate();
+        chooseOct();
 
 
     }
