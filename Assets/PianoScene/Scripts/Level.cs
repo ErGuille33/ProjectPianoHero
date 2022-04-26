@@ -11,7 +11,7 @@ public class Level : MonoBehaviour
 {
 
     public FileManager fileManager;
-    string file_name;
+    string file_name ="";
 
     public ManageScenes scenes;
 
@@ -107,10 +107,24 @@ public class Level : MonoBehaviour
         }
     }
 
+    private IEnumerator openFile()
+    {
+        StartCoroutine(fileManager.OpenFileExplorer());
+        while(file_name == "")
+        {
+            file_name = fileManager.getPath();
+            yield return null;
+        }
+        if(file_name == "cancel")
+        {
+            scenes.changeScene("MainMenu");
+        }
+        iniciate();
+    } 
+
     private void iniciate()
     {
-            file_name = fileManager.OpenFileExplorer();
-
+         
             midiFile.parseFile(file_name);
 
             midiFile = GetComponent<MidiFile>();
@@ -148,7 +162,7 @@ public class Level : MonoBehaviour
                 {
                     openAvisoCanvas();
                 }
-                else { iniciate(); }
+                else { StartCoroutine( openFile()); }
             }
             else { openAvisoCanvas(); }
 
@@ -391,7 +405,7 @@ public class Level : MonoBehaviour
         closeAvisoButton.SetActive(false);
         menuButton.SetActive(true);
         playButton.SetActive(true);
-        iniciate();
+        StartCoroutine( openFile());
     }
 
     public void openAvisoCanvas()

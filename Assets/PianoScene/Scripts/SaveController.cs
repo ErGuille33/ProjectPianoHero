@@ -11,7 +11,7 @@ public static class SaveController
     public static string filepath = "data.fun";
 
 
-
+    //Guardar datos de partida
     public static void SaverData(Data _data)
     {
         BinaryFormatter formatter = new BinaryFormatter();
@@ -22,7 +22,7 @@ public static class SaveController
         formatter.Serialize(stream, data);
         stream.Close();
     }
-
+    //Cargar deatos de partida
     public static Data LoadData()
     {
 

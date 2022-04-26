@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -36,127 +35,139 @@ public class MidiRecorder : MonoBehaviour
         midiTracks[0].vecEvents.Clear();
     }
 
-    public void openMidiFile() 
+    public void openMidiFile(string file) 
     {
-        filename = fileManager.SaveFileExplorer();
+        filename = file;
+
+
+        char[] separator = { '/', '.' };
+        string[] auxName = filename.Split(separator);
+
         //Hay que escribir en big endian, por lo que algunos de los valores fijos los ecribo directamente con los bits invertidos
         uint n32 = 0;
         ushort n16 = 0;
         try
         {
-            using (var stream = File.Open(filename, FileMode.Create))
-            {
-                using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
+            if (auxName[auxName.Length-1] == "mid") {
+                using (var stream = File.Open(filename, FileMode.Create))
                 {
-                    //Id cabecera ('MThd')
-                    n32 = 1684558925;
-                    writer.Write(n32);
-
-                    //Lenght cabecera (6)
-                    n32 = 100663296;
-                    writer.Write(n32);
-
-                    //Formato cabecera canales (1)
-                    n16 = 256;
-                    writer.Write(n16);
-
-                    //Formato cabecera numero de tracks (en este caso solo vamos a hacer grabaciones de 1 track)
-                    n16 = 256;
-                    writer.Write(n16);
-
-                    //Patrones de track. Este valor parece funcionar para lo que buscamos
-                    n16 = 49152;
-                    writer.Write(n16);
-
-                    //Primero leemos la cabecera del track
-                    n32 = 1802654797;
-                    writer.Write(n32);
-
-                    //Los siguientes 32bits corresponden al tamaño del track.
-                    n32 = calculateLenghtChunk();
-                    n32 = swap32bit(n32);
-                    writer.Write(n32);
-
-                    //El tick
-                    writeValue(writer, 0,-1);
-                    //El tipo de mensaje
-                    writer.Write(Convert.ToByte(0xff));
-                    //ntype
-                    writer.Write(Convert.ToByte(MidiFile.MetaEventName.MetaTimeSignature));
-                    //length
-                    writer.Write(Convert.ToByte(4));
-                    //Timesignature
-                    writer.Write(Convert.ToByte(4));
-                    //Entre
-                    writer.Write(Convert.ToByte(2));
-                    //Clockspertick
-                    writer.Write(Convert.ToByte(24));
-                    //32per24Clocks
-                    writer.Write(Convert.ToByte(8));
-
-                    //El tick
-                    writeValue(writer, 0,-1);
-                    //El tipo de mensaje
-                    writer.Write(Convert.ToByte(0xff));
-                    //ntype
-                    writer.Write(Convert.ToByte(MidiFile.MetaEventName.MetaSetTempo));
-                    //length
-                    writer.Write(Convert.ToByte(3));
-                    //1
-                    writer.Write(Convert.ToByte(7));
-                    //2
-                    writer.Write(Convert.ToByte(161));
-                    //3
-                    writer.Write(Convert.ToByte(32));
-
-
-                    //Name of the track : tempo track
-                    writer.Write(Convert.ToByte(0x00));
-                    writer.Write(Convert.ToByte(0xff));
-                    writer.Write(Convert.ToByte(0x03));
-                    writer.Write(Convert.ToByte(0x0b));
-                    writer.Write(Convert.ToByte(0x54));
-                    writer.Write(Convert.ToByte(0x65));
-                    writer.Write(Convert.ToByte(0x6d));
-                    writer.Write(Convert.ToByte(0x70));
-                    writer.Write(Convert.ToByte(0x6f));
-                    writer.Write(Convert.ToByte(0x20));
-                    writer.Write(Convert.ToByte(0x54));
-                    writer.Write(Convert.ToByte(0x72));
-                    writer.Write(Convert.ToByte(0x61));
-                    writer.Write(Convert.ToByte(0x63));
-                    writer.Write(Convert.ToByte(0x6B));
-
-                    for (int i = 0; i < midiTracks[0].vecEvents.Count; i++)
+                    using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
                     {
-                            //El tick
-                            writeValue(writer, midiTracks[0].vecEvents[i].nDeltaTick,i);
+                        //Id cabecera ('MThd')
+                        n32 = 1684558925;
+                        writer.Write(n32);
+
+                        //Lenght cabecera (6)
+                        n32 = 100663296;
+                        writer.Write(n32);
+
+                        //Formato cabecera canales (1)
+                        n16 = 256;
+                        writer.Write(n16);
+
+                        //Formato cabecera numero de tracks (en este caso solo vamos a hacer grabaciones de 1 track)
+                        n16 = 256;
+                        writer.Write(n16);
+
+                        //Patrones de track. Este valor parece funcionar para lo que buscamos
+                        n16 = 49152;
+                        writer.Write(n16);
+
+                        //Primero leemos la cabecera del track
+                        n32 = 1802654797;
+                        writer.Write(n32);
+
+                        //Los siguientes 32bits corresponden al tamaño del track.
+                        n32 = calculateLenghtChunk();
+                        n32 = swap32bit(n32);
+                        writer.Write(n32);
+
+                        //El tick
+                        writeValue(writer, 0, -1);
                         //El tipo de mensaje
-                        if (midiTracks[0].vecEvents[i].type == MidiFile.MidiEvent.Type.NoteOff)
+                        writer.Write(Convert.ToByte(0xff));
+                        //ntype
+                        writer.Write(Convert.ToByte(MidiFile.MetaEventName.MetaTimeSignature));
+                        //length
+                        writer.Write(Convert.ToByte(4));
+                        //Timesignature
+                        writer.Write(Convert.ToByte(4));
+                        //Entre
+                        writer.Write(Convert.ToByte(2));
+                        //Clockspertick
+                        writer.Write(Convert.ToByte(24));
+                        //32per24Clocks
+                        writer.Write(Convert.ToByte(8));
+
+                        //El tick
+                        writeValue(writer, 0, -1);
+                        //El tipo de mensaje
+                        writer.Write(Convert.ToByte(0xff));
+                        //ntype
+                        writer.Write(Convert.ToByte(MidiFile.MetaEventName.MetaSetTempo));
+                        //length
+                        writer.Write(Convert.ToByte(3));
+                        //1
+                        writer.Write(Convert.ToByte(7));
+                        //2
+                        writer.Write(Convert.ToByte(161));
+                        //3
+                        writer.Write(Convert.ToByte(32));
+
+
+                        //Name of the track : tempo track
+                        writer.Write(Convert.ToByte(0x00));
+                        writer.Write(Convert.ToByte(0xff));
+                        writer.Write(Convert.ToByte(0x03));
+                        writer.Write(Convert.ToByte(0x0b));
+                        writer.Write(Convert.ToByte(0x54));
+                        writer.Write(Convert.ToByte(0x65));
+                        writer.Write(Convert.ToByte(0x6d));
+                        writer.Write(Convert.ToByte(0x70));
+                        writer.Write(Convert.ToByte(0x6f));
+                        writer.Write(Convert.ToByte(0x20));
+                        writer.Write(Convert.ToByte(0x54));
+                        writer.Write(Convert.ToByte(0x72));
+                        writer.Write(Convert.ToByte(0x61));
+                        writer.Write(Convert.ToByte(0x63));
+                        writer.Write(Convert.ToByte(0x6B));
+
+                        for (int i = 0; i < midiTracks[0].vecEvents.Count; i++)
                         {
-                            writer.Write(Convert.ToByte(128));
-                        }
-                        else 
-                        {
-                            writer.Write(Convert.ToByte(144));
-                        }
-                            
+                            //El tick
+                            writeValue(writer, midiTracks[0].vecEvents[i].nDeltaTick, i);
+                            //El tipo de mensaje
+                            if (midiTracks[0].vecEvents[i].type == MidiFile.MidiEvent.Type.NoteOff)
+                            {
+                                writer.Write(Convert.ToByte(128));
+                            }
+                            else
+                            {
+                                writer.Write(Convert.ToByte(144));
+                            }
+
                             //Note
                             writer.Write(Convert.ToByte(midiTracks[0].vecEvents[i].nKey));
                             //Velocity
                             writer.Write(Convert.ToByte(midiTracks[0].vecEvents[i].nVelocity));
 
+                        }
+                        //Valores de final de archivo
+                        writeValue(writer, midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick, 0);
+                        writer.Write(Convert.ToByte(0xff));
+                        writer.Write(Convert.ToByte(0x2f));
+                        writer.Write(Convert.ToByte(0x00));
+                        writer.Close();
                     }
-                    //Valores de final de archivo
-                    writeValue(writer, midiTracks[0].vecEvents[midiTracks[0].vecEvents.Count - 1].nDeltaTick, 0);
-                    writer.Write(Convert.ToByte(0xff));
-                    writer.Write(Convert.ToByte(0x2f));
-                    writer.Write(Convert.ToByte(0x00));
-                    writer.Close();
-                }
 
-                stream.Close();
-                print("Escrito");
+                    stream.Close();
+                    print("Escrito");
+                }
+            }
+
+            else
+            {
+                print("no se pudo");
             }
         }
         catch(Exception e)

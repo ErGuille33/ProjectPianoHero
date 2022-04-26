@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿
 /*
  * Parcialmente inspirado en el siguiente código escrito en C++, sobretodo a la hora de estructurar los eventos MIDI y el orden de lectura
  * https://github.com/OneLoneCoder/olcPixelGameEngine/blob/master/Videos/OneLoneCoder_PGE_MIDI.cpp
@@ -140,9 +140,11 @@ public class MidiFile : MonoBehaviour
         UInt32 n32 = 0;
         UInt16 n16 = 0;
 
+        char[] separator = { '/', '.' };
+        string[] auxName = file_path.Split(separator);
 
         //Abrimos stream
-        if (File.Exists(file_path))
+        if (File.Exists(file_path) && auxName[auxName.Length-1] == "mid")
         {
             using (var stream = File.Open(file_path, FileMode.Open))
             {

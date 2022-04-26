@@ -29,38 +29,38 @@ public class Note : MonoBehaviour
     public bool moving = false;
     //detener la nota
     private float stopMovingAt = -6;
-
+    //Punto de presión
     Vector2 pushPoint;
-    Vector2 releasePoint;
+    //Variables si la nota es larga
     bool pushing = false;
     public float totalDistance;
     public float totalRecorrido = 0;
-
+    //Referencia al nivel
     Level _level;
-
+    //Sprite principal
     SpriteRenderer sprite;
-
-
+    //Tipos de puntuación
     public float perfectScore;
     public float goodScore;
     public float okScore;
     public float badScore;
-
+    //El número de notas del nivel
     public int nLevelNotes;
     public float maxScore;
-
+    //Partícuas al destruir 
     public ParticleSystem particle;
-
+    //Destruir la nota desde Level
     public void setReadyToDestroy()
     {
 
         Destroy(this.gameObject);
     }
+    //Añadir el level
     public void setLevel(Level level)
     {
         _level = level;
     }
-
+    //Desde level se asignan los valores a los distintos tipos de scores
     public void setScoreMetters()
     {
         perfectScore = maxScore / nLevelNotes;
@@ -68,7 +68,7 @@ public class Note : MonoBehaviour
         okScore = perfectScore / 2;
         badScore = -okScore / 2;
     }
-
+    //Añadir puntuación al nivel dependiendo de la distancia al detector
     public void addScore(float distance, float percNoteCompleted)
     {
         float actualScore = 0;
@@ -106,7 +106,7 @@ public class Note : MonoBehaviour
         _level.addScore(actualScore, typeInput);
 
     }
-
+    //Si es una nota corta se añade la puntuación al ser pulsada, si es larga se define el punto de inicio de pulsación
     public void setPushPointHit(float x, float y, float distance)
     {
         if (!longNote)
@@ -128,7 +128,7 @@ public class Note : MonoBehaviour
         }
       
     }
-
+    //Si la nota es larga, se define el punto en el que se deja la puntuación y se añaden los puntos correspondientes.
     public void setReleasePointHit(float x, float y)
     {
         if (longNote&&pushing)
@@ -174,11 +174,13 @@ public class Note : MonoBehaviour
         return true;
 
     }
-    // Update is called once per frame
+    // Update de la nota
     void Update()
     {
+        //Si esta en movimiento
         if (moving)
         {
+            //Aquí se van añadiendo poco a poco los puntos directamente, sin pasar por el addScore, ya que se hace en las notas largas
             if (pushing && longNote )
             {
                 if ( pushPoint.y < transform.position.y + transform.localScale.y / 2 / 100) {
@@ -189,9 +191,7 @@ public class Note : MonoBehaviour
 
                 }
             }
-
-            transform.Translate(Vector3.down * _vel * Time.deltaTime);
-
+            //Si ha llegado al final del nivel, se desactiva la nota
             if(transform.position.y < stopMovingAt - tickDuration/100)
             {
                 moving = false;
@@ -199,6 +199,9 @@ public class Note : MonoBehaviour
                 _level.addScore(0, -1);
                 gameObject.SetActive(false);
             }
+
+            //Movimiento de la nota
+            transform.Translate(Vector3.down * _vel * Time.deltaTime);
         }
 
     }

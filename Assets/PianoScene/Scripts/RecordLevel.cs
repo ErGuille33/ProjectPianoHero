@@ -39,9 +39,15 @@ public class RecordLevel : MonoBehaviour
     public Text lastOctText;
     public GameObject errorText;
 
+    //Final de grabación
     bool finished = false;
-
+    //Datos guardados
     Data saveData;
+
+    public FileManager fileManager;
+    string filename;
+
+    public ManageScenes scenes;
 
     //Empezar el timer y ajustar valores de UI
     public void setStartTimer()
@@ -75,21 +81,22 @@ public class RecordLevel : MonoBehaviour
         midiRecorder = GetComponent<MidiRecorder>();
         noteIndicatorGroup.iniciate();
     }
-   
+   //Tras elegir la octava
     public void chooseOct()
     {
         octFrame.SetActive(true);
     }
-
+    //Ui octava
     public void changeStartOct()
     {
         iniOctText.text = "Octava Inicial: " + iniOctSlider.value; 
     }
+    //Ui octava
     public void changeEndOct()
     {
         lastOctText.text = "Octava Final: " + lastOctSlider.value;
     }
-
+    //Settear la octava elegida
     public void setOctave()
     {
 
@@ -154,15 +161,23 @@ public class RecordLevel : MonoBehaviour
 
     }
 
-    //Al pulsar el botón de exportar
-    public void Export()
+    IEnumerator saveFile()
     {
-        Debug.Log("Grabado");
-        for (int i = 0; i < recordedMidiEvents.Count; i++)
-        {
-            midiRecorder.addMidiNote(recordedMidiEvents[i]);
+        filename = "";
+
+        StartCoroutine( fileManager.SaveFileExplorer());
+
+        while (filename == "") {
+            filename = fileManager.getPath();
+            yield return null;
         }
-        midiRecorder.openMidiFile();
+
+        if(filename == "cancel")
+        {
+            scenes.changeScene("MainMenu");
+        }
+
+        midiRecorder.openMidiFile(filename);
 
         saveData = SaveController.LoadData();
 
@@ -173,9 +188,20 @@ public class RecordLevel : MonoBehaviour
 
         saveData.alreadyRecorded = true;
         SaveController.SaverData(saveData);
-        
+
 
         menuButton.SetActive(true);
+    }
+
+    //Al pulsar el botón de exportar
+    public void Export()
+    {
+        Debug.Log("Grabado");
+        for (int i = 0; i < recordedMidiEvents.Count; i++)
+        {
+            midiRecorder.addMidiNote(recordedMidiEvents[i]);
+        }
+        StartCoroutine(saveFile());
     }
 
     //Añadir un evento a la lista de eventos. Se llama desde Note Indicator
