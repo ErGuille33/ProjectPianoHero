@@ -1210,6 +1210,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Count_down_canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 11453762, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11453762, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 11453762, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 11461294, guid: e437f4f06827bb04c983a5b358b065c7, type: 3}
       propertyPath: sprite_one
       value: 

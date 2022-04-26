@@ -35,6 +35,7 @@ public class MainMenuUI : MonoBehaviour
 
     
     // 
+
     void Start()
     {
         data = SaveController.LoadData();
@@ -110,6 +111,11 @@ public class MainMenuUI : MonoBehaviour
         mixer.SetFloat("Fx", Mathf.Log10(fxSlider.value) * 20);
         data.volumeFx = fxSlider.value;
 
+    }
+
+    public void closeApp()
+    {
+        Application.Quit();
     }
 
 
