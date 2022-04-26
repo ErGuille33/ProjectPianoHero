@@ -116,6 +116,11 @@ public class Level : MonoBehaviour
             midiFile = GetComponent<MidiFile>();
             midiTracks = midiFile.getMidiFileTracks();
 
+            if(midiTracks.Count == 0)
+            {
+                scenes.changeScene("MainMenu");
+            }
+
             int i = 0;
             foreach (MidiFile.MidiTrack track in midiTracks)
             {
@@ -129,9 +134,7 @@ public class Level : MonoBehaviour
                 }
 
                 i++;
-            }
-
-            
+            }    
     }
 
     private void Start()
@@ -174,6 +177,14 @@ public class Level : MonoBehaviour
 
     public void startLevel()
     {
+
+        if (!scalesInstanciated)
+        {
+            indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
+            indicatorGroup.iniciate();
+            scalesInstanciated = true;
+        }
+
         canAddScores = false;
 
         actualScore = 0f;
@@ -188,12 +199,7 @@ public class Level : MonoBehaviour
         
         movimientoVisualNotas();
 
-        if (!scalesInstanciated)
-        {
-            indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
-            indicatorGroup.iniciate();
-            scalesInstanciated = true;
-        }
+        
 
         setStartTimer();
     }

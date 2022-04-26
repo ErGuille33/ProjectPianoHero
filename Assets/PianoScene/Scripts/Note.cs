@@ -49,8 +49,11 @@ public class Note : MonoBehaviour
     public int nLevelNotes;
     public float maxScore;
 
+    public ParticleSystem particle;
+
     public void setReadyToDestroy()
     {
+
         Destroy(this.gameObject);
     }
     public void setLevel(Level level)
@@ -101,6 +104,7 @@ public class Note : MonoBehaviour
             }
       
         _level.addScore(actualScore, typeInput);
+
     }
 
     public void setPushPointHit(float x, float y, float distance)
@@ -110,6 +114,10 @@ public class Note : MonoBehaviour
             addScore(distance, 1);
 
             _level.notesLeft--;
+
+            particle.transform.position = transform.position;
+            Instantiate(particle);
+            
             gameObject.SetActive(false);
         }
         else 
@@ -127,11 +135,17 @@ public class Note : MonoBehaviour
         {
             if(totalRecorrido > .75)
             {
-                _level.addScore((1 - totalRecorrido)* perfectScore,3); 
+                _level.addScore((1 - totalRecorrido)* perfectScore,3);
+
             }
             pushing = false;
 
             _level.notesLeft--;
+
+            particle.transform.position = new Vector3(x, y, 0);
+            Instantiate(particle);
+            
+            
             gameObject.SetActive(false);
         }
     }
@@ -172,6 +186,7 @@ public class Note : MonoBehaviour
                     caminoRecorrido = (_vel * Time.deltaTime) * 100 / tickDuration;
                     totalRecorrido += caminoRecorrido;
                     addScore(totalDistance, caminoRecorrido);
+
                 }
             }
 

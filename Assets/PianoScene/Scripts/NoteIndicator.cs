@@ -33,6 +33,8 @@ public class NoteIndicator : MonoBehaviour
     bool alreadyOff = true;
     //Distanci
 
+    public Animator animator;
+
    //Se llama desde note indicatorGroup
     public void setRecordLevel(RecordLevel rl)
     {
@@ -60,11 +62,13 @@ public class NoteIndicator : MonoBehaviour
         if (MidiMaster.GetKey(noteNumber) == 0)
         {
             releaseNote();
+            animator.gameObject.SetActive(false); 
         }
         //Tecla ja sido pulsada
         if (MidiMaster.GetKey(noteNumber) !=0)
         {
             playNote(MidiMaster.GetKey(noteNumber));
+
         }
         
     
@@ -109,6 +113,11 @@ public class NoteIndicator : MonoBehaviour
             {
                 if(!detector.detectNotePushDistance())
                     level.addScore(-1, -1);
+                else
+                {
+                    animator.gameObject.SetActive(true);
+                    animator.Play("Star", 0);
+                }
                 
             }
         }

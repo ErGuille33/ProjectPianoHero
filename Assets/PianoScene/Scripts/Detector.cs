@@ -20,7 +20,7 @@ public class Detector : MonoBehaviour
             {
 
                 float distance = Mathf.Abs(hit0.point.y + offset - transform.position.y);
-                if (distance < 2)
+                if (distance < 1)
                 {
                     actualNote = hit0.collider.transform.GetComponent<Note>();
 
@@ -47,7 +47,7 @@ public class Detector : MonoBehaviour
                 //print(hit.collider.name + hit.collider.transform.position);
 
                 float distance = Mathf.Abs(hit.point.y + offset - transform.position.y);
-                if (distance < 4)
+                if (distance < 2)
                 {
                     actualNote = hit.collider.transform.GetComponent<Note>();
 
@@ -74,7 +74,7 @@ public class Detector : MonoBehaviour
             {
 
                 float distance = Mathf.Abs(hit0.point.y + offset - transform.position.y);
-                if (distance < 6)
+                if (distance < 1)
                 {
                     actualNote = hit0.collider.transform.GetComponent<Note>();
 
@@ -101,7 +101,7 @@ public class Detector : MonoBehaviour
                 //print(hit.collider.name + hit.collider.transform.position);
 
                 float distance = Mathf.Abs(hit.point.y + offset - transform.position.y);
-                if (distance < 3)
+                if (distance < 2)
                 {
                     actualNote = hit.collider.transform.GetComponent<Note>();
 

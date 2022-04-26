@@ -81,7 +81,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!114 &4636171631655990085
 MonoBehaviour:
@@ -99,8 +99,19 @@ MonoBehaviour:
   numTrack: 0
   tickDuration: 0
   longNote: 0
+  caminoRecorrido: 0
   _vel: 0.005
   moving: 0
+  totalDistance: 0
+  totalRecorrido: 0
+  perfectScore: 0
+  goodScore: 0
+  okScore: 0
+  badScore: 0
+  nLevelNotes: 0
+  maxScore: 0
+  particle: {fileID: 6870584967036855023, guid: f6ebb9b72f431054c8ae6e301f5da316,
+    type: 3}
 --- !u!61 &4045354370483437517
 BoxCollider2D:
   m_ObjectHideFlags: 0
