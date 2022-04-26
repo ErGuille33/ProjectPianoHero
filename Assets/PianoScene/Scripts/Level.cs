@@ -275,7 +275,7 @@ public class Level : MonoBehaviour
 
                     notesLeft++;
                     
-                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-10)/timePerColumn+15,0);
+                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-10)/timePerColumn+20,0);
 
                     if(numOctava >= 4)
                         noteAux.transform.localScale = new Vector3( 50f/ (numOctava), 0, 0);
