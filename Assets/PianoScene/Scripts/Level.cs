@@ -57,7 +57,7 @@ public class Level : MonoBehaviour
     public Slider velSlider;
     public Text velText;
 
-    public float vel;
+    public float vel = 1;
 
     public bool finishedLevel = false;
 
@@ -352,10 +352,14 @@ public class Level : MonoBehaviour
         bool newLevel = true;
         float newScore;
 
-        char[] separator = {'/', '.'};
+        char[] separator = {'/', '.','\\'};
         string[] auxName = file_name.Split(separator);
        
         string levelName = auxName[auxName.Length - 2];
+
+        float auxVel = 0;
+
+        if (actualScore > 99900) actualScore = 100000;
 
         if (lastData != null) 
         {
@@ -369,17 +373,25 @@ public class Level : MonoBehaviour
                 {
                     newLevel = false;
                     newScore = levelData.score;
-                    if (newScore < actualScore)
+                    auxVel = levelData.vel;
+                   
+                    if (newScore <= actualScore)
                     {
                         newScore = actualScore;
                         saveData.addXp((int)(actualScore * 100 / maxScore));
+
+                        if (levelData.vel < vel)
+                        {
+                            auxVel = vel;
+
+                        }
                     }
                     else
                     {
                         saveData.addXp((int)((actualScore * 100 / maxScore)/2));
-                    }
+                    }        
              
-                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts,actualScore,numBad,numOk,numPerf,numGood,numNan);
+                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts,actualScore,numBad,numOk,numPerf,numGood,numNan,auxVel);
                     
                     break;
                 }
@@ -388,7 +400,7 @@ public class Level : MonoBehaviour
 
             if (newLevel)
             {
-                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan));
+                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan,vel));
                 saveData.addXp((int)(actualScore * 100 / maxScore));
             }
 
@@ -400,7 +412,7 @@ public class Level : MonoBehaviour
             
             List<Data.LevelData> auxList = new List<Data.LevelData>();
 
-            auxList.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan));
+            auxList.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan,vel));
 
             saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName,1,1,true,false);
 
@@ -435,6 +447,7 @@ public class Level : MonoBehaviour
     {
         velFrame.SetActive(true);
         playButton.SetActive(false);
+        vel = 1;
     }
     //Ui vel
     public void changeVel()

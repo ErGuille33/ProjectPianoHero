@@ -49,21 +49,22 @@ public class AchievmentManager : MonoBehaviour
 
             aux.transform.SetParent(transform);
 
-            aux.transform.Find("Level").GetComponent<Text>().text = "Nivel : " + data.levelsData[i].levelName;
+            aux.transform.Find("Level").GetComponent<Text>().text = "Nivel : " + data.levelsData[i].levelName ;
 
-            aux.transform.Find("Score").GetComponent<Text>().text = "Score : " + data.levelsData[i].score;
+            aux.transform.Find("Score").GetComponent<Text>().text = "Score : " +(int) data.levelsData[i].score + " |";
 
-            aux.transform.Find("NumBads").GetComponent<Text>().text = "Bad : " + data.levelsData[i].numBad;
+            aux.transform.Find("NumBads").GetComponent<Text>().text = "Bad : " + data.levelsData[i].numBad + " |";
 
-            aux.transform.Find("NumOk").GetComponent<Text>().text = "Ok : " + data.levelsData[i].numOk;
+            aux.transform.Find("NumOk").GetComponent<Text>().text = "Ok : " + data.levelsData[i].numOk + " |";
 
-            aux.transform.Find("NumGood").GetComponent<Text>().text = "Good : " + data.levelsData[i].numGood;
+            aux.transform.Find("NumGood").GetComponent<Text>().text = "Good : " + data.levelsData[i].numGood + " |";
 
-            aux.transform.Find("NumPerf").GetComponent<Text>().text = "Perfect : " + data.levelsData[i].numPerf;
+            aux.transform.Find("NumPerf").GetComponent<Text>().text = "Perfect : " + data.levelsData[i].numPerf + " |";
 
-            aux.transform.Find("NumMiss").GetComponent<Text>().text = "Miss : " + data.levelsData[i].numNan;
+            aux.transform.Find("NumMiss").GetComponent<Text>().text = "Miss : " + data.levelsData[i].numNan + " |";
 
-             
+            aux.transform.Find("Vel").GetComponent<Text>().text = "Vel : " + data.levelsData[i].vel + " |";
+
         }
 
     }

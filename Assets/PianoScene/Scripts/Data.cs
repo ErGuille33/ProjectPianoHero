@@ -14,6 +14,7 @@ public class Data
         public float score;
         public float lastScore;
         public int attempts;
+        public float vel;
 
         public int numBad;
         public int numOk;
@@ -22,7 +23,7 @@ public class Data
         public int numNan;
 
 
-        public LevelData(string levelName, float score, int attempts, float lastScore, int numBad, int numOk, int numPerf, int numGood, int numNan)
+        public LevelData(string levelName, float score, int attempts, float lastScore, int numBad, int numOk, int numPerf, int numGood, int numNan, float vel)
         {
             this.levelName = levelName;
             this.score = score;
@@ -34,6 +35,7 @@ public class Data
             this.numPerf = numPerf;
             this.numGood = numGood;
             this.numNan = numNan;
+            this.vel = vel;
         }
 
         //Aqui vendrían mas
