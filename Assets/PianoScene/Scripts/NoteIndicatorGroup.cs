@@ -29,6 +29,8 @@ public class NoteIndicatorGroup : MonoBehaviour
     public Level level;
     public bool modeGame;
 
+    ObjectPool pool;
+
     //Métdo que instancia todas las teclas del piano y sus distintos valores dependiendo del número de escalas que se vayan a tener
     public void iniciate()
     {
@@ -37,10 +39,18 @@ public class NoteIndicatorGroup : MonoBehaviour
 
         numTeclas = (endingScale - startingScale + 1) * 12;
 
+        //Solo instanciaremos los detectores de notas si estamos en game mode
+        if (modeGame)
+        {
+            pool = gameObject.GetComponent<ObjectPool>();
+            pool.amountToPool = numTeclas;
+        }
+
         noteIndicators = new NoteIndicator [numTeclas];
 
         int j = 0;
         scales = new GameObject[11];
+        //iniciamos las escalas y le asignamos el sonido correspondiente a cada nota
         for (var i = startingScale; i <= endingScale; i++)
         {
             int posScaleAux = i * 12;
@@ -130,18 +140,7 @@ public class NoteIndicatorGroup : MonoBehaviour
             j++;
         }
     }
-    //Añadimos los detectores
-    private void Start()
-    {
-        try
-        {
-            
-        }
-        catch(Exception e)
-        {
 
-        }
-    }
     //Devuelve la posición de la tecla, para de esta manera colocar las notas en su sitio
     public Vector3 getNoteIndicatorPos(int nNote)
     {

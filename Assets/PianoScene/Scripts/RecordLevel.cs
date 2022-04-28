@@ -81,7 +81,7 @@ public class RecordLevel : MonoBehaviour
         midiRecorder = GetComponent<MidiRecorder>();
         noteIndicatorGroup.iniciate();
     }
-   //Tras elegir la octava
+   //Antes de elegir la octava
     public void chooseOct()
     {
         octFrame.SetActive(true);

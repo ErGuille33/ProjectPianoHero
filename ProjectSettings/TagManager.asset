@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Note
   - Detector
+  - AlertSpawnZone
   layers:
   - Default
   - TransparentFX

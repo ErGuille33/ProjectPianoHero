@@ -35,6 +35,8 @@ public class NoteIndicator : MonoBehaviour
 
     public Animator animator;
 
+    public GameObject noteAlert;
+
    //Se llama desde note indicatorGroup
     public void setRecordLevel(RecordLevel rl)
     {
@@ -51,9 +53,11 @@ public class NoteIndicator : MonoBehaviour
         if(GetComponent<AudioSource>() != null)
             source = GetComponent<AudioSource>();
 
-        
-        
         sprite = GetComponent<SpriteRenderer>();
+
+        noteAlert = Instantiate(noteAlert);
+        noteAlert.transform.position = new Vector3(gameObject.transform.position.x, 12, gameObject.transform.position.z);
+
     }
     //Controla la pulsación de la tecla
     void Update()

@@ -53,6 +53,11 @@ public class Level : MonoBehaviour
     public GameObject finishFrame;
     public GameObject avisoFrame;
     public GameObject closeAvisoButton;
+    public GameObject velFrame;
+    public Slider velSlider;
+    public Text velText;
+
+    public float vel;
 
     public bool finishedLevel = false;
 
@@ -66,6 +71,7 @@ public class Level : MonoBehaviour
 
     bool scalesInstanciated = false;
     bool canAddScores = false;
+
 
     public void resetSaveUnits()
     {
@@ -119,7 +125,8 @@ public class Level : MonoBehaviour
         {
             scenes.changeScene("MainMenu");
         }
-        iniciate();
+        chooseVel();
+        
     } 
 
     private void iniciate()
@@ -289,17 +296,24 @@ public class Level : MonoBehaviour
 
                     notesLeft++;
                     
-                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,(note.nStartTime-10)/timePerColumn+20,0);
+                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,((note.nStartTime)/timePerColumn)+20,0);
 
                     if(numOctava >= 4)
                         noteAux.transform.localScale = new Vector3( 50f/ (numOctava), 0, 0);
                     else
                         noteAux.transform.localScale = new Vector3(25f, 0, 0);
 
-                    noteAux.GetComponent<Note>().setNote(note.nKey,(int)note.nDuration,numTrack, 600/track.bpm/1.2f);
+                    if (track.bpm <= 0)
+                    {
+                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack,( 600 / 120 / 1f)*vel);
+                    }
+                    else
+                    {
+                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, (600 / track.bpm / 1f)*vel);
+                    }
                     noteAux.GetComponent<Note>().setLevel(this);
 
-                   notes.Add(noteAux.GetComponent<Note>());
+                    notes.Add(noteAux.GetComponent<Note>());
 
                     aux++;
 
@@ -414,6 +428,30 @@ public class Level : MonoBehaviour
         closeAvisoButton.SetActive(true);
         menuButton.SetActive(false);
         playButton.SetActive(false);
+    }
+
+    //Antes de elegir la velocidad
+    public void chooseVel()
+    {
+        velFrame.SetActive(true);
+        playButton.SetActive(false);
+    }
+    //Ui vel
+    public void changeVel()
+    {
+        vel = velSlider.value * 0.25f;
+        velText.text = "Velocidad de reproducción: \n\n" + "x"+ vel;
+    }
+
+    //Settear la octava elegida
+    public void setVel()
+    {
+
+        velFrame.SetActive(false);
+        playButton.SetActive(true);
+        iniciate();
+
+
     }
 
 }

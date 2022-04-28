@@ -56,7 +56,7 @@ public class Detector : MonoBehaviour
                         actualNote.setPushPointHit(transform.position.x, transform.position.y, distance);
                         return true;
                     }
-                }  
+                }
             }
         }
         return false;
@@ -113,7 +113,5 @@ public class Detector : MonoBehaviour
         }
         return false;
     }
-
-
 
 }
