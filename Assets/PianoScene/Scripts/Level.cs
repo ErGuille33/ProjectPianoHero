@@ -72,6 +72,8 @@ public class Level : MonoBehaviour
     bool scalesInstanciated = false;
     bool canAddScores = false;
 
+    public AudioSource blupAudio;
+    public AudioSource tickAudio;
 
     public void resetSaveUnits()
     {
@@ -131,13 +133,14 @@ public class Level : MonoBehaviour
 
     private void iniciate()
     {
-         
+        try
+        {
             midiFile.parseFile(file_name);
 
             midiFile = GetComponent<MidiFile>();
             midiTracks = midiFile.getMidiFileTracks();
 
-            if(midiTracks.Count == 0)
+            if (midiTracks.Count == 0)
             {
                 scenes.changeScene("MainMenu");
             }
@@ -155,7 +158,12 @@ public class Level : MonoBehaviour
                 }
 
                 i++;
-            }    
+            }
+        }
+        catch(Exception e)
+        {
+            scenes.changeScene("MainMenu");
+        }
     }
 
     private void Start()
@@ -198,7 +206,6 @@ public class Level : MonoBehaviour
 
     public void startLevel()
     {
-
         if (!scalesInstanciated)
         {
             indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
@@ -427,6 +434,7 @@ public class Level : MonoBehaviour
 
     public void closeAvisoCanvas()
     {
+        tickAudio.Play();
         avisoFrame.SetActive(false);
         closeAvisoButton.SetActive(false);
         menuButton.SetActive(true);
@@ -459,7 +467,7 @@ public class Level : MonoBehaviour
     //Settear la octava elegida
     public void setVel()
     {
-
+        tickAudio.Play();
         velFrame.SetActive(false);
         playButton.SetActive(true);
         iniciate();

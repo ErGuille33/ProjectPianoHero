@@ -33,6 +33,9 @@ public class MainMenuUI : MonoBehaviour
     public Slider pianoSlider;
     public AudioMixer mixer;
 
+    public AudioSource blupAudio;
+    public AudioSource tickAudio;
+
     
     // 
 
@@ -67,6 +70,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void openMenuCanvas()
     {
+        blupAudio.Play();
         playButton.enabled = false;
         recButton.enabled = false;
         optionsButton.enabled = false;
@@ -77,6 +81,8 @@ public class MainMenuUI : MonoBehaviour
 
     public void closeMenuCanvas()
     {
+
+        tickAudio.Play();
         playButton.enabled = true;
         recButton.enabled = true;
         optionsButton.enabled = true;
@@ -85,6 +91,7 @@ public class MainMenuUI : MonoBehaviour
         SaveController.SaverData(data);
 
         menuCanvas.SetActive(false);
+
     }
 
     public void changeMixerPiano()
@@ -115,6 +122,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void closeApp()
     {
+        tickAudio.Play();
         Application.Quit();
     }
 

@@ -49,6 +49,11 @@ public class RecordLevel : MonoBehaviour
 
     public ManageScenes scenes;
 
+    public AudioSource tickAudio;
+    public AudioSource blupAudio;
+
+
+
     //Empezar el timer y ajustar valores de UI
     public void setStartTimer()
     {
@@ -99,8 +104,8 @@ public class RecordLevel : MonoBehaviour
     //Settear la octava elegida
     public void setOctave()
     {
-
-        if(lastOctSlider.value >= iniOctSlider.value)
+        tickAudio.Play();
+        if (lastOctSlider.value >= iniOctSlider.value)
         {
             noteIndicatorGroup.startingScale = (int)iniOctSlider.value;
             noteIndicatorGroup.endingScale = (int)lastOctSlider.value;
@@ -114,7 +119,6 @@ public class RecordLevel : MonoBehaviour
         }
      
     }
-
 
     void Start()
     {
@@ -148,8 +152,8 @@ public class RecordLevel : MonoBehaviour
     //Al terminar de grabar
     public void finishRecord()
     {
-   
 
+        tickAudio.Play();
         stopRecButton.SetActive(false);
         recImage.SetActive(false);
 
@@ -157,8 +161,6 @@ public class RecordLevel : MonoBehaviour
         exportButton.SetActive(true);
 
         finished = true;
-        
-
     }
 
     IEnumerator saveFile()
@@ -196,6 +198,8 @@ public class RecordLevel : MonoBehaviour
     //Al pulsar el botón de exportar
     public void Export()
     {
+        blupAudio.Play();
+        restartButton.SetActive(false);
         Debug.Log("Grabado");
         for (int i = 0; i < recordedMidiEvents.Count; i++)
         {
@@ -240,13 +244,14 @@ public class RecordLevel : MonoBehaviour
 
     public void closeAvisoCanvas()
     {
+
         avisoFrame.SetActive(false);
         closeAvisoButton.SetActive(false);
         menuButton_1.SetActive(true);
         recButton.SetActive(true);
         chooseOct();
 
-
+        tickAudio.Play();
     }
 
     public void openAvisoCanvas()
@@ -255,5 +260,10 @@ public class RecordLevel : MonoBehaviour
         closeAvisoButton.SetActive(true);
         menuButton_1.SetActive(false);
         recButton.SetActive(false);
+    }
+
+    public void playBlupAuido()
+    {
+        tickAudio.Play();
     }
 }
