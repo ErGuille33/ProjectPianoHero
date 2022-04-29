@@ -141,12 +141,12 @@ public class ScoreCoreo : MonoBehaviour
         Color color = new Color(menuImage.color.r, menuImage.color.g, menuImage.color.b, 0);
         Color color1 = new Color(menuText.color.r, menuText.color.g, menuText.color.b, 0);
 
-        for (float i = 0; i <= 1; i = i + .01f)
+        for (float i = 0; i <= 1; i = i + .1f)
         {
-            color.a += .005f;
+            color.a += .1f;
             menuImage.color = color;
 
-            color1.a += .005f;
+            color1.a += .1f;
             menuText.color = color1;
             yield return null;
         }
