@@ -159,14 +159,20 @@ public class Note : MonoBehaviour
         tickDuration = nTicks;
         numTrack = track;
 
-        gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, (float)(tickDuration)/2,0);
+        int aux = num % 12;
+
+        if(aux == 1 || aux == 3 || aux == 6 || aux == 8 || aux == 10)
+            gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x/1.6f, (float)(tickDuration)/2,0);
+
+        else gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, (float)(tickDuration) / 2, 0);
+
         _vel = vel;
 
         sprite = GetComponent<SpriteRenderer>();
 
         if (tickDuration > 200)
         {
-            sprite.color = Color.green;
+            sprite.color = new Color(0,.1f,.8f,.6f);
             longNote = true;
         }
         else longNote = false;

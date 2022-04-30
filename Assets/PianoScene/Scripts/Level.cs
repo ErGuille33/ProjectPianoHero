@@ -301,6 +301,8 @@ public class Level : MonoBehaviour
                     GameObject noteAux;
                     noteAux = Instantiate(prefabNote);
 
+                    noteAux.transform.parent = this.gameObject.transform;
+
                     notesLeft++;
                     
                     noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,((note.nStartTime)/timePerColumn)+20,0);

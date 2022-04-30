@@ -56,8 +56,11 @@ public class NoteIndicator : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
 
         noteAlert = Instantiate(noteAlert);
-        noteAlert.transform.position = new Vector3(gameObject.transform.position.x, 12, gameObject.transform.position.z);
-
+        int aux = noteNumber % 12;
+        if (aux == 1 || aux == 3 || aux == 6 || aux == 8 || aux == 10)
+            noteAlert.transform.position = new Vector3(gameObject.transform.position.x/1.5f, 12, gameObject.transform.position.z);
+        else
+            noteAlert.transform.position = new Vector3(gameObject.transform.position.x, 12, gameObject.transform.position.z);
     }
     //Controla la pulsación de la tecla
     void Update()
