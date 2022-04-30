@@ -37,6 +37,8 @@ public class NoteIndicator : MonoBehaviour
 
     public GameObject noteAlert;
 
+    public bool usingMouse;
+
    //Se llama desde note indicatorGroup
     public void setRecordLevel(RecordLevel rl)
     {
@@ -65,21 +67,41 @@ public class NoteIndicator : MonoBehaviour
     //Controla la pulsación de la tecla
     void Update()
     {
+        
         //Tecla ha sido liberada
         if (MidiMaster.GetKey(noteNumber) == 0)
         {
-            releaseNote();
-            animator.gameObject.SetActive(false); 
+            if (!usingMouse)
+            {
+                releaseNote();
+                animator.gameObject.SetActive(false);
+            }
         }
-        //Tecla ja sido pulsada
+        //Tecla ha sido pulsada
         if (MidiMaster.GetKey(noteNumber) !=0)
         {
+            usingMouse = false;
             playNote(MidiMaster.GetKey(noteNumber));
 
         }
         
-    
     }
+    
+    private void OnMouseUp()
+    {
+        
+        releaseNote();
+        animator.gameObject.SetActive(false);
+    }
+
+    private void OnMouseDown()
+    {
+        usingMouse = true;
+        playNote(1);
+    }
+
+  
+
     //Gestionar cuando la tecla es liberada
     void releaseNote()
     {
