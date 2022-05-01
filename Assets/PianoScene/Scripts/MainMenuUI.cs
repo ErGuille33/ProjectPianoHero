@@ -15,7 +15,7 @@ public class MainMenuUI : MonoBehaviour
     }
 
     Data data;
-    public float progressPerc;
+    float progressPerc;
     float actualXP;
     int userLevel;
 
@@ -36,21 +36,72 @@ public class MainMenuUI : MonoBehaviour
     public AudioSource blupAudio;
     public AudioSource tickAudio;
 
-    
+    public bool teacherMode;
+    public GameObject teacherCanvas;
+    public GameObject studentCanvas;
+
+    public GameObject mensajeCanvas;
+    public GameObject textoMensajeProfesor;
+    public GameObject textoMensajeAlumno;
+
     // 
+
+    protected void setMenuCanvas(bool on)
+    {
+        if (on)
+        {
+            if (teacherMode)
+            {
+                teacherCanvas.SetActive(true);
+                studentCanvas.SetActive(false);
+            }
+            else
+            {
+                teacherCanvas.SetActive(false);
+                studentCanvas.SetActive(true);
+
+            }
+        }
+        else
+        {
+            teacherCanvas.SetActive(false);
+            studentCanvas.SetActive(false);
+        }
+    }
 
     void Start()
     {
+   
+
         data = SaveController.LoadData();
 
         if (data != null) {
-
+            init();
         }
         else
         {
             List<Data.LevelData> auxList = new List<Data.LevelData>();
             data = new Data(0, 0, 1, 1, new bool[25], auxList, "",1,1,false,false);
+
+            mensajeCanvas.SetActive(true);
+
+            if (teacherMode)
+            {
+                textoMensajeAlumno.SetActive(false);
+                textoMensajeProfesor.SetActive(true);
+            }
+            else
+            {
+                textoMensajeAlumno.SetActive(true);
+                textoMensajeProfesor.SetActive(false);
+            }
         }
+
+
+    }
+
+    private void init()
+    {
 
         userLevel = data.levelPlayer;
         actualXP = data.expPoints;
@@ -66,6 +117,16 @@ public class MainMenuUI : MonoBehaviour
         changeMixerPiano(data.volumePiano);
         changeMixerFX(data.volumeFx);
 
+        setMenuCanvas(true);
+    }
+
+    public void closeMensaje()
+    {
+        mensajeCanvas.SetActive(false);
+        tickAudio.Play();
+
+        init();
+
     }
 
     public void openMenuCanvas()
@@ -77,6 +138,7 @@ public class MainMenuUI : MonoBehaviour
         awardButton.enabled = false;
 
         menuCanvas.SetActive(true);
+        setMenuCanvas(false);
     }
 
     public void closeMenuCanvas()
@@ -91,6 +153,7 @@ public class MainMenuUI : MonoBehaviour
         SaveController.SaverData(data);
 
         menuCanvas.SetActive(false);
+        setMenuCanvas(true);
 
     }
 

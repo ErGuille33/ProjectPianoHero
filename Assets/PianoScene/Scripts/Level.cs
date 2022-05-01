@@ -117,6 +117,7 @@ public class Level : MonoBehaviour
 
     private IEnumerator openFile()
     {
+        menuButton.SetActive(false);
         StartCoroutine(fileManager.OpenFileExplorer());
         while(file_name == "")
         {
@@ -127,6 +128,7 @@ public class Level : MonoBehaviour
         {
             scenes.changeScene("MainMenu");
         }
+        menuButton.SetActive(true);
         chooseVel();
         
     } 

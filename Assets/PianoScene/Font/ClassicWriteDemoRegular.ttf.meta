@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 1e586f0a64000084dbf9c10aa97d49a8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Classic Write Demo
+  fontNames:
+  - Classic Write Demo
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 712c63d89f5d9c84496866eaed7dab70, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

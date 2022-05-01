@@ -12,6 +12,13 @@ public class AchievmentManager : MonoBehaviour
 
     public RectTransform rectTransform;
 
+    public float progressPerc;
+    float actualXP;
+    int userLevel;
+
+    public Image progressCircle;
+    public Text userLevelText;
+
 
     void Start()
     {
@@ -23,6 +30,14 @@ public class AchievmentManager : MonoBehaviour
             {
 
                 setElements();
+                userLevel = data.levelPlayer;
+                actualXP = data.expPoints;
+
+                progressPerc = actualXP / data.getMaxXp(userLevel);
+
+                userLevelText.text = "" + userLevel;
+                progressCircle.fillAmount = progressPerc;
+
 
             }
         }
