@@ -11,7 +11,7 @@ public class Level : MonoBehaviour
 {
 
     public FileManager fileManager;
-    string file_name ="";
+    string file_name = "";
 
     public ManageScenes scenes;
 
@@ -21,7 +21,7 @@ public class Level : MonoBehaviour
     public NoteIndicatorGroup indicatorGroup;
 
 
-     List<MidiFile.MidiTrack> midiTracks;
+    List<MidiFile.MidiTrack> midiTracks;
 
     int numOctava = 0;
 
@@ -104,7 +104,7 @@ public class Level : MonoBehaviour
         restartButton.SetActive(true);
 
         canAddScores = true;
-        
+
         foreach (Note note in notes)
         {
             note.moving = true;
@@ -119,19 +119,19 @@ public class Level : MonoBehaviour
     {
         menuButton.SetActive(false);
         StartCoroutine(fileManager.OpenFileExplorer());
-        while(file_name == "")
+        while (file_name == "")
         {
             file_name = fileManager.getPath();
             yield return null;
         }
-        if(file_name == "cancel")
+        if (file_name == "cancel")
         {
             scenes.changeScene("MainMenu");
         }
         menuButton.SetActive(true);
         chooseVel();
-        
-    } 
+
+    }
 
     private void iniciate()
     {
@@ -161,8 +161,15 @@ public class Level : MonoBehaviour
 
                 i++;
             }
+
+            if (!scalesInstanciated)
+            {
+                indicatorGroup.setNoteRange(_notes.Min(), _notes.Max());
+                indicatorGroup.iniciate();
+                scalesInstanciated = true;
+            }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             scenes.changeScene("MainMenu");
         }
@@ -179,14 +186,14 @@ public class Level : MonoBehaviour
                 {
                     openAvisoCanvas();
                 }
-                else { StartCoroutine( openFile()); }
+                else { StartCoroutine(openFile()); }
             }
             else { openAvisoCanvas(); }
 
-            
+
 
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             print(e);
             scenes.changeScene("MainMenu");
@@ -226,10 +233,10 @@ public class Level : MonoBehaviour
         playButton.SetActive(false);
         finishFrame.SetActive(false);
         setNotesToDestroy();
-        
+
         movimientoVisualNotas();
 
-        
+
 
         setStartTimer();
     }
@@ -291,12 +298,30 @@ public class Level : MonoBehaviour
 
         notesLeft = 0;
 
-       foreach(MidiFile.MidiTrack track in midiTracks)
+        float bpm = 0;
+        float auxStartTime = 10000;
+
+        foreach (MidiFile.MidiTrack track in midiTracks)
         {
-            if(track.vecNotes != null && track.vecNotes.Any())
+            if (track.bpm > 0)
+            {
+                bpm = track.bpm;
+            }
+            if (track.vecNotes != null && track.vecNotes.Any())
             {
                 //Rango de notas
                 int nNoteRange = track.nMaxNote - track.nMinNote;
+
+                foreach (MidiFile.MidiNote note in track.vecNotes)
+                {
+
+
+                    if (auxStartTime > note.nStartTime)
+                    {
+                        auxStartTime = note.nStartTime;
+                    }
+
+                }
 
                 foreach (MidiFile.MidiNote note in track.vecNotes)
                 {
@@ -306,21 +331,24 @@ public class Level : MonoBehaviour
                     noteAux.transform.parent = this.gameObject.transform;
 
                     notesLeft++;
-                    
-                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x,((note.nStartTime)/timePerColumn)+20,0);
 
-                    if(numOctava >= 4)
-                        noteAux.transform.localScale = new Vector3( 50f/ (numOctava), 0, 0);
+
+                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x, ((note.nStartTime) / timePerColumn) + 20, 0);
+
+                    if (numOctava >= 4)
+                        noteAux.transform.localScale = new Vector3(50f / (numOctava), 0, 0);
                     else
                         noteAux.transform.localScale = new Vector3(25f, 0, 0);
 
-                    if (track.bpm <= 0)
+                    if (bpm <= 0)
                     {
-                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack,( 600 / 120 / 1f)*vel);
+                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, (bpm / 600f)  * 19 * vel);
                     }
                     else
                     {
-                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, (600 / track.bpm / 1f)*vel);
+                        //float auxVel = (((20f - indicatorGroup.getYDetecor() + (auxStartTime / (float)timePerColumn) ) / (600f / bpm))) * vel;
+                        float auxVel = ( 600f /bpm) *vel*.75f;
+                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, auxVel);
                     }
                     noteAux.GetComponent<Note>().setLevel(this);
 
@@ -342,7 +370,7 @@ public class Level : MonoBehaviour
 
     void Update()
     {
-        
+
         if (finishedTimer)
         {
             text.text = scoreText + (int)actualScore;
@@ -363,16 +391,16 @@ public class Level : MonoBehaviour
         bool newLevel = true;
         float newScore;
 
-        char[] separator = {'/', '.','\\'};
+        char[] separator = { '/', '.', '\\' };
         string[] auxName = file_name.Split(separator);
-       
+
         string levelName = auxName[auxName.Length - 2];
 
         float auxVel = 0;
 
         if (actualScore > 99900) actualScore = 100000;
 
-        if (lastData != null) 
+        if (lastData != null)
         {
             saveData = lastData;
 
@@ -380,12 +408,12 @@ public class Level : MonoBehaviour
 
             foreach (Data.LevelData levelData in saveData.levelsData)
             {
-                if(levelData.levelName == levelName)
+                if (levelData.levelName == levelName)
                 {
                     newLevel = false;
                     newScore = levelData.score;
                     auxVel = levelData.vel;
-                   
+
                     if (newScore <= actualScore)
                     {
                         newScore = actualScore;
@@ -399,11 +427,11 @@ public class Level : MonoBehaviour
                     }
                     else
                     {
-                        saveData.addXp((int)((actualScore * 100 / maxScore)/2));
-                    }        
-             
-                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts,actualScore,numBad,numOk,numPerf,numGood,numNan,auxVel);
-                    
+                        saveData.addXp((int)((actualScore * 100 / maxScore) / 2));
+                    }
+
+                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts, actualScore, numBad, numOk, numPerf, numGood, numNan, auxVel);
+
                     break;
                 }
                 i++;
@@ -411,21 +439,22 @@ public class Level : MonoBehaviour
 
             if (newLevel)
             {
-                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan,vel));
+                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1, actualScore, numBad, numOk, numPerf, numGood, numNan, vel));
                 saveData.addXp((int)(actualScore * 100 / maxScore));
             }
 
             saveData.previousLevel = levelName;
-            
+            saveData.alreadyPlayed = true;
+
         }
         else
         {
-            
+
             List<Data.LevelData> auxList = new List<Data.LevelData>();
 
-            auxList.Add(new Data.LevelData(levelName, actualScore, 1,actualScore, numBad, numOk, numPerf, numGood, numNan,vel));
+            auxList.Add(new Data.LevelData(levelName, actualScore, 1, actualScore, numBad, numOk, numPerf, numGood, numNan, vel));
 
-            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName,1,1,true,false);
+            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName, 1, 1, true, saveData.alreadyRecorded);
 
             saveData.addXp((int)(actualScore * 100 / maxScore));
         }
@@ -443,7 +472,7 @@ public class Level : MonoBehaviour
         closeAvisoButton.SetActive(false);
         menuButton.SetActive(true);
         playButton.SetActive(true);
-        StartCoroutine( openFile());
+        StartCoroutine(openFile());
     }
 
     public void openAvisoCanvas()
@@ -465,7 +494,7 @@ public class Level : MonoBehaviour
     public void changeVel()
     {
         vel = velSlider.value * 0.25f;
-        velText.text = "Velocidad de reproducción: \n\n" + "x"+ vel;
+        velText.text = "Velocidad de reproducción: \n\n" + "x" + vel;
     }
 
     //Settear la octava elegida
@@ -474,6 +503,9 @@ public class Level : MonoBehaviour
         tickAudio.Play();
         velFrame.SetActive(false);
         playButton.SetActive(true);
+
+      
+
         iniciate();
 
 

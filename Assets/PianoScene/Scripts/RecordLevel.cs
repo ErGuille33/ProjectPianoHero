@@ -185,7 +185,7 @@ public class RecordLevel : MonoBehaviour
 
         if (saveData == null)
         {
-            saveData = new Data(0, 0, 1, 1, new bool[25], new List<Data.LevelData>(), "", 1, 1, true, false);
+            saveData = new Data(0, 0, 1, 1, new bool[25], new List<Data.LevelData>(), "", 1, 1, saveData.alreadyPlayed, true);
         }
 
         saveData.alreadyRecorded = true;

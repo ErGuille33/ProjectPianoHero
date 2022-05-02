@@ -185,6 +185,12 @@ public class NoteIndicatorGroup : MonoBehaviour
         go.GetComponent<AudioSource>().clip = audioClips[i];
 
     }
+
+    public float getYDetecor()
+    {
+        return noteIndicators[3].getYDetectorPos();
+    }
+
     //Para colocar las teclas en su sitio dependiendo del numero de escalas a representar
     private void setScalesAndPositions(int numEscalas, int i, int j)
     {

@@ -175,6 +175,8 @@ public class Note : MonoBehaviour
 
         _vel = vel;
 
+        print(" Vel" + vel);
+
        
 
         if (tickDuration > 200)

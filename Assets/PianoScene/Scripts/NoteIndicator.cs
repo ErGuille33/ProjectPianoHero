@@ -45,6 +45,16 @@ public class NoteIndicator : MonoBehaviour
         recordLevel = rl;
     }
     //Tomar distintas variables
+
+    public float getYDetectorPos()
+    {
+        if (detector != null)
+        {
+            return detector.transform.position.y;
+        }
+        else return 0;
+    }
+
     private void Start()
     {
         if(GetComponentInChildren<Detector>() != null)

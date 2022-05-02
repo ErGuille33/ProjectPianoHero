@@ -47,7 +47,7 @@ public class Detector : MonoBehaviour
             {
 
                 float distance = Mathf.Abs(hit.point.y + offset - transform.position.y);
-                if (distance < 2)
+                if (distance < 2.5f)
                 {
                     actualNote = hit.collider.transform.GetComponent<Note>();
 
