@@ -197,43 +197,43 @@ public class NoteIndicatorGroup : MonoBehaviour
         if (numEscalas == 1)
         {
             scales[i].transform.localScale = new Vector3(2.3f, 2.3f, 1);
-            scales[i].transform.position = new Vector3(0, 0, 0);
+            scales[i].transform.position = new Vector3(0, 0, -.5f);
         }
 
         else if (numEscalas == 2)
         {
             scales[i].transform.localScale = new Vector3(2.3f, 2.3f, 1);
-            scales[i].transform.position = new Vector3(-4.6f + (j * 8.6f), 0, 0);
+            scales[i].transform.position = new Vector3(-4.6f + (j * 8.6f), 0, -.5f);
         }
 
         else if (numEscalas == 3)
         {
             scales[i].transform.localScale = new Vector3(2.2f, 2.2f, 1);
-            scales[i].transform.position = new Vector3(-8.25f + (j * 8.25f), -.1f, 0);
+            scales[i].transform.position = new Vector3(-8.25f + (j * 8.25f), -.1f, -.5f);
         }
 
         else if (numEscalas == 4)
         {
             scales[i].transform.localScale = new Vector3(1.7f, 1.7f, 1);
-            scales[i].transform.position = new Vector3(-9.355f + (j * 6.25f), -.6f, 0);
+            scales[i].transform.position = new Vector3(-9.355f + (j * 6.25f), -.6f, -.5f);
         }
 
         else if (numEscalas == 5)
         {
             scales[i].transform.localScale = new Vector3(1.35f, 1.35f, 1);
-            scales[i].transform.position = new Vector3(-10.2f + (j * 5.1f), -.9f, 0);
+            scales[i].transform.position = new Vector3(-10.2f + (j * 5.1f), -.9f, -.5f);
         }
 
         else if (numEscalas == 6)
         {
             scales[i].transform.localScale = new Vector3(1.15f, 1.15f, 1);
-            scales[i].transform.position = new Vector3(-10.65f + (j * 4.25f), -1.15f, 0);
+            scales[i].transform.position = new Vector3(-10.65f + (j * 4.25f), -1.15f, -.5f);
         }
 
         else if (numEscalas == 7)
         {
             scales[i].transform.localScale = new Vector3(1f, 1f, 1);
-            scales[i].transform.position = new Vector3(-10.95f + (j * 3.65f), -1.25f, 0);
+            scales[i].transform.position = new Vector3(-10.95f + (j * 3.65f), -1.25f, -.5f);
         }
                         
     }

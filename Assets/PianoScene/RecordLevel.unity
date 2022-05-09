@@ -236,7 +236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -48.3}
+  m_AnchoredPosition: {x: 0, y: -174.4}
   m_SizeDelta: {x: 698.9, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &36701640
@@ -868,8 +868,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1500, y: 991}
+  m_AnchoredPosition: {x: 0, y: 24.757}
+  m_SizeDelta: {x: 1500, y: 897.37476}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &595308770
 MonoBehaviour:
@@ -1390,10 +1390,10 @@ RectTransform:
   m_Father: {fileID: 595308769}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -58.1, y: -68.79999}
-  m_SizeDelta: {x: 180, y: 180}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -52, y: 40.400024}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726912390
 MonoBehaviour:
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bda99d65ba410374e808352cb24bc27c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f3758e84b12f0064682b63ce84b379f9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2280,7 +2280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -296.3}
+  m_AnchoredPosition: {x: 0, y: -438.1}
   m_SizeDelta: {x: 1165.3, y: 768.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1133100355
@@ -2714,7 +2714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 141.4}
+  m_AnchoredPosition: {x: 0, y: 60.6}
   m_SizeDelta: {x: 698.9, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1227376975
@@ -2888,8 +2888,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -274.6}
-  m_SizeDelta: {x: 280, y: 280}
+  m_AnchoredPosition: {x: 697.47, y: -408}
+  m_SizeDelta: {x: 229.64084, y: 229.64084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1332423468
 MonoBehaviour:
@@ -3125,7 +3125,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Selecciona el rango de octavas que deseas usar
+  m_Text: 'Selecciona el rango de octavas que deseas usar :
 
 
 
@@ -3446,7 +3446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -117.72}
+  m_AnchoredPosition: {x: 0, y: -183.3}
   m_SizeDelta: {x: 1165.3, y: 768.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1606641314
@@ -3747,9 +3747,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Bienvenido al creador de niveles de PianoHero.\n\n\nEn este modo puedes
-    grabar una pieza musical en formato MIDI para as\xED poder usarla posteriormente
-    como nivel a jugar.\n\nPara comenzar, pulsa el bot\xF3n de iniciar grabaci\xF3n.
+  m_Text: "Bienvenido al creador de ejercicios de Piano Unite.\n\n\nEn este modo
+    puedes grabar una pieza musical en formato MIDI para as\xED poder usarla posteriormente
+    como ejercicio a realizar.\n\nPara comenzar, pulsa el bot\xF3n de iniciar grabaci\xF3n.
     Cuando hayas terminado, pulsa el bot\xF3n de stop y guarda el archivo .mid donde
     desees.\n\nRecuerda guardar las diferentes piezas con nombres distintos entre
     s\xED, ya que de lo contrario podr\xEDan haber sobreescrituras indeseadas a la

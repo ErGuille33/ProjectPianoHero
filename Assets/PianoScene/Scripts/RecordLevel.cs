@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ public class RecordLevel : MonoBehaviour
     bool finishedTimer = false;
     //Los ticks para la grabación
     uint deltaTicks;
-    
+
     //UI
     public GameObject recImage;
     public GameObject recButton;
@@ -86,7 +87,7 @@ public class RecordLevel : MonoBehaviour
         midiRecorder = GetComponent<MidiRecorder>();
         noteIndicatorGroup.iniciate();
     }
-   //Antes de elegir la octava
+    //Antes de elegir la octava
     public void chooseOct()
     {
         octFrame.SetActive(true);
@@ -94,7 +95,7 @@ public class RecordLevel : MonoBehaviour
     //Ui octava
     public void changeStartOct()
     {
-        iniOctText.text = "Octava Inicial: " + iniOctSlider.value; 
+        iniOctText.text = "Octava Inicial: " + iniOctSlider.value;
     }
     //Ui octava
     public void changeEndOct()
@@ -117,7 +118,7 @@ public class RecordLevel : MonoBehaviour
         {
             errorText.SetActive(true);
         }
-     
+
     }
 
     void Start()
@@ -134,7 +135,7 @@ public class RecordLevel : MonoBehaviour
         }
         else { openAvisoCanvas(); }
 
-       
+
 
     }
 
@@ -165,16 +166,18 @@ public class RecordLevel : MonoBehaviour
 
     IEnumerator saveFile()
     {
+
         filename = "";
 
-        StartCoroutine( fileManager.SaveFileExplorer());
+        StartCoroutine(fileManager.SaveFileExplorer());
 
-        while (filename == "") {
+        while (filename == "")
+        {
             filename = fileManager.getPath();
             yield return null;
         }
 
-        if(filename == "cancel")
+        if (filename == "cancel")
         {
             scenes.changeScene("MainMenu");
         }
@@ -185,14 +188,21 @@ public class RecordLevel : MonoBehaviour
 
         if (saveData == null)
         {
-            saveData = new Data(0, 0, 1, 1, new bool[25], new List<Data.LevelData>(), "", 1, 1, saveData.alreadyPlayed, true);
+            saveData = new Data(0, 0, 1, 1, new bool[25], new List<Data.LevelData>(), "", 1, 1,false, true);
         }
+        try
+        {
+            saveData.alreadyRecorded = true;
+            SaveController.SaverData(saveData);
 
-        saveData.alreadyRecorded = true;
-        SaveController.SaverData(saveData);
+
+            menuButton.SetActive(true);
+        }
+        catch (Exception e) { scenes.changeScene("MainMenu"); }
 
 
-        menuButton.SetActive(true);
+
+
     }
 
     //Al pulsar el botón de exportar
@@ -211,7 +221,7 @@ public class RecordLevel : MonoBehaviour
     //Añadir un evento a la lista de eventos. Se llama desde Note Indicator
     public void addEventToPool(MidiFile.MidiEvent.Type type, byte noteNumber, byte vel)
     {
-        recordedMidiEvents.Add(new MidiFile.MidiEvent(type,(byte) (noteNumber), vel, deltaTicks));
+        recordedMidiEvents.Add(new MidiFile.MidiEvent(type, (byte)(noteNumber), vel, deltaTicks));
         deltaTicks = 0;
     }
     //Boton de restart
@@ -232,7 +242,7 @@ public class RecordLevel : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
             finishRecord();
-            
+
         }
         //Reempezar la grabación
         if (Input.GetKeyDown(KeyCode.R))

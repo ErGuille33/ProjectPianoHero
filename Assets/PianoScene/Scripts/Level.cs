@@ -75,6 +75,8 @@ public class Level : MonoBehaviour
     public AudioSource blupAudio;
     public AudioSource tickAudio;
 
+    public Image scoreBar;
+
     public void resetSaveUnits()
     {
         numBad = 0;
@@ -277,6 +279,26 @@ public class Level : MonoBehaviour
 
 
             if (actualScore < 0) actualScore = 0;
+
+            //text.text = scoreText + (int)actualScore;
+
+            if(actualScore < 25000)
+            {
+                scoreBar.color = new Color(0.66f, 0, 0f);
+            }
+
+            else if (actualScore > 66666)
+            {
+                scoreBar.color = new Color(.25f,.29f,1);
+            }
+
+            else if (actualScore < 75000)
+            {
+                scoreBar.color = new Color(1, .6f, 0);
+            }
+
+            scoreBar.fillAmount = actualScore / maxScore;
+
         }
     }
 
@@ -325,36 +347,39 @@ public class Level : MonoBehaviour
 
                 foreach (MidiFile.MidiNote note in track.vecNotes)
                 {
-                    GameObject noteAux;
-                    noteAux = Instantiate(prefabNote);
+                    if (note.nKey > 8 && note.nKey < 110) {
 
-                    noteAux.transform.parent = this.gameObject.transform;
+                        GameObject noteAux;
+                        noteAux = Instantiate(prefabNote);
 
-                    notesLeft++;
+                        noteAux.transform.parent = this.gameObject.transform;
+
+                        notesLeft++;
 
 
-                    noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x, ((note.nStartTime) / timePerColumn) + 20, 0);
+                        noteAux.transform.position = new Vector3(indicatorGroup.getNoteIndicatorPos(note.nKey).x, ((note.nStartTime) / timePerColumn) + 20, 0);
 
-                    if (numOctava >= 4)
-                        noteAux.transform.localScale = new Vector3(50f / (numOctava), 0, 0);
-                    else
-                        noteAux.transform.localScale = new Vector3(25f, 0, 0);
+                        if (numOctava >= 4)
+                            noteAux.transform.localScale = new Vector3(50f / (numOctava), 0, 0);
+                        else
+                            noteAux.transform.localScale = new Vector3(25f, 0, 0);
 
-                    if (bpm <= 0)
-                    {
-                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, (bpm / 600f)  * 19 * vel);
+                        if (bpm <= 0)
+                        {
+                            noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, (600f / bpm) * vel);
+                        }
+                        else
+                        {
+                            //float auxVel = (((20f - indicatorGroup.getYDetecor() + (auxStartTime / (float)timePerColumn) ) / (600f / bpm))) * vel;
+                            float auxVel = (600f / bpm) * vel * .9f;
+                            noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, auxVel);
+                        }
+                        noteAux.GetComponent<Note>().setLevel(this);
+
+                        notes.Add(noteAux.GetComponent<Note>());
+
+                        aux++;
                     }
-                    else
-                    {
-                        //float auxVel = (((20f - indicatorGroup.getYDetecor() + (auxStartTime / (float)timePerColumn) ) / (600f / bpm))) * vel;
-                        float auxVel = ( 600f /bpm) *vel*.75f;
-                        noteAux.GetComponent<Note>().setNote(note.nKey, (int)note.nDuration, numTrack, auxVel);
-                    }
-                    noteAux.GetComponent<Note>().setLevel(this);
-
-                    notes.Add(noteAux.GetComponent<Note>());
-
-                    aux++;
 
                 }
             }
@@ -364,6 +389,9 @@ public class Level : MonoBehaviour
 
     protected void finishLevel()
     {
+        if (actualScore > 99900) actualScore = 100000;
+        else if (actualScore % 10 != 0) actualScore = roundToTen(actualScore);
+
         canAddScores = false;
         finishFrame.SetActive(true);
     }
@@ -373,7 +401,7 @@ public class Level : MonoBehaviour
 
         if (finishedTimer)
         {
-            text.text = scoreText + (int)actualScore;
+            
             if (checkIfFinished() && !finishedLevel)
             {
                 finishedLevel = true;
@@ -382,86 +410,96 @@ public class Level : MonoBehaviour
         }
     }
 
+    float roundToTen(float n)
+    {
+        return n+10 - ((n+10)%10);
+    }
+
     //Se le llama al pulsar el botón de continuar
     public void saveLevelData()
     {
-        Data lastData;
-        lastData = SaveController.LoadData();
-
-        bool newLevel = true;
-        float newScore;
-
-        char[] separator = { '/', '.', '\\' };
-        string[] auxName = file_name.Split(separator);
-
-        string levelName = auxName[auxName.Length - 2];
-
-        float auxVel = 0;
-
-        if (actualScore > 99900) actualScore = 100000;
-
-        if (lastData != null)
+        try
         {
-            saveData = lastData;
+            Data lastData;
+            lastData = SaveController.LoadData();
 
-            int i = 0;
+            bool newLevel = true;
+            float newScore;
 
-            foreach (Data.LevelData levelData in saveData.levelsData)
+            char[] separator = { '/', '.', '\\' };
+            string[] auxName = file_name.Split(separator);
+
+            string levelName = auxName[auxName.Length - 2];
+
+            float auxVel = 0;
+
+            if (lastData != null)
             {
-                if (levelData.levelName == levelName)
+                saveData = lastData;
+
+                int i = 0;
+
+                foreach (Data.LevelData levelData in saveData.levelsData)
                 {
-                    newLevel = false;
-                    newScore = levelData.score;
-                    auxVel = levelData.vel;
-
-                    if (newScore <= actualScore)
+                    if (levelData.levelName == levelName)
                     {
-                        newScore = actualScore;
-                        saveData.addXp((int)(actualScore * 100 / maxScore));
+                        newLevel = false;
+                        newScore = levelData.score;
+                        auxVel = levelData.vel;
 
-                        if (levelData.vel < vel)
+                        if (newScore <= actualScore)
                         {
-                            auxVel = vel;
+                            newScore = actualScore;
+                            saveData.addXp((int)(actualScore * 100 / maxScore));
 
+                            if (levelData.vel < vel)
+                            {
+                                auxVel = vel;
+
+                            }
                         }
-                    }
-                    else
-                    {
-                        saveData.addXp((int)((actualScore * 100 / maxScore) / 2));
-                    }
+                        else
+                        {
+                            saveData.addXp((int)((actualScore * 100 / maxScore) / 2));
+                        }
 
-                    saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts, actualScore, numBad, numOk, numPerf, numGood, numNan, auxVel);
+                        saveData.levelsData[i] = new Data.LevelData(levelName, newScore, 1 + levelData.attempts, actualScore, numBad, numOk, numPerf, numGood, numNan, auxVel);
 
-                    break;
+                        break;
+                    }
+                    i++;
                 }
-                i++;
-            }
 
-            if (newLevel)
+                if (newLevel)
+                {
+                    saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1, actualScore, numBad, numOk, numPerf, numGood, numNan, vel));
+                    saveData.addXp((int)(actualScore * 100 / maxScore));
+                }
+
+                saveData.previousLevel = levelName;
+                saveData.alreadyPlayed = true;
+
+            }
+            else
             {
-                saveData.levelsData.Add(new Data.LevelData(levelName, actualScore, 1, actualScore, numBad, numOk, numPerf, numGood, numNan, vel));
+
+                List<Data.LevelData> auxList = new List<Data.LevelData>();
+
+                auxList.Add(new Data.LevelData(levelName, actualScore, 1, actualScore, numBad, numOk, numPerf, numGood, numNan, vel));
+
+                saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName, 1, 1, true, false);
+
                 saveData.addXp((int)(actualScore * 100 / maxScore));
             }
 
-            saveData.previousLevel = levelName;
-            saveData.alreadyPlayed = true;
+            SaveController.SaverData(saveData);
 
+            scenes.changeScene("ScoreScene");
         }
-        else
+        catch(Exception e)
         {
-
-            List<Data.LevelData> auxList = new List<Data.LevelData>();
-
-            auxList.Add(new Data.LevelData(levelName, actualScore, 1, actualScore, numBad, numOk, numPerf, numGood, numNan, vel));
-
-            saveData = new Data(0, 0, 1, 1, new bool[25], auxList, levelName, 1, 1, true, saveData.alreadyRecorded);
-
-            saveData.addXp((int)(actualScore * 100 / maxScore));
+            scenes.changeScene("ScoreScene");
         }
-
-        SaveController.SaverData(saveData);
-
-        scenes.changeScene("ScoreScene");
 
     }
 

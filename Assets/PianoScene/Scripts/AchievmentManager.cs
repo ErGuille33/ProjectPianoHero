@@ -40,6 +40,12 @@ public class AchievmentManager : MonoBehaviour
 
 
             }
+            else if(data == null)
+            {
+                progressPerc = 0;
+                userLevelText.text = "" + 1;
+                progressCircle.fillAmount = progressPerc;
+            }
         }
         catch (Exception e)
         {
@@ -54,7 +60,7 @@ public class AchievmentManager : MonoBehaviour
 
         this.rectTransform.position =new Vector2(this.rectTransform.position.x, (-110 * data.levelsData.Count));
 
-        for (int i = data.levelsData.Count - 1; i > 0; i--)
+        for (int i = data.levelsData.Count - 1; i >= 0; i--)
         {
             if (data.levelsData[i].levelName == data.previousLevel)
             {
@@ -85,7 +91,7 @@ public class AchievmentManager : MonoBehaviour
                 }
             }
         }
-        for (int i = data.levelsData.Count - 1; i > 0; i--)
+        for (int i = data.levelsData.Count - 1; i >= 0; i--)
         {
             if (data.levelsData[i].levelName != data.previousLevel)
             {

@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2.1}
+  m_AnchoredPosition: {x: 0, y: -39.7}
   m_SizeDelta: {x: 364.9, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6095018
@@ -2994,7 +2994,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 81.6}
+  m_AnchoredPosition: {x: 0, y: 51.51}
   m_SizeDelta: {x: 364.9, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1119219738
@@ -3765,10 +3765,10 @@ RectTransform:
   m_Father: {fileID: 810395326}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -85, y: -63.7}
-  m_SizeDelta: {x: 75, y: 75}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -103, y: 73.3}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1515897581
 MonoBehaviour:
@@ -3843,7 +3843,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bda99d65ba410374e808352cb24bc27c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f3758e84b12f0064682b63ce84b379f9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4070,6 +4070,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1567044209}
   m_CullTransparentMesh: 0
+--- !u!1 &1591170912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1591170913}
+  - component: {fileID: 1591170915}
+  - component: {fileID: 1591170914}
+  m_Layer: 0
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1591170913
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591170912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1850076223}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -29.81}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1591170914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591170912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Menu
+--- !u!222 &1591170915
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591170912}
+  m_CullTransparentMesh: 0
 --- !u!1 &1609568515
 GameObject:
   m_ObjectHideFlags: 0
@@ -4216,13 +4294,13 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Bienvenido a Piano Unite (Versi\xF3n Para Profesores):\n\n\nCon esta herramienta
-    podr\xE1s crear niveles y ejercicos para env\xEDar a tus alumnos. De esta manera
-    podr\xE1n practicar piano de forma divertida y estimulante. \n\nPara comenzar,
-    dale al bot\xF3n de rec y graba en tiempo real la pieza musical o el ejercicio
-    que desees que practiquen.\n\nUna vez grabada, env\xEDales el archivo .mid generado
-    (\xA1Tambien puedes usar cualquier archivo .midi de piano que encuentres!)\n\nAdicionalmente,
-    puedes probar cualquier nivel pulsando el bot\xF3n de \"Play\" o inspeccionar
-    el rendimiento en cada uno de ellos desde el bot\xF3n de historial.\n\n\xA1Muchas
+    podr\xE1s crear ejercicios para env\xEDar a tus alumnos. De esta manera podr\xE1n
+    practicar piano de forma divertida y estimulante. \n\nPara comenzar, dale al
+    bot\xF3n de rec y graba en tiempo real la pieza musical o el ejercicio que desees
+    que practiquen.\n\nUna vez grabada, env\xEDales el archivo .mid generado (\xA1Tambien
+    puedes usar cualquier archivo .midi de piano que encuentres!)\n\nAdicionalmente,
+    puedes probar cualquier ejercicio pulsando el bot\xF3n de \"Play\" o inspeccionar
+    tu rendimiento en cada uno de ellos desde el bot\xF3n de historial.\n\n\xA1Muchas
     gracias por jugar!"
 --- !u!222 &1612506438
 CanvasRenderer:
@@ -4544,7 +4622,7 @@ MonoBehaviour:
     Cuanto mejor lo hagas, m\xE1s puntos ganar\xE1s.\n\nAdicionalmente, podr\xE1s
     grabar tus propios niveles desde el bot\xF3n de \"Rec\".\n\nDesde la opci\xF3n
     de \"Historial\" en el men\xFA principal podr\xE1s ver tu mejor rendimiento en
-    cada uno de los niveles. \xA1Comp\xE1rtelo con tu profesor!\n\nMuchas gracias
+    cada uno de los ejercicos. \xA1Comp\xE1rtelo con tu profesor!\n\nMuchas gracias
     por jugar."
 --- !u!222 &1734664942
 CanvasRenderer:
@@ -4583,14 +4661,15 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1591170913}
   m_Father: {fileID: 1613088289}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 575.3, y: -18.4}
-  m_SizeDelta: {x: 60, y: 60}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0.000021935, y: 97.4}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1850076224
 MonoBehaviour:
@@ -4665,7 +4744,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bda99d65ba410374e808352cb24bc27c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b5408eef55253f4380759cdfaee9a7f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

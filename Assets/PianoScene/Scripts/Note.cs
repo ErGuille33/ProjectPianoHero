@@ -179,7 +179,7 @@ public class Note : MonoBehaviour
 
        
 
-        if (tickDuration > 200)
+        if (tickDuration > 300)
         {
             
             longNote = true;
