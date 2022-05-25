@@ -53,7 +53,7 @@ public class RecordLevel : MonoBehaviour
     public AudioSource tickAudio;
     public AudioSource blupAudio;
 
-
+    public GameObject notePrefab;
 
     //Empezar el timer y ajustar valores de UI
     public void setStartTimer()
@@ -276,4 +276,23 @@ public class RecordLevel : MonoBehaviour
     {
         tickAudio.Play();
     }
+
+    public void createNote(float posX, int nNote)
+    {
+
+        GameObject note  = Instantiate(notePrefab);
+        note.transform.position = new Vector3(posX, gameObject.transform.position.y,0);
+      
+        note.GetComponent<Note>().setInverseMovement();
+
+        if (noteIndicatorGroup.getNumEscalas() >= 4)
+            note.transform.localScale = new Vector3(30f / (noteIndicatorGroup.getNumEscalas()), 0, 0);
+        else
+            note.transform.localScale = new Vector3(20f, 0, 0);
+
+        note.GetComponent<Note>().setNote(nNote, 100, 0, 1);
+        note.GetComponent<SpriteRenderer>().color = new Color(note.GetComponent<SpriteRenderer>().color.r, note.GetComponent<SpriteRenderer>().color.g, note.GetComponent<SpriteRenderer>().color.b, .25f);
+
+    }
+
 }

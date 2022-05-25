@@ -49,6 +49,9 @@ public class Note : MonoBehaviour
     public float maxScore;
     //Partícuas al destruir 
     public ParticleSystem particle;
+
+    bool inverse = false;
+
     //Destruir la nota desde Level
     public void setReadyToDestroy()
     {
@@ -175,10 +178,6 @@ public class Note : MonoBehaviour
 
         _vel = vel;
 
-        print(" Vel" + vel);
-
-       
-
         if (tickDuration > 300)
         {
             
@@ -219,5 +218,15 @@ public class Note : MonoBehaviour
             transform.Translate(Vector3.down * _vel * Time.deltaTime);
         }
 
+        else if (inverse)
+        {
+            transform.Translate(Vector3.up * (600f / 120) * Time.deltaTime);
+        }
+
+    }
+
+    public void setInverseMovement()
+    {
+        inverse = true;
     }
 }

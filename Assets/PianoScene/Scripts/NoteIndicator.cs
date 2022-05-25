@@ -67,12 +67,16 @@ public class NoteIndicator : MonoBehaviour
 
         sprite = GetComponent<SpriteRenderer>();
 
-        noteAlert = Instantiate(noteAlert);
-        int aux = noteNumber % 12;
-        if (aux == 1 || aux == 3 || aux == 6 || aux == 8 || aux == 10)
-            noteAlert.transform.position = new Vector3(gameObject.transform.position.x/1.5f, 12, gameObject.transform.position.z);
-        else
-            noteAlert.transform.position = new Vector3(gameObject.transform.position.x, 12, gameObject.transform.position.z);
+        if (modeGame)
+        {
+
+            noteAlert = Instantiate(noteAlert);
+            int aux = noteNumber % 12;
+            if (aux == 1 || aux == 3 || aux == 6 || aux == 8 || aux == 10)
+                noteAlert.transform.position = new Vector3(gameObject.transform.position.x / 1.5f, 12, gameObject.transform.position.z);
+            else
+                noteAlert.transform.position = new Vector3(gameObject.transform.position.x, 12, gameObject.transform.position.z);
+        }
     }
     //Controla la pulsación de la tecla
     void Update()
@@ -123,7 +127,7 @@ public class NoteIndicator : MonoBehaviour
             alreadyOn = false;
             alreadyOff = true;
 
-            if(modeRecord)
+            if (modeRecord)
                 recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOff, (byte)(noteNumber), 0);
             if (modeGame)
             {
@@ -145,8 +149,12 @@ public class NoteIndicator : MonoBehaviour
             alreadyOn = true;
             alreadyOff = false;
 
-            if(modeRecord)
+            if (modeRecord)
+            {
                 recordLevel.addEventToPool(MidiFile.MidiEvent.Type.NoteOn, (byte)(noteNumber), (byte)(volume * 100));
+                createNote();
+
+            }
 
             if (modeGame) 
             {
@@ -172,10 +180,9 @@ public class NoteIndicator : MonoBehaviour
         modeGame = game;
     }
 
-
-
-
-
-
+    public void createNote()
+    {
+        recordLevel.createNote(transform.position.x, noteNumber);
+    }
 
 }
