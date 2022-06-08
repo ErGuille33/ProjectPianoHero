@@ -229,6 +229,7 @@ public class Level : MonoBehaviour
         actualScore = 0f;
         finishedTimer = false;
         finishedLevel = false;
+        scoreBar.fillAmount = 0;
 
         resetSaveUnits();
 

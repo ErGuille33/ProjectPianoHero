@@ -1915,7 +1915,7 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: ee7ebc9fa3a4ee94bb54eed0f8fc3f37, type: 2}
   blupAudio: {fileID: 307545407}
   tickAudio: {fileID: 21807997}
-  teacherMode: 0
+  teacherMode: 1
   teacherCanvas: {fileID: 287445295}
   studentCanvas: {fileID: 1449499980}
   mensajeCanvas: {fileID: 810395325}
