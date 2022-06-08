@@ -53,7 +53,7 @@ Here we will list the tools and libraries used to develop Piano Unite.
 
 Inside the directory "..\Assets\PianoScene\Scripts" you can find "MidiFile.cs" and "MidiRecorder.cs". This two scripts can be reused in order to read and write MIDI files, and convert them to a series of events wich can be used in any rythm game. 
 
-<img src="images/Diagrama MIDI.png" alt="Logo" width="100" height="100">
+<img src="images/Diagrama MIDI.png" alt="Logo" width="500" height="500">
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
